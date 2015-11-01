@@ -1,4 +1,4 @@
-package loja;
+package Telas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

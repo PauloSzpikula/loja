@@ -1,12 +1,14 @@
-package loja;
+package Dao;
 
 import java.sql.Connection;
 import java.util.List;
 
+import loja.Cliente;
+
 //Autor: Paulo Szpikula, 31/10/2015 21:40
 //Descrição: Implementação da Interface para manipular o modelo do cliente 
 
-public class UsuarioDaoImpl implements ClienteDao {
+public class ProdutoDaoImpl implements ClienteDao {
 
 private static Connection con;
 	

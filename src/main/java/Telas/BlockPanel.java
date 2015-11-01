@@ -1,4 +1,4 @@
-package loja;
+package Telas;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

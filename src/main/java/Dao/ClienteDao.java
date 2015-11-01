@@ -1,6 +1,8 @@
-package loja;
+package Dao;
 
 import java.util.List;
+
+import loja.Cliente;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:30
 //Descrição: Interface do modelo cliente 

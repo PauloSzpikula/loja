@@ -1,4 +1,4 @@
-package loja;
+package Telas;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

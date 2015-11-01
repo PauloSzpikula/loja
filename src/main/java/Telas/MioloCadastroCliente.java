@@ -1,4 +1,4 @@
-package loja;
+package Telas;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
