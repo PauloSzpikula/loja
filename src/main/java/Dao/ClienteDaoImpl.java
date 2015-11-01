@@ -85,12 +85,16 @@ public class ClienteDaoImpl implements ClienteDao {
 	@Override
 	public void update(Cliente c) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("UPDATE CADASTRO SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ? WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("UPDATE CLIENTE SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ? WHERE ID = ?");
 		sql.setInt(1, c.getId());
 		sql.setString(2, c.getNome());
 		sql.setString(3, c.getTelefone());
 		sql.setString(4, c.getEndereco());
-		sql.setInt(5, c.getId());
+		sql.setString(5, c.getCidade());
+		sql.setString(6, c.getEstado());
+		sql.setString(7, c.getEmail());
+		sql.setString(8, c.getGenero());
+		sql.setInt(9, c.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();
@@ -99,7 +103,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	@Override
 	public void delete(Cliente c) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("DELETE FROM CADASTRO WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("DELETE FROM CLIENTE WHERE ID = ?");
 		sql.setInt(1, c.getId());
 		sql.executeUpdate();
 		sql.close();

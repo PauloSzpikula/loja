@@ -41,10 +41,6 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 	}
-
-
-	
-	
 	
 	/**
 	 * Create the frame.

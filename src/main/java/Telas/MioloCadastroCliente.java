@@ -1,43 +1,53 @@
 package Telas;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import loja.Cliente;
 import loja.Estado;
 import loja.Genero;
+
 import javax.swing.JButton;
+
 import Dao.ClienteDaoImpl;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MioloCadastroCliente extends JPanel {
 	private JTextField txt_id;
 	private JTextField txt_nome;
 	private JTextField txt_telefone;
-	private JTextField txt_cidade;
-	private JTextField txt_email;
 	private JTextField txt_endereco;
+	private JTextField txt_cidade;
 	private JComboBox cb_estado;
+	private JTextField txt_email;
 	private JComboBox cb_genero;
 	
 	private ModeloCliente modelo;
 
 	// implementação do cliente no banco
 	ClienteDaoImpl cdao = new ClienteDaoImpl();
-	private JTable table;
 	
 	private String txt_estado;
 	private String txt_genero;
@@ -206,9 +216,7 @@ public class MioloCadastroCliente extends JPanel {
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-
-		
-		JButton btnNewButton = new JButton("Salvar");
+		JButton btnNewButton = new JButton("Create");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
@@ -224,25 +232,72 @@ public class MioloCadastroCliente extends JPanel {
 		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Deletar");
+		JButton btnNewButton_1 = new JButton("Read");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// ação de ler os registros
+				try {					
+					ac_ler();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		panel.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("Update");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// ação de atualizar
+				try {				
+					txt_estado = cb_estado.getSelectedItem().toString();
+					txt_genero = cb_genero.getSelectedItem().toString();
+					ac_atualizar();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		panel.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Delete");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// ação de deletar
+				try {					
+					ac_deletar();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		panel.add(btnNewButton_3);
 
-		table = new JTable();
+		JTable table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int linhaSelecionada = table.getSelectedRow();
+				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
+				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)));
+				txt_telefone.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)));
+				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)));
+				txt_cidade.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,4)));
+				// ainda não funciona
+				cb_estado.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,5)));
+				txt_email.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
+				// ainda não funciona
+				cb_genero.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,7)));
+			}
+		});
 		scrollPane.setViewportView(table);
 		
 		// instancia o ModeloCadastro
 		modelo = new ModeloCliente();
 		// seta o modelo da tabela 
 		table.setModel(modelo);
-		table.setVisible(true);
 		
 	}
-
-
-	
 	
 	protected void ac_criar() throws SQLException {
 		// cria uma lista
@@ -299,7 +354,88 @@ public class MioloCadastroCliente extends JPanel {
 			limparCampos();
 			
 			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+
+			ac_ler();
 		}
+
+	protected void ac_ler() throws SQLException {
+		// limpa a tabela para não duplicar tudo
+		modelo.clear();
+		// cria uma lista que vai conter a outra lista -- isso é muito loko
+		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+
+		// lista recebe o retorno do read()
+		lista = cdao.read();
+
+		// varre a lista inserindo em outra lista
+		for (Cliente c : lista) { 
+			// inclui a bagaça
+			modelo.incluir(c);
+		}
+	}
+	
+	protected void ac_atualizar() throws SQLException{
+		int id = 0;
+		// valida se o numero é numero
+		try{
+			id = Integer.parseInt(txt_id.getText().trim());			
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this, "Id Inválido!");
+			return;
+		}
+		String nome = txt_nome.getText().trim();
+		String telefone = txt_telefone.getText().trim();
+		String endereco = txt_endereco.getText().trim();
+		String cidade = txt_cidade.getText().trim();
+		String estado = txt_estado;
+		String email = txt_email.getText().trim();
+		String genero = txt_genero;
+
+		// instancia um noco cadastro
+		Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+		
+		// atualiza no banco
+		cdao.update(c);
+		
+		// atualizar a tabela
+		ac_ler();
+		
+		// limpa os campos de texto da tela
+		limparCampos();
+	}
+
+	protected void ac_deletar() throws SQLException{
+		// cria um vetor de variáveis opcoes do tipo objeto
+		Object[] opcoes = { "sim", "não" };
+		// uma variavel resposta do tipo objeto
+		Object resposta;
+		// enquanto a resposta do usuário for nulla
+		do {
+			// resposta a resposta do usuário, que é emitida por um JOptionPane
+			resposta = JOptionPane.showInputDialog(null,"Tem certeza que deseja fazer isso?","Deserialização",JOptionPane.PLAIN_MESSAGE,null,opcoes,"não");
+			if (resposta == "não") {
+				return;
+			}
+		} while (resposta == null);
+		
+		int id = 0;
+		// valida se o numero é numero
+		try{
+			id = Integer.parseInt(txt_id.getText().trim());			
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this, "Id Inválido!");
+			return;
+		}
+		
+		// deleta o usuário craiando uma nova instância de Cadastro passando só o id
+		cdao.delete(new Cliente(id, null, null, null, null, null, null, null));
+		
+		// atualiza tudo
+		ac_ler();
+		
+		// limpa os campos de texto da tela
+		limparCampos();
+	}
 
 	private void limparCampos() {
 		txt_id.setText("");
