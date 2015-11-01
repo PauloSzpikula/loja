@@ -1,31 +1,34 @@
 package Telas;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
-import java.awt.Insets;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JButton;
+import java.awt.FlowLayout;
 
-public class PainelLogin extends JPanel {
-	
+public class TelaLogin extends JPanel {
+
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JButton btnEntrar;
+	private JPanel panel;
+	private JButton btn_cad_usuario;
 
-	public PainelLogin() {
+	public TelaLogin() {
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblUsurio = new JLabel("Usuário");
@@ -60,22 +63,33 @@ public class PainelLogin extends JPanel {
 		gbc_passwordField.gridx = 1;
 		gbc_passwordField.gridy = 1;
 		add(passwordField, gbc_passwordField);
-
-		btnEntrar = new JButton("Entrar");
-		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
-		gbc_btnEntrar.insets = new Insets(0, 0, 20, 0);
-		gbc_btnEntrar.gridx = 1;
-		gbc_btnEntrar.gridy = 2;
-		add(btnEntrar, gbc_btnEntrar);
+		
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridwidth = 2;
+		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 3;
+		add(panel, gbc_panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+				btnEntrar = new JButton("Entrar");
+				panel.add(btnEntrar);
+				
+				btn_cad_usuario = new JButton("Cadastrar");
+				panel.add(btn_cad_usuario);
 	}
 
-	public PainelLogin(Runnable acaoOk) {
+	public TelaLogin(Runnable acaoOk) {
 		this();
 		btnEntrar.addActionListener(e -> {
+			
+			// verificar uma forma de pesquisar no banco pra ver se existe esse registro, olhar o cadastro de cliente
+			
 			if (textField.getText().trim().equals("z") && new String(passwordField.getPassword()).equals("z")) {
 				acaoOk.run();
 			} else {
-				JOptionPane.showMessageDialog(PainelLogin.this, "Usuário e/ou senha inválidos!");
+				JOptionPane.showMessageDialog(TelaLogin.this, "Usuário e/ou senha inválidos!");
 			}
 		});
 	}

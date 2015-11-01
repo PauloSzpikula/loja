@@ -4,19 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-
 
 public class TelaPrincipal extends JFrame {
 
@@ -85,7 +79,7 @@ public class TelaPrincipal extends JFrame {
 			glass = new BlockPanel();
 		};
 		
-		PainelLogin painelLogin = new PainelLogin(acaoOk);
+		TelaLogin painelLogin = new TelaLogin(acaoOk);
 		glass = new BlockPanel(painelLogin);
 
 		setGlassPane(glass);
@@ -103,6 +97,6 @@ public class TelaPrincipal extends JFrame {
 		};
 		telaCadastroCliente.setCloseAction(action);
 
-		tabbedPane.addTab("Cliente", telaCadastroCliente);
+		tabbedPane.addTab("Aba", telaCadastroCliente);
 	}
 }

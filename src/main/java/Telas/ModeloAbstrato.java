@@ -37,7 +37,6 @@ import loja.Cliente;
 public abstract class ModeloAbstrato extends JPanel {
 
 	private JButton btnFechar;
-	private JButton btnSalvar;
 
 	protected abstract void configuraMiolo();
 	
@@ -61,7 +60,7 @@ public abstract class ModeloAbstrato extends JPanel {
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblOl = new JLabel("Cadastrar cliente");
+		JLabel lblOl = new JLabel("Cadastro");
 		GridBagConstraints gbc_lblOl = new GridBagConstraints();
 		gbc_lblOl.insets = new Insets(0, 0, 0, 5);
 		gbc_lblOl.gridx = 0;

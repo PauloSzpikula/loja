@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
+
+
 public class BlockPanel extends JPanel {
 	
 	public BlockPanel() {
@@ -29,7 +31,6 @@ public class BlockPanel extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				arg0.consume();
 			}
-			
 		});
 	}
 
