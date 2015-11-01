@@ -4,26 +4,16 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.io.IOException;
 
 public class BlockPanel extends JPanel {
-
-	private Image image;
 	
 	public BlockPanel() {
-		
-
 		
 		setOpaque(false);
 		setBackground(Color.GRAY);
@@ -34,10 +24,7 @@ public class BlockPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		
-		
-		
 		addMouseListener(new MouseAdapter() {
-
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				arg0.consume();
@@ -49,29 +36,19 @@ public class BlockPanel extends JPanel {
 	public BlockPanel(JComponent painelCentral) {
 
 		this();
-
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;
 		add(painelCentral, gbc_panel);
 		setVisible(true);
-
-
 	}
 	
-	private AlphaComposite alcom = AlphaComposite.getInstance(
-			AlphaComposite.SRC_OVER, 0.3f);
+	private AlphaComposite alcom = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g.create();
-		
-		int posH = (getWidth() / 2) - (image.getWidth(null) / 2);
-		int posV = (getHeight() / 2) - (image.getHeight(null) / 2);
-		
-		g2.drawImage(image, posH, posV, null);
-		
 		g2.setColor(getBackground());
 		g2.setComposite(alcom);
 		g2.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
@@ -84,5 +61,4 @@ public class BlockPanel extends JPanel {
 
 		super.paintComponent(g);
 	}
-
 }

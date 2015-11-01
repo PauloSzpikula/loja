@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public abstract class MoldAbstrato extends JPanel {
+public abstract class teste extends JPanel {
 
 	private JButton btnFechar;
 	private JButton btnSalvar;
@@ -26,7 +26,7 @@ public abstract class MoldAbstrato extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MoldAbstrato() {
+	public teste() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -56,19 +56,18 @@ public abstract class MoldAbstrato extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
-
+		
 		JButton btnSalvar_1 = new JButton("Salvar");
 		btnSalvar_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(btnSalvar_1);
-		
-//		btnSalvar = new JButton("Salvar");
-//		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-//		gbc_btnFechar.anchor = GridBagConstraints.EAST;
-//		gbc_btnFechar.gridx = 3;
-//		gbc_btnFechar.gridy = 0;
-//		panel.add(btnSalvar, gbc_btnSalvar);
+
+		btnSalvar = new JButton("Salvar");
+		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
+		gbc_btnFechar.anchor = GridBagConstraints.EAST;
+		gbc_btnFechar.gridx = 3;
+		gbc_btnFechar.gridy = 0;
+		panel.add(btnSalvar, gbc_btnSalvar);
 		
 		configuraMiolo();
 	}
-
 }

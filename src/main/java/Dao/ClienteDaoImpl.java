@@ -1,42 +1,105 @@
 package Dao;
 
 import java.sql.Connection;
-import java.util.List;
-
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import loja.Cliente;
+import loja.Estado;
+import loja.Genero;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:40
 //Descrição: Implementação da Interface para manipular o modelo do cliente 
 
 public class ClienteDaoImpl implements ClienteDao {
 
-private static Connection con;
-	
-	private Connection getConnection() {
-		
-		synchronized (con) {
-			if (con == null) {
-				
-			}
-			return con;
-		}
-	}
-	
-	public void inserir(Cliente c) {
-	
-	}
+	private Connection con;
 
-	public List<Cliente> listar() {
-		
+//	CREATE TABLE CLIENTE(ID INT PRIMARY KEY, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR);
+	
+	@Override
+	public void abrirConexao() throws SQLException {
+		String url = "jdbc:h2:~/trabalho4Bimestre";
+		String user = "sa";
+		String pass = "sa";
+		con = DriverManager.getConnection(url, user, pass);
+	}
+	
+	@Override
+	public void fecharConexao() throws SQLException {
+		con.close();
+	}
+	
+	@Override
+	public void create(Cliente c) throws SQLException {
+		abrirConexao();
+		//preparando o comando SQL
+		PreparedStatement ps = con.prepareStatement("INSERT INTO CADASTRO (ID, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		//Atribuindo valor para as variáveis ?
+		ps.setInt(1, c.getId());
+		ps.setString(2, c.getNome());
+		ps.setString(3, c.getTelefone());
+		ps.setString(4, c.getEndereco());
+		//executando o comando SQL
+		ps.executeUpdate();
+		//fechando a conexão
+		ps.close();
+		fecharConexao();
+	}
+	
+	@Override
+	public ArrayList<Cliente> read() throws SQLException {
+//		// uma variável lista, que vai armazenar todos os registros do banco
+//		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+//		
+//		abrirConexao();
+//		//preparando o comando SQL
+//		Statement st = con.createStatement();
+//		// a variável result recebe todos os registros do banco
+//		ResultSet result = st.executeQuery("SELECT * FROM CADASTRO");
+//		// percorremos os registros um a um adicionando na lista
+//		while (result.next()) {
+//			int id = result.getInt(1);
+//			String nome = result.getString(2);
+//			String telefone = result.getString(3);
+//			String endereco = result.getString(4);
+//			String cidade = result.getString(5);
+//			Estado estado = result.get
+//			String email = result.getString(7);
+//			Genero genero = result.getObject(8);
+//			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+//			lista.add(c);
+//		}
+//		fecharConexao();
+//		// retorna a lista completa
+//		return lista;
 		return null;
 	}
 	
-	public void atualizar(Cliente c) {
-		
+	@Override
+	public void update(Cliente c) throws SQLException {
+		abrirConexao();
+		PreparedStatement sql = con.prepareStatement("UPDATE CADASTRO SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ? WHERE ID = ?");
+		sql.setInt(1, c.getId());
+		sql.setString(2, c.getNome());
+		sql.setString(3, c.getTelefone());
+		sql.setString(4, c.getEndereco());
+		sql.setInt(5, c.getId());
+		//executando o comando SQL
+		sql.executeUpdate();
+		sql.close();
+		fecharConexao();
 	}
-
-	public void excluir(Cliente c) {
-		
+	@Override
+	public void delete(Cliente c) throws SQLException {
+		abrirConexao();
+		PreparedStatement sql = con.prepareStatement("DELETE FROM CADASTRO WHERE ID = ?");
+		sql.setInt(1, c.getId());
+		sql.executeUpdate();
+		sql.close();
+		fecharConexao();
 	}
-	
 }

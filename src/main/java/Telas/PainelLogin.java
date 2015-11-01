@@ -2,22 +2,14 @@ package Telas;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
-
 import javax.swing.JTextField;
-
 import java.awt.Insets;
-
 import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
-
 import javax.swing.JButton;
 
 public class PainelLogin extends JPanel {
@@ -33,8 +25,7 @@ public class PainelLogin extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0,
-				Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblUsurio = new JLabel("Usuário");
@@ -81,15 +72,12 @@ public class PainelLogin extends JPanel {
 	public PainelLogin(Runnable acaoOk) {
 		this();
 		btnEntrar.addActionListener(e -> {
-			if (textField.getText().trim().equals("1")
-					&& new String(passwordField.getPassword()).equals("1")) {
+			if (textField.getText().trim().equals("z") && new String(passwordField.getPassword()).equals("z")) {
 				acaoOk.run();
 			} else {
-				JOptionPane.showMessageDialog(PainelLogin.this,
-						"Usuário e/ou senha inválidos!");
+				JOptionPane.showMessageDialog(PainelLogin.this, "Usuário e/ou senha inválidos!");
 			}
 		});
-
 	}
 
 }

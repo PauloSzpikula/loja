@@ -57,17 +57,10 @@ public class TelaPrincipal extends JFrame {
 				abrirTela();
 			}
 		});
+		Menu.add(mntmCadastroDeCliente);
 		
-		JMenuItem mntmCadastroDeProduto = new JMenuItem("Cadastro de Produto");
-		Menu.add(mntmCadastroDeProduto);
-		
-		JMenuItem mntmBloquear = new JMenuItem("BLOQUEAR");
-		mntmBloquear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				block();
-			}
-		});
-		mntmCadastroDeProduto.add(mntmBloquear);
+//		JMenuItem mntmCadastroDeProduto = new JMenuItem("Cadastro de Produto");
+//		Menu.add(mntmCadastroDeProduto);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,27 +69,6 @@ public class TelaPrincipal extends JFrame {
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
-	}
-
-	
-	protected void block() {
-		setGlassPane(glass);
-		glass.setVisible(true);
-		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				for (int i = 0; i < 5; i++) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				glass.setVisible(false);
-			}
-		}).start();
 	}
 	
 	

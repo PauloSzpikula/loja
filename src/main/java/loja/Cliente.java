@@ -1,5 +1,7 @@
 package loja;
 
+import org.h2.mvstore.type.StringDataType;
+
 //Autor: Paulo Szpikula, 29/10/2015 19:25
 //Descrição: Classe cliente
 
