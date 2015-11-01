@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-public class TelaCadastroCliente extends MoldAbstrato {
+public class TelaCadastroCliente extends ModeloAbstrato {
 
 	public TelaCadastroCliente() {
 		super();

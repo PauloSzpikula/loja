@@ -96,7 +96,7 @@ public class TelaPrincipal extends JFrame {
 		};
 		telaCadastroCliente.setCloseAction(action);
 
-		tabbedPane.addTab("Tela ", telaCadastroCliente);
+		tabbedPane.addTab("Cliente", telaCadastroCliente);
 	}
 	
 }

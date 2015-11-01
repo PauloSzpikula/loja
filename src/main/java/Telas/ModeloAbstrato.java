@@ -11,8 +11,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
-public abstract class teste extends JPanel {
+public abstract class ModeloAbstrato extends JPanel {
 
 	private JButton btnFechar;
 	private JButton btnSalvar;
@@ -26,7 +35,7 @@ public abstract class teste extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public teste() {
+	public ModeloAbstrato() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -56,18 +65,15 @@ public abstract class teste extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
+				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnSalvar_1 = new JButton("Salvar");
-		btnSalvar_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_1.add(btnSalvar_1);
-
-		btnSalvar = new JButton("Salvar");
-		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
-		gbc_btnFechar.anchor = GridBagConstraints.EAST;
-		gbc_btnFechar.gridx = 3;
-		gbc_btnFechar.gridy = 0;
-		panel.add(btnSalvar, gbc_btnSalvar);
+				JButton btnSalvar_1 = new JButton("Salvar");
+				btnSalvar_1.setHorizontalAlignment(SwingConstants.RIGHT);
+				panel_1.add(btnSalvar_1);
+		
+		
 		
 		configuraMiolo();
 	}
+
 }
