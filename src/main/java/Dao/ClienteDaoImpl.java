@@ -44,9 +44,9 @@ public class ClienteDaoImpl implements ClienteDao {
 		ps.setString(3, c.getTelefone());
 		ps.setString(4, c.getEndereco());
 		ps.setString(5, c.getCidade());
-		ps.setString(6, c.getEstado().toString());
+		ps.setString(6, c.getEstado());
 		ps.setString(7, c.getEmail());
-		ps.setString(6, c.getGenero().toString());		
+		ps.setString(8, c.getGenero());		
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -56,31 +56,30 @@ public class ClienteDaoImpl implements ClienteDao {
 	
 	@Override
 	public ArrayList<Cliente> read() throws SQLException {
-//		// uma variável lista, que vai armazenar todos os registros do banco
-//		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-//		
-//		abrirConexao();
-//		//preparando o comando SQL
-//		Statement st = con.createStatement();
-//		// a variável result recebe todos os registros do banco
-//		ResultSet result = st.executeQuery("SELECT * FROM CADASTRO");
-//		// percorremos os registros um a um adicionando na lista
-//		while (result.next()) {
-//			int id = result.getInt(1);
-//			String nome = result.getString(2);
-//			String telefone = result.getString(3);
-//			String endereco = result.getString(4);
-//			String cidade = result.getString(5);
-//			Estado estado = result.get
-//			String email = result.getString(7);
-//			Genero genero = result.getObject(8);
-//			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
-//			lista.add(c);
-//		}
-//		fecharConexao();
-//		// retorna a lista completa
-//		return lista;
-		return null;
+		// uma variável lista, que vai armazenar todos os registros do banco
+		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		
+		abrirConexao();
+		//preparando o comando SQL
+		Statement st = con.createStatement();
+		// a variável result recebe todos os registros do banco
+		ResultSet result = st.executeQuery("SELECT * FROM CLIENTE");
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			int id = result.getInt(1);
+			String nome = result.getString(2);
+			String telefone = result.getString(3);
+			String endereco = result.getString(4);
+			String cidade = result.getString(5);
+			String estado = result.getString(6);
+			String email = result.getString(7);
+			String genero = result.getString(8);
+			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+			lista.add(c);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
 	}
 	
 	@Override

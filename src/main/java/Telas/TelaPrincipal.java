@@ -15,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
 
 public class TelaPrincipal extends JFrame {
@@ -23,6 +24,8 @@ public class TelaPrincipal extends JFrame {
 	private JTabbedPane tabbedPane;
 	private BlockPanel glass;
 
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -39,6 +42,10 @@ public class TelaPrincipal extends JFrame {
 		});
 	}
 
+
+	
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -47,7 +54,7 @@ public class TelaPrincipal extends JFrame {
 		blockParaLogin();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 577, 352);
+		setBounds(100, 100, 667, 522);
 		
 		JMenuBar BarraMenu = new JMenuBar();
 		setJMenuBar(BarraMenu);

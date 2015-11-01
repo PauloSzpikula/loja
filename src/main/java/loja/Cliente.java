@@ -12,11 +12,11 @@ public class Cliente {
 	private String telefone;
 	private String endereco;
 	private String cidade;
-	private Estado estado;
+	private String estado;
 	private String email;
-	private Genero genero;
+	private String genero;
 
-	public Cliente(int id, String nome, String telefone, String endereco, String cidade, Estado estado, String email, Genero genero) {
+	public Cliente(int id, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -68,11 +68,11 @@ public class Cliente {
 		this.cidade = cidade;
 	}
 	
-	public Estado getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 	
-	public void setEstado(Estado estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	
@@ -84,11 +84,11 @@ public class Cliente {
 		this.email = email;
 	}
 	
-	public Genero getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 	
-	public void setGenero(Genero genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
 	}
 }

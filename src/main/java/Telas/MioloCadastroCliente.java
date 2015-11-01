@@ -1,34 +1,27 @@
 package Telas;
 
-import javafx.collections.FXCollections;
-
 import javax.swing.JPanel;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-
 import loja.Cliente;
 import loja.Estado;
 import loja.Genero;
-
 import javax.swing.JButton;
-
 import Dao.ClienteDaoImpl;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+
 
 public class MioloCadastroCliente extends JPanel {
 	private JTextField txt_id;
@@ -36,15 +29,18 @@ public class MioloCadastroCliente extends JPanel {
 	private JTextField txt_telefone;
 	private JTextField txt_cidade;
 	private JTextField txt_email;
-	
+	private JTextField txt_endereco;
 	private JComboBox cb_estado;
 	private JComboBox cb_genero;
 	
-	private ModeloCadastro modelo;
-	private JTextField txt_endereco;
+	private ModeloCliente modelo;
 
 	// implementação do cliente no banco
 	ClienteDaoImpl cdao = new ClienteDaoImpl();
+	private JTable table;
+	
+	private String txt_estado;
+	private String txt_genero;
 	
 	/**
 	 * Create the panel.
@@ -54,7 +50,7 @@ public class MioloCadastroCliente extends JPanel {
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblId = new JLabel("ID");
@@ -192,22 +188,35 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_cb_genero.gridy = 7;
 		add(cb_genero, gbc_cb_genero);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 8;
+		add(scrollPane, gbc_scrollPane);
+		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.gridwidth = 4;
+		gbc_panel.gridwidth = 2;
 		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 8;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 9;
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+
 		
 		JButton btnNewButton = new JButton("Salvar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
 				try {
+					txt_estado = cb_estado.getSelectedItem().toString();
+					txt_genero = cb_genero.getSelectedItem().toString();					
 					ac_criar();
+
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -221,14 +230,26 @@ public class MioloCadastroCliente extends JPanel {
 		JButton btnNewButton_2 = new JButton("New button");
 		panel.add(btnNewButton_2);
 
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		// instancia o ModeloCadastro
+		modelo = new ModeloCliente();
+		// seta o modelo da tabela 
+		table.setModel(modelo);
+		table.setVisible(true);
+		
 	}
 
+
+	
+	
 	protected void ac_criar() throws SQLException {
 		// cria uma lista
 		ArrayList<Cliente> lista = new ArrayList<Cliente>();
 			
-//		// busca pelo cdao.read() todos os registros do banco
-//		lista = cdao.read();
+		// busca pelo cdao.read() todos os registros do banco
+		lista = cdao.read();
 			
 		// uma variável booleana para testar se tem ids duplicados
 		boolean testaIdDuplicado = false;
@@ -257,18 +278,15 @@ public class MioloCadastroCliente extends JPanel {
 			JOptionPane.showMessageDialog(this, "Id Inválido!");
 			return;
 		}
-			
-			// .trim() remove os espaços da String
+
 			String nome = txt_nome.getText().trim();
 			String telefone = txt_telefone.getText().trim();
 			String endereco = txt_endereco.getText().trim();
 			String cidade = txt_cidade.getText().trim();
+			String estado = txt_estado;
 			String email = txt_email.getText().trim();
-			
-			Estado estado = (Estado) cb_estado.getSelectedItem();
-			Genero genero = (Genero) cb_genero.getSelectedItem();
-			
-			
+			String genero = txt_genero;
+
 			// instancia um noco cadastro
 			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
 			// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
@@ -290,8 +308,5 @@ public class MioloCadastroCliente extends JPanel {
 		txt_endereco.setText("");
 		txt_cidade.setText("");
 		txt_email.setText("");
-		
-		cb_estado.setSelectedIndex(0);
-		cb_genero.setSelectedIndex(0);
 	}
 }

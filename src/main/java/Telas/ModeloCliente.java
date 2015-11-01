@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 import loja.Cliente;
 
-public class ModeloCadastro extends AbstractTableModel {
+public class ModeloCliente extends AbstractTableModel {
 	private ArrayList<Cliente> lista = new ArrayList<Cliente>();
 	
 	@Override
@@ -74,7 +74,7 @@ public class ModeloCadastro extends AbstractTableModel {
 			return "Estado";
 		case 6:
 			return "Email";
-		case 8:
+		case 7:
 			return "Genero";
 		default:
 			return "Erro";
