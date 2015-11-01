@@ -37,12 +37,16 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void create(Cliente c) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO CADASTRO (ID, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO CLIENTE (ID, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
 		ps.setInt(1, c.getId());
 		ps.setString(2, c.getNome());
 		ps.setString(3, c.getTelefone());
 		ps.setString(4, c.getEndereco());
+		ps.setString(5, c.getCidade());
+		ps.setString(6, c.getEstado().toString());
+		ps.setString(7, c.getEmail());
+		ps.setString(6, c.getGenero().toString());		
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão

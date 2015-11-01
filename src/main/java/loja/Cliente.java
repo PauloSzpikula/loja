@@ -15,7 +15,19 @@ public class Cliente {
 	private Estado estado;
 	private String email;
 	private Genero genero;
-	
+
+	public Cliente(int id, String nome, String telefone, String endereco, String cidade, Estado estado, String email, Genero genero) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.email = email;
+		this.genero = genero;
+	}
+
 	public int getId() {
 		return id;
 	}
