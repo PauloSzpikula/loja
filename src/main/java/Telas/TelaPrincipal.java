@@ -75,7 +75,7 @@ public class TelaPrincipal extends JFrame {
 				abrirTelaUsuario();
 			}
 		});
-		//Menu.add(mntmCadastroDeUsuario);
+		Menu.add(mntmCadastroDeUsuario);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

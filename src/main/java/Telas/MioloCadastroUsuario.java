@@ -8,7 +8,10 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
+import loja.Cliente;
 import Dao.UsuarioDaoImpl;
 
 public class MioloCadastroUsuario extends JPanel {
@@ -17,6 +20,10 @@ public class MioloCadastroUsuario extends JPanel {
 
 	// implementação do produto no banco
 	UsuarioDaoImpl cdao = new UsuarioDaoImpl();
+	
+	private List<Cliente> listaClientes = new ArrayList<>();
+	
+	
 	
 	/**
 	 * Create the panel.
@@ -99,5 +106,4 @@ public class MioloCadastroUsuario extends JPanel {
 		panel.add(btnNewButton_1);
 
 	}
-
 }

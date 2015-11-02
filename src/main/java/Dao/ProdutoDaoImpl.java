@@ -90,7 +90,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		sql.setString(5, p.getUnidade());
 		sql.setBigDecimal(6, p.getCusto());
 		sql.setBigDecimal(7, p.getMargemDeLucro());
-		sql.setInt(9, p.getId());
+		sql.setInt(8, p.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();

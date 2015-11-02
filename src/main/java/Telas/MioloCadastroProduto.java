@@ -42,7 +42,6 @@ public class MioloCadastroProduto extends JPanel {
 	private JTextField txt_descricao;
 	private JTextField txt_custo;
 	private JTable table;
-
 	private ModeloProduto modelo;
 	private JTextField txt_margem_lucro;
 
@@ -60,7 +59,7 @@ public class MioloCadastroProduto extends JPanel {
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("ID");
@@ -206,8 +205,8 @@ public class MioloCadastroProduto extends JPanel {
 				txt_descricao.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)));
 				// ainda não funciona
 				cb_unidade.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,4)));
-				txt_custo.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
-				txt_margem_lucro.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,7)));
+				txt_custo.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,5)));
+				txt_margem_lucro.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -216,9 +215,8 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.anchor = GridBagConstraints.SOUTH;
 		gbc_panel.gridwidth = 3;
-		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 8;
 		add(panel, gbc_panel);
@@ -247,7 +245,6 @@ public class MioloCadastroProduto extends JPanel {
 				// ação de ler os registros
 				try {				
 					ac_ler();
-
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -344,15 +341,81 @@ public class MioloCadastroProduto extends JPanel {
 	}
 
 	protected void ac_ler() throws SQLException {
-		
+		// limpa a tabela para não duplicar tudo
+		modelo.clear();
+		// cria uma lista que vai conter a outra lista -- isso é muito loko
+		ArrayList<Produto> lista = new ArrayList<Produto>();
+
+		// lista recebe o retorno do read()
+		lista = cdao.read();
+
+		// varre a lista inserindo em outra lista
+		for (Produto p : lista) { 
+			// inclui a bagaça
+			modelo.incluir(p);
+		}
 	}
 
 	protected void ac_atualizar() throws SQLException {
+		int id = 0;
+		// valida se o numero é numero
+		try{
+			id = Integer.parseInt(txt_id.getText().trim());			
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this, "Id Inválido!");
+			return;
+		}
+		float codigoDeBarras = Float.valueOf(txt_cod_barras.getText());
+		String categoria = txt_categoria;
+		String descricao = txt_descricao.getText().trim();
+		String unidade = txt_unidade;
+		BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
+		BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));;
+
+		// instancia um noco cadastro
+		Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
 		
+		// atualiza no banco
+		cdao.update(p);
+		
+		// atualizar a tabela
+		ac_ler();
+		
+		// limpa os campos de texto da tela
+		limparCampos();
 	}
 	
 	protected void ac_deletar() throws SQLException {
+		// cria um vetor de variáveis opcoes do tipo objeto
+		Object[] opcoes = { "sim", "não" };
+		// uma variavel resposta do tipo objeto
+		Object resposta;
+		// enquanto a resposta do usuário for nulla
+		do {
+			// resposta a resposta do usuário, que é emitida por um JOptionPane
+			resposta = JOptionPane.showInputDialog(null,"Tem certeza que deseja fazer isso?","Deserialização",JOptionPane.PLAIN_MESSAGE,null,opcoes,"não");
+			if (resposta == "não") {
+				return;
+			}
+		} while (resposta == null);
 		
+		int id = 0;
+		// valida se o numero é numero
+		try{
+			id = Integer.parseInt(txt_id.getText().trim());			
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(this, "Id Inválido!");
+			return;
+		}
+		
+		// deleta o usuário craiando uma nova instância de Cadastro passando só o id
+		cdao.delete(new Produto(id, 0, null, null, null, null, null));
+		
+		// atualiza tudo
+		ac_ler();
+		
+		// limpa os campos de texto da tela
+		limparCampos();
 	}
 	
 	private void limparCampos() {

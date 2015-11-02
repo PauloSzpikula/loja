@@ -53,8 +53,6 @@ public class MioloCadastroCliente extends JPanel {
 	private String txt_estado;
 	private String txt_genero;
 	
-	private List<Cliente> listaClientes = new ArrayList<>();
-	
 	/**
 	 * Create the panel.
 	 */
@@ -233,24 +231,6 @@ public class MioloCadastroCliente extends JPanel {
 				}
 			}
 		});
-		
-		JButton btn_gerar_usuario = new JButton("Criar Usu\u00E1rio");
-		btn_gerar_usuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
-				ActionListener action = new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tabbedPane.remove(telaCadastroUsuario);
-					}
-				};
-				telaCadastroUsuario.setCloseAction(action);
-
-				//tabbedPane.addTab("Cadastro de Usuário", telaCadastroUsuario);
-			}
-		});
-		btn_gerar_usuario.setEnabled(false);
-		panel.add(btn_gerar_usuario);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Read");
@@ -310,8 +290,6 @@ public class MioloCadastroCliente extends JPanel {
 				txt_email.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
 				// ainda não funciona
 				cb_genero.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,7)));
-				
-				btn_gerar_usuario.setEnabled(true);
 
 			}
 		});
