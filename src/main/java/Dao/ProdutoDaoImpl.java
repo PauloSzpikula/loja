@@ -10,8 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import loja.Produto;
 
-
-
 //Autor: Paulo Szpikula, 01/10/2015 09:11
 //Descrição: Implementação da Interface para manipular o modelo do produto 
 

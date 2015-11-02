@@ -19,7 +19,6 @@ public class TelaLogin extends JPanel {
 	private JPasswordField passwordField;
 	private JButton btnEntrar;
 	private JPanel panel;
-	private JButton btn_cad_usuario;
 
 	public TelaLogin() {
 		setBackground(Color.WHITE);
@@ -75,9 +74,6 @@ public class TelaLogin extends JPanel {
 		
 				btnEntrar = new JButton("Entrar");
 				panel.add(btnEntrar);
-				
-				btn_cad_usuario = new JButton("Cadastrar");
-				panel.add(btn_cad_usuario);
 	}
 
 	public TelaLogin(Runnable acaoOk) {

@@ -6,7 +6,7 @@ import java.util.List;
 import loja.Usuario;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:30
-//Descrição: Interface do modelo cliente 
+//Descrição: Interface do modelo usuario 
 
 public interface UsuarioDao {
 
@@ -14,7 +14,5 @@ public interface UsuarioDao {
 	public void fecharConexao() throws SQLException;
 
 	public void create(Usuario u) throws SQLException;
-	public List<Usuario> read() throws SQLException;
 	public void update(Usuario u) throws SQLException;
-	public void delete(Usuario u) throws SQLException;
 }

@@ -5,25 +5,32 @@ package loja;
 
 public class Usuario {
 
-	private String id;
-	private String idDoCliente;
+	private int id;
+	private int idDoCliente;
 	private String senha;
 	
 	
 	
-	public String getId() {
+	public Usuario(int id, int idDoCliente, String senha) {
+		super();
+		this.id = id;
+		this.idDoCliente = idDoCliente;
+		this.senha = senha;
+	}
+
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public String getIdDoCliente() {
+	public int getIdDoCliente() {
 		return idDoCliente;
 	}
 	
-	public void setIdDoCliente(String idDoCliente) {
+	public void setIdDoCliente(int idDoCliente) {
 		this.idDoCliente = idDoCliente;
 	}
 	

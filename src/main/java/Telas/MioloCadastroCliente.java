@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -51,6 +52,8 @@ public class MioloCadastroCliente extends JPanel {
 	
 	private String txt_estado;
 	private String txt_genero;
+	
+	private List<Cliente> listaClientes = new ArrayList<>();
 	
 	/**
 	 * Create the panel.
@@ -230,6 +233,24 @@ public class MioloCadastroCliente extends JPanel {
 				}
 			}
 		});
+		
+		JButton btn_gerar_usuario = new JButton("Criar Usu\u00E1rio");
+		btn_gerar_usuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
+				ActionListener action = new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tabbedPane.remove(telaCadastroUsuario);
+					}
+				};
+				telaCadastroUsuario.setCloseAction(action);
+
+				//tabbedPane.addTab("Cadastro de Usuário", telaCadastroUsuario);
+			}
+		});
+		btn_gerar_usuario.setEnabled(false);
+		panel.add(btn_gerar_usuario);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Read");
@@ -277,6 +298,7 @@ public class MioloCadastroCliente extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+
 				int linhaSelecionada = table.getSelectedRow();
 				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
 				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)));
@@ -284,10 +306,13 @@ public class MioloCadastroCliente extends JPanel {
 				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)));
 				txt_cidade.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,4)));
 				// ainda não funciona
-				cb_estado.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,5)));
+				cb_estado.setSelectedItem(modelo.getValueAt(linhaSelecionada,5));
 				txt_email.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
 				// ainda não funciona
 				cb_genero.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,7)));
+				
+				btn_gerar_usuario.setEnabled(true);
+
 			}
 		});
 		scrollPane.setViewportView(table);

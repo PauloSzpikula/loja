@@ -3,15 +3,14 @@ package Telas;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
-
-import loja.Cliente;
+import loja.Produto;
 
 public class ModeloProduto extends AbstractTableModel {
-	private ArrayList<Cliente> lista = new ArrayList<Cliente>();
+	private ArrayList<Produto> lista = new ArrayList<Produto>();
 	
 	@Override
 	public int getColumnCount() {
-		return 8;
+		return 7;
 	}
 
 	@Override
@@ -28,31 +27,29 @@ public class ModeloProduto extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		Cliente c = lista.get(row);
+		Produto p = lista.get(row);
 		switch (col) {
 		case 0:
-			return c.getId();
+			return p.getId();
 		case 1:
-			return c.getNome();
+			return p.getCodigoDeBarras();
 		case 2:
-			return c.getTelefone();
+			return p.getCategoria();
 		case 3:
-			return c.getEndereco();	
+			return p.getDescricao();
 		case 4:
-			return c.getCidade();
+			return p.getUnidade();
 		case 5:
-			return c.getEstado();
+			return p.getCusto();
 		case 6:
-			return c.getEmail();
-		case 7:
-			return c.getGenero();
+			return p.getMargemDeLucro();
 		default:
 			return "Erro";
 		}
 	}
 
-	public void incluir (Cliente c){
-		lista.add(c);
+	public void incluir (Produto p){
+		lista.add(p);
 		super.fireTableDataChanged();
 	}
 
@@ -63,19 +60,17 @@ public class ModeloProduto extends AbstractTableModel {
 		case 0:
 			return "Id";
 		case 1:
-			return "Nome";
+			return "Código de Barras";
 		case 2:
-			return "Telefone";
+			return "Categoria";
 		case 3:
-			return "Endereço";
+			return "Descrição";
 		case 4:
-			return "Cidade";
+			return "Unidade";
 		case 5:
-			return "Estado";
+			return "Custo";
 		case 6:
-			return "Email";
-		case 7:
-			return "Genero";
+			return "Margem de Lucro";
 		default:
 			return "Erro";
 		}

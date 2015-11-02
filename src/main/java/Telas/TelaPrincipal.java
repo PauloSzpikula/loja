@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -55,13 +56,26 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem mntmCadastroDeCliente = new JMenuItem("Cadastro de Cliente");
 		mntmCadastroDeCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				abrirTela();
+				abrirTelaCliente();
 			}
 		});
 		Menu.add(mntmCadastroDeCliente);
 		
-//		JMenuItem mntmCadastroDeProduto = new JMenuItem("Cadastro de Produto");
-//		Menu.add(mntmCadastroDeProduto);
+		JMenuItem mntmCadastroDeProduto = new JMenuItem("Cadastro de Produto");
+		mntmCadastroDeProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaProduto();
+			}
+		});
+		Menu.add(mntmCadastroDeProduto);
+		
+		JMenuItem mntmCadastroDeUsuario = new JMenuItem("Cadastro de Usuário");
+		mntmCadastroDeUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaUsuario();
+			}
+		});
+		//Menu.add(mntmCadastroDeUsuario);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -87,7 +101,7 @@ public class TelaPrincipal extends JFrame {
 		glass.setVisible(true);
 	}
 	
-	private void abrirTela() {
+	private void abrirTelaCliente() {
 		TelaCadastroCliente telaCadastroCliente = new TelaCadastroCliente();
 		ActionListener action = new ActionListener() {
 			@Override
@@ -97,6 +111,33 @@ public class TelaPrincipal extends JFrame {
 		};
 		telaCadastroCliente.setCloseAction(action);
 
-		tabbedPane.addTab("Aba", telaCadastroCliente);
+		tabbedPane.addTab("Cadastro de Cliente", telaCadastroCliente);
 	}
+	
+	private void abrirTelaProduto() {
+		TelaCadastroProduto telaCadastroProduto = new TelaCadastroProduto();
+		ActionListener action = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaCadastroProduto);
+			}
+		};
+		telaCadastroProduto.setCloseAction(action);
+
+		tabbedPane.addTab("Cadastro de Produto", telaCadastroProduto);
+	}
+	
+	public void abrirTelaUsuario() {
+		TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
+		ActionListener action = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaCadastroUsuario);
+			}
+		};
+		telaCadastroUsuario.setCloseAction(action);
+
+		tabbedPane.addTab("Cadastro de Usuário", telaCadastroUsuario);
+	}
+	
 }
