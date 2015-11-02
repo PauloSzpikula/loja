@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import loja.Cliente;
-import loja.Estado;
-import loja.Genero;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:40
 //Descrição: Implementação da Interface para manipular o modelo do cliente 

@@ -9,12 +9,23 @@ public class Produto {
 
 	private int id;
 	private float codigoDeBarras;
-	private Categoria categoria;
+	private String categoria;
 	private String descricao;
-	private Unidade unidade;
+	private String unidade;
 	private BigDecimal custo;
 	private BigDecimal margemDeLucro;
 	
+	public Produto(int id, float codigoDeBarras, String categoria, String descricao, String unidade, BigDecimal custo, BigDecimal margemDeLucro) {
+		super();
+		this.id = id;
+		this.codigoDeBarras = codigoDeBarras;
+		this.categoria = categoria;
+		this.descricao = descricao;
+		this.unidade = unidade;
+		this.custo = custo;
+		this.margemDeLucro = margemDeLucro;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -31,11 +42,11 @@ public class Produto {
 		this.codigoDeBarras = codigoDeBarras;
 	}
 	
-	public Categoria getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 	
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 	
@@ -47,11 +58,11 @@ public class Produto {
 		this.descricao = descricao;
 	}
 	
-	public Unidade getUnidade() {
+	public String getUnidade() {
 		return unidade;
 	}
 	
-	public void setUnidade(Unidade unidade) {
+	public void setUnidade(String unidade) {
 		this.unidade = unidade;
 	}
 	

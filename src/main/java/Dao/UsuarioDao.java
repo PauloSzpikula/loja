@@ -1,20 +1,20 @@
 package Dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import loja.Cliente;
+import loja.Usuario;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:30
 //Descrição: Interface do modelo cliente 
 
 public interface UsuarioDao {
 
-	public void inserir(Cliente c);
+	public void abrirConexao() throws SQLException;
+	public void fecharConexao() throws SQLException;
 
-	public List<Cliente> listar();
-	
-	public void atualizar(Cliente c);
-
-	public void excluir(Cliente c);
-	
+	public void create(Usuario u) throws SQLException;
+	public List<Usuario> read() throws SQLException;
+	public void update(Usuario u) throws SQLException;
+	public void delete(Usuario u) throws SQLException;
 }
