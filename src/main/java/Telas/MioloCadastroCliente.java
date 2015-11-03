@@ -41,17 +41,12 @@ public class MioloCadastroCliente extends JPanel {
 	private JTextField txt_telefone;
 	private JTextField txt_endereco;
 	private JTextField txt_cidade;
-	private JComboBox cb_estado;
 	private JTextField txt_email;
-	private JComboBox cb_genero;
 	
 	private ModeloCliente modelo;
 
 	// implementação do cliente no banco
 	ClienteDaoImpl cdao = new ClienteDaoImpl();
-	
-	private String txt_estado;
-	private String txt_genero;
 	
 	/**
 	 * Create the panel.
@@ -222,9 +217,20 @@ public class MioloCadastroCliente extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
 				try {
-					txt_estado = cb_estado.getSelectedItem().toString();
-					txt_genero = cb_genero.getSelectedItem().toString();					
-					ac_criar();
+					
+					int id = Integer.parseInt(txt_id.getText().trim());
+					String nome = txt_nome.getText().trim();
+					String telefone = txt_telefone.getText().trim();
+					String endereco = txt_endereco.getText().trim();
+					String cidade = txt_cidade.getText().trim();
+					String estado = cb_estado.getSelectedItem().toString();
+					String email = txt_email.getText().trim();
+					String genero = cb_genero.getSelectedItem().toString();
+					
+					// instancia um noco cadastro
+					Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+					
+					ac_criar(c);
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -250,10 +256,22 @@ public class MioloCadastroCliente extends JPanel {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
-				try {				
-					txt_estado = cb_estado.getSelectedItem().toString();
-					txt_genero = cb_genero.getSelectedItem().toString();
-					ac_atualizar();
+				try {
+					
+					int id = Integer.parseInt(txt_id.getText().trim());
+					String nome = txt_nome.getText().trim();
+					String telefone = txt_telefone.getText().trim();
+					String endereco = txt_endereco.getText().trim();
+					String cidade = txt_cidade.getText().trim();
+					String estado = cb_estado.getSelectedItem().toString();
+					String email = txt_email.getText().trim();
+					String genero = cb_genero.getSelectedItem().toString();
+
+					// instancia um noco cadastro
+					Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+					
+					ac_atualizar(c);
+					
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -280,17 +298,18 @@ public class MioloCadastroCliente extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 
 				int linhaSelecionada = table.getSelectedRow();
-				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
-				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)));
-				txt_telefone.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)));
-				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)));
-				txt_cidade.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,4)));
-				// ainda não funciona
-				cb_estado.setSelectedItem(modelo.getValueAt(linhaSelecionada,5));
-				txt_email.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
-				// ainda não funciona
-				cb_genero.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,7)));
-
+				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
+				txt_telefone.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)).trim());
+				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)).trim());
+				txt_cidade.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,4)).trim());
+				cb_estado.setEditable(true);
+				cb_estado.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,5)).trim());
+				cb_estado.setEditable(false);
+				txt_email.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)).trim());
+				cb_genero.setEditable(true);
+				cb_genero.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,7)).trim());
+				cb_genero.setEditable(false);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -302,7 +321,8 @@ public class MioloCadastroCliente extends JPanel {
 		
 	}
 	
-	protected void ac_criar() throws SQLException {
+	protected void ac_criar(Cliente c) throws SQLException {
+	
 		// cria uma lista
 		ArrayList<Cliente> lista = new ArrayList<Cliente>();
 			
@@ -316,9 +336,9 @@ public class MioloCadastroCliente extends JPanel {
 		// valida se o numero é numero e se é duplicado
 		try {
 			// varre a lista de cadastros do banco
-			for (Cliente c : lista) { 
+			for (Cliente cc : lista) {
 				// verifica se o id da lista é igual ao informado no textFild
-				if (c.getId() == Integer.parseInt(txt_id.getText().trim())) {
+				if (cc.getId() == c.getId()) {
 					// seta verdadeiro para ids duplicados
 					testaIdDuplicado = true;
 				}
@@ -336,30 +356,19 @@ public class MioloCadastroCliente extends JPanel {
 			JOptionPane.showMessageDialog(this, "Id Inválido!");
 			return;
 		}
+		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
+		modelo.incluir(c);
+		
+		// cria no banco um novo cadastro
+		cdao.create(c);
 
-			String nome = txt_nome.getText().trim();
-			String telefone = txt_telefone.getText().trim();
-			String endereco = txt_endereco.getText().trim();
-			String cidade = txt_cidade.getText().trim();
-			String estado = txt_estado;
-			String email = txt_email.getText().trim();
-			String genero = txt_genero;
+		// limpa os campos de texto da tela
+		limparCampos();
+		
+		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 
-			// instancia um noco cadastro
-			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
-			// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
-			modelo.incluir(c);
-			
-			// cria no banco um novo cadastro
-			cdao.create(c);
-
-			// limpa os campos de texto da tela
-			limparCampos();
-			
-			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
-
-			ac_ler();
-		}
+		ac_ler();
+	}
 
 	protected void ac_ler() throws SQLException {
 		// limpa a tabela para não duplicar tudo
@@ -377,26 +386,17 @@ public class MioloCadastroCliente extends JPanel {
 		}
 	}
 	
-	protected void ac_atualizar() throws SQLException{
+	protected void ac_atualizar(Cliente c) throws SQLException{		
+				
 		int id = 0;
 		// valida se o numero é numero
 		try{
-			id = Integer.parseInt(txt_id.getText().trim());			
+			id = c.getId();			
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(this, "Id Inválido!");
 			return;
 		}
-		String nome = txt_nome.getText().trim();
-		String telefone = txt_telefone.getText().trim();
-		String endereco = txt_endereco.getText().trim();
-		String cidade = txt_cidade.getText().trim();
-		String estado = txt_estado;
-		String email = txt_email.getText().trim();
-		String genero = txt_genero;
 
-		// instancia um noco cadastro
-		Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
-		
 		// atualiza no banco
 		cdao.update(c);
 		

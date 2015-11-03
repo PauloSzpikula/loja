@@ -1,35 +1,23 @@
 package Telas;
 
 import javax.swing.JPanel;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
-
-import Dao.ClienteDaoImpl;
 import Dao.ProdutoDaoImpl;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import loja.Categoria;
-import loja.Cliente;
 import loja.Produto;
 import loja.Unidade;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
@@ -44,9 +32,6 @@ public class MioloCadastroProduto extends JPanel {
 	private JTable table;
 	private ModeloProduto modelo;
 	private JTextField txt_margem_lucro;
-
-	private String txt_categoria;
-	private String txt_unidade;
 	
 	// implementação do produto no banco
 	ProdutoDaoImpl cdao = new ProdutoDaoImpl();
@@ -198,15 +183,17 @@ public class MioloCadastroProduto extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 			
 				int linhaSelecionada = table.getSelectedRow();
-				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
-				txt_cod_barras.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)));
-				// ainda não funciona
-				cb_categoria.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,2)));
-				txt_descricao.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)));
-				// ainda não funciona
-				cb_unidade.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,4)));
-				txt_custo.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,5)));
-				txt_margem_lucro.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)));
+				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+				txt_cod_barras.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
+				cb_categoria.setEditable(true);
+				cb_categoria.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,2)).trim());
+				cb_categoria.setEditable(false);
+				txt_descricao.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)).trim());
+				cb_unidade.setEditable(true);
+				cb_unidade.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,4)).trim());
+				cb_unidade.setEditable(false);
+				txt_custo.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,5)).trim());
+				txt_margem_lucro.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)).trim());
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -228,9 +215,19 @@ public class MioloCadastroProduto extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
 				try {
-					txt_categoria = cb_categoria.getSelectedItem().toString();
-					txt_unidade = cb_unidade.getSelectedItem().toString();					
-					ac_criar();
+
+					int id = Integer.parseInt(txt_id.getText().trim());
+					float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
+					String categoria = String.valueOf(cb_categoria.getSelectedItem());
+					String descricao = txt_descricao.getText().trim();
+					String unidade = String.valueOf(cb_unidade.getSelectedItem());
+					BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
+					BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
+
+					// instancia um noco cadastro
+					Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+					
+					ac_criar(p);
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -257,9 +254,19 @@ public class MioloCadastroProduto extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
 				try {				
-					txt_categoria = cb_categoria.getSelectedItem().toString();
-					txt_unidade = cb_unidade.getSelectedItem().toString();	
-					ac_atualizar();
+					
+					int id = Integer.parseInt(txt_id.getText().trim());
+					float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
+					String categoria = String.valueOf(cb_categoria.getSelectedItem());
+					String descricao = txt_descricao.getText().trim();
+					String unidade = String.valueOf(cb_unidade.getSelectedItem());
+					BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
+					BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
+
+					// instancia um noco cadastro
+					Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+					
+					ac_atualizar(p);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -282,7 +289,7 @@ public class MioloCadastroProduto extends JPanel {
 
 	}
 	
-	protected void ac_criar() throws SQLException {
+	protected void ac_criar(Produto p) throws SQLException {
 		// cria uma lista
 		ArrayList<Produto> lista = new ArrayList<Produto>();
 			
@@ -296,9 +303,9 @@ public class MioloCadastroProduto extends JPanel {
 		// valida se o numero é numero e se é duplicado
 		try {
 			// varre a lista de cadastros do banco
-			for (Produto p : lista) { 
+			for (Produto pp : lista) { 
 				// verifica se o id da lista é igual ao informado no textFild
-				if (p.getId() == Integer.parseInt(txt_id.getText().trim())) {
+				if (pp.getId() == p.getId()) {
 					// seta verdadeiro para ids duplicados
 					testaIdDuplicado = true;
 				}
@@ -316,28 +323,18 @@ public class MioloCadastroProduto extends JPanel {
 			JOptionPane.showMessageDialog(this, "Id Inválido!");
 			return;
 		}
+		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
+		modelo.incluir(p);
+		
+		// cria no banco um novo cadastro
+		cdao.create(p);
 
-			float codigoDeBarras = Float.valueOf(txt_cod_barras.getText());
-			String categoria = txt_categoria;
-			String descricao = txt_descricao.getText().trim();
-			String unidade = txt_unidade;
-			BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
-			BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
+		// limpa os campos de texto da tela
+		limparCampos();
+		
+		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 
-			// instancia um noco cadastro
-			Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
-			// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
-			modelo.incluir(p);
-			
-			// cria no banco um novo cadastro
-			cdao.create(p);
-
-			// limpa os campos de texto da tela
-			limparCampos();
-			
-			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
-
-			ac_ler();	
+		ac_ler();	
 	}
 
 	protected void ac_ler() throws SQLException {
@@ -356,7 +353,7 @@ public class MioloCadastroProduto extends JPanel {
 		}
 	}
 
-	protected void ac_atualizar() throws SQLException {
+	protected void ac_atualizar(Produto p) throws SQLException {
 		int id = 0;
 		// valida se o numero é numero
 		try{
@@ -365,16 +362,6 @@ public class MioloCadastroProduto extends JPanel {
 			JOptionPane.showMessageDialog(this, "Id Inválido!");
 			return;
 		}
-		float codigoDeBarras = Float.valueOf(txt_cod_barras.getText());
-		String categoria = txt_categoria;
-		String descricao = txt_descricao.getText().trim();
-		String unidade = txt_unidade;
-		BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
-		BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));;
-
-		// instancia um noco cadastro
-		Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
-		
 		// atualiza no banco
 		cdao.update(p);
 		

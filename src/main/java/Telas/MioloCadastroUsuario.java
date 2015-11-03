@@ -1,17 +1,31 @@
 package Telas;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import java.awt.FlowLayout;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
+
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
+
 import loja.Cliente;
+import Dao.ClienteDaoImpl;
+import Dao.ProdutoDaoImpl;
 import Dao.UsuarioDaoImpl;
 
 public class MioloCadastroUsuario extends JPanel {
@@ -22,7 +36,6 @@ public class MioloCadastroUsuario extends JPanel {
 	UsuarioDaoImpl cdao = new UsuarioDaoImpl();
 	
 	private List<Cliente> listaClientes = new ArrayList<>();
-	
 	
 	
 	/**
@@ -44,6 +57,8 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		add(lblNewLabel, gbc_lblNewLabel);
+		
+		//DefaultComboBoxModel<E>
 		
 		JComboBox comboBox = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
