@@ -63,16 +63,18 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		// a variável result recebe todos os registros do banco
 		ResultSet result = st.executeQuery("SELECT * FROM PRODUTO");
 		// percorremos os registros um a um adicionando na lista
-		while (result.next()) {
-			int id = result.getInt(1);
-			float codigoDeBarras = result.getFloat(2);
-			String categoria = result.getString(3);
-			String descricao = result.getString(4);
-			String unidade = result.getString(5);
-			BigDecimal custo = result.getBigDecimal(6);
-			BigDecimal margemDeLucro = result.getBigDecimal(7);
-			Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
-			lista.add(p);
+		if (result != null) {
+			while (result.next()) {
+				int id = result.getInt(1);
+				float codigoDeBarras = result.getFloat(2);
+				String categoria = result.getString(3);
+				String descricao = result.getString(4);
+				String unidade = result.getString(5);
+				BigDecimal custo = result.getBigDecimal(6);
+				BigDecimal margemDeLucro = result.getBigDecimal(7);
+				Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+				lista.add(p);
+			}
 		}
 		fecharConexao();
 		// retorna a lista completa
@@ -97,12 +99,13 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		fecharConexao();
 	}
 	@Override
-	public void delete(Produto p) throws SQLException {
+	public void delete(int id) throws SQLException {
 		abrirConexao();
 		PreparedStatement sql = con.prepareStatement("DELETE FROM PRODUTO WHERE ID = ?");
-		sql.setInt(1, p.getId());
+		sql.setInt(1, id);
 		sql.executeUpdate();
 		sql.close();
+		read();
 		fecharConexao();
 	}
 }

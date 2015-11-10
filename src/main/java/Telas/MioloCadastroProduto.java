@@ -147,7 +147,6 @@ public class MioloCadastroProduto extends JPanel {
 		add(txt_custo, gbc_txt_custo);
 		txt_custo.setColumns(10);
 		
-		
 		// instancia o ModeloCadastro
 		modelo = new ModeloProduto();
 		
@@ -215,20 +214,28 @@ public class MioloCadastroProduto extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
 				try {
-
-					int id = Integer.parseInt(txt_id.getText().trim());
-					float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
-					String categoria = String.valueOf(cb_categoria.getSelectedItem());
-					String descricao = txt_descricao.getText().trim();
-					String unidade = String.valueOf(cb_unidade.getSelectedItem());
-					BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
-					BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
-
-					// instancia um noco cadastro
-					Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+					String id_p = txt_id.getText().trim();
+					String codBar_p = txt_cod_barras.getText().trim();
+					String custo_p = txt_custo.getText().trim();
+					String marLuc_p = txt_margem_lucro.getText().trim();
 					
-					ac_criar(p);
-
+					// testa se tudo está de acordo para a inserção
+					if ((!id_p.isEmpty() & !codBar_p.isEmpty() & !custo_p.isEmpty() & !marLuc_p.isEmpty()) || id_p == ("[0-9]")) {
+						int id = Integer.parseInt(txt_id.getText().trim());
+						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
+						String categoria = String.valueOf(cb_categoria.getSelectedItem());
+						String descricao = txt_descricao.getText().trim();
+						String unidade = String.valueOf(cb_unidade.getSelectedItem());
+						BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText().trim()));
+						BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText().trim()));
+	
+						// instancia um noco cadastro
+						Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+						
+						ac_criar(p);
+					} else {
+						mensagemDeErro();	
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -254,19 +261,26 @@ public class MioloCadastroProduto extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
 				try {				
-					
-					int id = Integer.parseInt(txt_id.getText().trim());
-					float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
-					String categoria = String.valueOf(cb_categoria.getSelectedItem());
-					String descricao = txt_descricao.getText().trim();
-					String unidade = String.valueOf(cb_unidade.getSelectedItem());
-					BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
-					BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
 
-					// instancia um noco cadastro
-					Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+					String id_p = txt_id.getText().trim();
+					if (!id_p.isEmpty() || id_p == ("[0-9]")) {
 					
-					ac_atualizar(p);
+						int id = Integer.parseInt(txt_id.getText().trim());
+						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
+						String categoria = String.valueOf(cb_categoria.getSelectedItem());
+						String descricao = txt_descricao.getText().trim();
+						String unidade = String.valueOf(cb_unidade.getSelectedItem());
+						BigDecimal custo = BigDecimal.valueOf(Float.valueOf(txt_custo.getText()));
+						BigDecimal margemDeLucro = BigDecimal.valueOf(Float.valueOf(txt_margem_lucro.getText()));
+	
+						// instancia um noco cadastro
+						Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+						
+						ac_atualizar(p);
+						
+					} else {
+						mensagemDeErro();	
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -278,8 +292,13 @@ public class MioloCadastroProduto extends JPanel {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
-				try {					
-					ac_deletar();
+				try {
+					String id_p = txt_id.getText();
+					if (!id_p.isEmpty() & id_p == ("[0-9]")) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();	
+					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -289,6 +308,11 @@ public class MioloCadastroProduto extends JPanel {
 
 	}
 	
+	protected void mensagemDeErro() {
+		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos!");
+		
+	}
+
 	protected void ac_criar(Produto p) throws SQLException {
 		// cria uma lista
 		ArrayList<Produto> lista = new ArrayList<Produto>();
@@ -373,36 +397,22 @@ public class MioloCadastroProduto extends JPanel {
 	}
 	
 	protected void ac_deletar() throws SQLException {
-		// cria um vetor de variáveis opcoes do tipo objeto
-		Object[] opcoes = { "sim", "não" };
-		// uma variavel resposta do tipo objeto
-		Object resposta;
-		// enquanto a resposta do usuário for nulla
-		do {
-			// resposta a resposta do usuário, que é emitida por um JOptionPane
-			resposta = JOptionPane.showInputDialog(null,"Tem certeza que deseja fazer isso?","Deserialização",JOptionPane.PLAIN_MESSAGE,null,opcoes,"não");
-			if (resposta == "não") {
-				return;
-			}
-		} while (resposta == null);
 		
-		int id = 0;
-		// valida se o numero é numero
-		try{
-			id = Integer.parseInt(txt_id.getText().trim());			
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
+		// resposta do usuário, é emitida por um JOptionPane
+		int resposta = JOptionPane.showConfirmDialog(null, "Você está certo disso?","Deletar",JOptionPane.YES_OPTION);
+		
+		if (resposta == 0) {
+			int id = Integer.parseInt(txt_id.getText().trim());
+			
+			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
+			cdao.delete(id);
+			
+			// atualiza tudo
+			ac_ler();
+			
+			// limpa os campos de texto da tela
+			limparCampos();
 		}
-		
-		// deleta o usuário craiando uma nova instância de Cadastro passando só o id
-		cdao.delete(new Produto(id, 0, null, null, null, null, null));
-		
-		// atualiza tudo
-		ac_ler();
-		
-		// limpa os campos de texto da tela
-		limparCampos();
 	}
 	
 	private void limparCampos() {

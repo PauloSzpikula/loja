@@ -15,5 +15,5 @@ public interface ProdutoDao {
 	public void create(Produto p) throws SQLException;
 	public List<Produto> read() throws SQLException;
 	public void update(Produto p) throws SQLException;
-	public void delete(Produto p) throws SQLException;
+	public void delete(int id) throws SQLException;
 }
