@@ -34,7 +34,7 @@ public class MioloCadastroProduto extends JPanel {
 	private JTextField txt_margem_lucro;
 	
 	// implementação do produto no banco
-	ProdutoDaoImpl cdao = new ProdutoDaoImpl();
+	ProdutoDaoImpl pdao = new ProdutoDaoImpl();
 	
 	/**
 	 * Create the panel.
@@ -330,7 +330,7 @@ public class MioloCadastroProduto extends JPanel {
 		ArrayList<Produto> lista = new ArrayList<Produto>();
 			
 		// busca pelo cdao.read() todos os registros do banco
-		lista = cdao.read();
+		lista = pdao.read();
 			
 		// uma variável booleana para testar se tem ids duplicados
 		boolean testaIdDuplicado = false;
@@ -363,7 +363,7 @@ public class MioloCadastroProduto extends JPanel {
 		modelo.incluir(p);
 		
 		// cria no banco um novo cadastro
-		cdao.create(p);
+		pdao.create(p);
 
 		// limpa os campos de texto da tela
 		limparCampos();
@@ -380,7 +380,7 @@ public class MioloCadastroProduto extends JPanel {
 		ArrayList<Produto> lista = new ArrayList<Produto>();
 
 		// lista recebe o retorno do read()
-		lista = cdao.read();
+		lista = pdao.read();
 
 		// varre a lista inserindo em outra lista
 		for (Produto p : lista) { 
@@ -399,7 +399,7 @@ public class MioloCadastroProduto extends JPanel {
 			return;
 		}
 		// atualiza no banco
-		cdao.update(p);
+		pdao.update(p);
 		
 		// atualizar a tabela
 		ac_ler();
@@ -417,7 +417,7 @@ public class MioloCadastroProduto extends JPanel {
 			int id = Integer.parseInt(txt_id.getText().trim());
 			
 			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
-			cdao.delete(id);
+			pdao.delete(id);
 			
 			// atualiza tudo
 			ac_ler();

@@ -42,7 +42,6 @@ public class MioloCadastroCliente extends JPanel {
 	private JTextField txt_endereco;
 	private JTextField txt_cidade;
 	private JTextField txt_email;
-	
 	private ModeloCliente modelo;
 
 	// implementação do cliente no banco
@@ -465,3 +464,8 @@ public class MioloCadastroCliente extends JPanel {
 		txt_email.setText("");
 	}
 }
+
+
+
+
+

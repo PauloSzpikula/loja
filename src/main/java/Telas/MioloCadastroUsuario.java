@@ -9,34 +9,24 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 import java.awt.FlowLayout;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
-
-import loja.Cliente;
-import Dao.ClienteDaoImpl;
-import Dao.ProdutoDaoImpl;
 import Dao.UsuarioDaoImpl;
+
 
 public class MioloCadastroUsuario extends JPanel {
 	private JTextField txt_id_usuario;
 	private JTextField txt_senha;
 
 	// implementação do produto no banco
-	UsuarioDaoImpl cdao = new UsuarioDaoImpl();
-	
-	private List<Cliente> listaClientes = new ArrayList<>();
-	
+	UsuarioDaoImpl usdao = new UsuarioDaoImpl();
 	
 	/**
 	 * Create the panel.
@@ -58,9 +48,10 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_lblNewLabel.gridy = 0;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
-		//DefaultComboBoxModel<E>
+		DefaultComboBoxModel<ArrayList> model = new DefaultComboBoxModel<ArrayList>();
 		
-		JComboBox comboBox = new JComboBox();
+		
+		JComboBox comboBox = new JComboBox(model);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
