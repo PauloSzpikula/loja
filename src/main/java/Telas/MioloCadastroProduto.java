@@ -40,6 +40,8 @@ public class MioloCadastroProduto extends JPanel {
 	 * Create the panel.
 	 */
 	public MioloCadastroProduto() {
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -180,7 +182,7 @@ public class MioloCadastroProduto extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-			
+				txt_id.setEnabled(false);
 				int linhaSelecionada = table.getSelectedRow();
 				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 				txt_cod_barras.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
@@ -220,7 +222,8 @@ public class MioloCadastroProduto extends JPanel {
 					String marLuc_p = txt_margem_lucro.getText().trim();
 					
 					// testa se tudo está de acordo para a inserção
-					if ((!id_p.isEmpty() & !codBar_p.isEmpty() & !custo_p.isEmpty() & !marLuc_p.isEmpty()) || id_p == ("[0-9]")) {
+					if (!id_p.isEmpty() & !codBar_p.isEmpty() & !custo_p.isEmpty() & !marLuc_p.isEmpty()) {
+						
 						int id = Integer.parseInt(txt_id.getText().trim());
 						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
 						String categoria = String.valueOf(cb_categoria.getSelectedItem());
@@ -236,6 +239,7 @@ public class MioloCadastroProduto extends JPanel {
 					} else {
 						mensagemDeErro();	
 					}
+
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -263,7 +267,8 @@ public class MioloCadastroProduto extends JPanel {
 				try {				
 
 					String id_p = txt_id.getText().trim();
-					if (!id_p.isEmpty() || id_p == ("[0-9]")) {
+					
+					if (!id_p.isEmpty()) {
 					
 						int id = Integer.parseInt(txt_id.getText().trim());
 						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
@@ -294,7 +299,7 @@ public class MioloCadastroProduto extends JPanel {
 				// ação de deletar
 				try {
 					String id_p = txt_id.getText();
-					if (!id_p.isEmpty() & id_p == ("[0-9]")) {
+					if (!id_p.isEmpty() || id_p == ("[0-9]")) {
 						ac_deletar();
 					} else {
 						mensagemDeErro();	
@@ -306,10 +311,17 @@ public class MioloCadastroProduto extends JPanel {
 		});
 		panel.add(btnNewButton_3);
 
+		
+		try {				
+			ac_ler();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	protected void mensagemDeErro() {
-		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos!");
+		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 		
 	}
 
