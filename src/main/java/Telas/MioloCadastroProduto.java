@@ -299,7 +299,7 @@ public class MioloCadastroProduto extends JPanel {
 				// ação de deletar
 				try {
 					String id_p = txt_id.getText();
-					if (!id_p.isEmpty() || id_p == ("[0-9]")) {
+					if (!id_p.isEmpty()) {
 						ac_deletar();
 					} else {
 						mensagemDeErro();	

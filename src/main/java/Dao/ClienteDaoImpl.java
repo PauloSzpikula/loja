@@ -99,10 +99,10 @@ public class ClienteDaoImpl implements ClienteDao {
 		fecharConexao();
 	}
 	@Override
-	public void delete(Cliente c) throws SQLException {
+	public void delete(int id) throws SQLException {
 		abrirConexao();
 		PreparedStatement sql = con.prepareStatement("DELETE FROM CLIENTE WHERE ID = ?");
-		sql.setInt(1, c.getId());
+		sql.setInt(1, id);
 		sql.executeUpdate();
 		sql.close();
 		fecharConexao();

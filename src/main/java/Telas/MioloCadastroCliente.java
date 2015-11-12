@@ -62,9 +62,9 @@ public class MioloCadastroCliente extends JPanel {
 		JLabel lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
+		gbc_lblId.gridwidth = 2;
 		gbc_lblId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblId.gridx = 1;
+		gbc_lblId.gridx = 0;
 		gbc_lblId.gridy = 0;
 		add(lblId, gbc_lblId);
 		
@@ -79,9 +79,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNome = new JLabel("NOME");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
-		gbc_lblNome.anchor = GridBagConstraints.EAST;
+		gbc_lblNome.gridwidth = 2;
 		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNome.gridx = 1;
+		gbc_lblNome.gridx = 0;
 		gbc_lblNome.gridy = 1;
 		add(lblNome, gbc_lblNome);
 		
@@ -96,9 +96,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("TELEFONE");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 2;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
@@ -113,9 +113,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel_2 = new JLabel("ENDERE\u00C7O");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.gridwidth = 2;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 1;
+		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 3;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
@@ -130,9 +130,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("CIDADE");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridwidth = 2;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 4;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
@@ -147,9 +147,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblEstado = new JLabel("ESTADO");
 		GridBagConstraints gbc_lblEstado = new GridBagConstraints();
+		gbc_lblEstado.gridwidth = 2;
 		gbc_lblEstado.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEstado.anchor = GridBagConstraints.EAST;
-		gbc_lblEstado.gridx = 1;
+		gbc_lblEstado.gridx = 0;
 		gbc_lblEstado.gridy = 5;
 		add(lblEstado, gbc_lblEstado);
 		
@@ -163,9 +163,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblEmail = new JLabel("EMAIL");
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.gridwidth = 2;
 		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEmail.anchor = GridBagConstraints.EAST;
-		gbc_lblEmail.gridx = 1;
+		gbc_lblEmail.gridx = 0;
 		gbc_lblEmail.gridy = 6;
 		add(lblEmail, gbc_lblEmail);
 		
@@ -180,9 +180,9 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblGenero = new JLabel("G\u00CANERO");
 		GridBagConstraints gbc_lblGenero = new GridBagConstraints();
+		gbc_lblGenero.gridwidth = 2;
 		gbc_lblGenero.insets = new Insets(0, 0, 5, 5);
-		gbc_lblGenero.anchor = GridBagConstraints.EAST;
-		gbc_lblGenero.gridx = 1;
+		gbc_lblGenero.gridx = 0;
 		gbc_lblGenero.gridy = 7;
 		add(lblGenero, gbc_lblGenero);
 		
@@ -218,19 +218,28 @@ public class MioloCadastroCliente extends JPanel {
 				// ação de incluir
 				try {
 					
-					int id = Integer.parseInt(txt_id.getText().trim());
-					String nome = txt_nome.getText().trim();
-					String telefone = txt_telefone.getText().trim();
-					String endereco = txt_endereco.getText().trim();
-					String cidade = txt_cidade.getText().trim();
-					String estado = cb_estado.getSelectedItem().toString();
-					String email = txt_email.getText().trim();
-					String genero = cb_genero.getSelectedItem().toString();
+					String id_c = txt_id.getText().trim();
+					String email_c = txt_email.getText().trim();
 					
-					// instancia um noco cadastro
-					Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+					// testa se tudo está de acordo para a inserção
+					if (!id_c.isEmpty() & !email_c.isEmpty()) {
 					
-					ac_criar(c);
+						int id = Integer.parseInt(txt_id.getText().trim());
+						String nome = txt_nome.getText().trim();
+						String telefone = txt_telefone.getText().trim();
+						String endereco = txt_endereco.getText().trim();
+						String cidade = txt_cidade.getText().trim();
+						String estado = cb_estado.getSelectedItem().toString();
+						String email = txt_email.getText().trim();
+						String genero = cb_genero.getSelectedItem().toString();
+						
+						// instancia um noco cadastro
+						Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+						
+						ac_criar(c);
+					} else {
+						mensagemDeErro();
+					}
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -258,20 +267,26 @@ public class MioloCadastroCliente extends JPanel {
 				// ação de atualizar
 				try {
 					
-					int id = Integer.parseInt(txt_id.getText().trim());
-					String nome = txt_nome.getText().trim();
-					String telefone = txt_telefone.getText().trim();
-					String endereco = txt_endereco.getText().trim();
-					String cidade = txt_cidade.getText().trim();
-					String estado = cb_estado.getSelectedItem().toString();
-					String email = txt_email.getText().trim();
-					String genero = cb_genero.getSelectedItem().toString();
-
-					// instancia um noco cadastro
-					Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+					String id_p = txt_id.getText().trim();
 					
-					ac_atualizar(c);
+					if (!id_p.isEmpty()) {
 					
+						int id = Integer.parseInt(txt_id.getText().trim());
+						String nome = txt_nome.getText().trim();
+						String telefone = txt_telefone.getText().trim();
+						String endereco = txt_endereco.getText().trim();
+						String cidade = txt_cidade.getText().trim();
+						String estado = cb_estado.getSelectedItem().toString();
+						String email = txt_email.getText().trim();
+						String genero = cb_genero.getSelectedItem().toString();
+	
+						// instancia um noco cadastro
+						Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+						
+						ac_atualizar(c);
+					} else {
+						mensagemDeErro();
+					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -284,7 +299,12 @@ public class MioloCadastroCliente extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {					
-					ac_deletar();
+					String id_p = txt_id.getText();
+					if (!id_p.isEmpty()) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();	
+					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -296,7 +316,8 @@ public class MioloCadastroCliente extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
+				
+				txt_id.setEnabled(false);
 				int linhaSelecionada = table.getSelectedRow();
 				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
@@ -318,7 +339,18 @@ public class MioloCadastroCliente extends JPanel {
 		modelo = new ModeloCliente();
 		// seta o modelo da tabela 
 		table.setModel(modelo);
+	
+		//atualizar a lista
+		try {					
+			ac_ler();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+	}
+	
+	protected void mensagemDeErro() {
+		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 	}
 	
 	protected void ac_criar(Cliente c) throws SQLException {
@@ -408,36 +440,20 @@ public class MioloCadastroCliente extends JPanel {
 	}
 
 	protected void ac_deletar() throws SQLException{
-		// cria um vetor de variáveis opcoes do tipo objeto
-		Object[] opcoes = { "sim", "não" };
-		// uma variavel resposta do tipo objeto
-		Object resposta;
-		// enquanto a resposta do usuário for nulla
-		do {
-			// resposta a resposta do usuário, que é emitida por um JOptionPane
-			resposta = JOptionPane.showInputDialog(null,"Tem certeza que deseja fazer isso?","Deserialização",JOptionPane.PLAIN_MESSAGE,null,opcoes,"não");
-			if (resposta == "não") {
-				return;
-			}
-		} while (resposta == null);
-		
-		int id = 0;
-		// valida se o numero é numero
-		try{
-			id = Integer.parseInt(txt_id.getText().trim());			
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
+		// resposta do usuário, é emitida por um JOptionPane
+		int resposta = JOptionPane.showConfirmDialog(null, "Você está certo disso?","Deletar",JOptionPane.YES_OPTION);
+		if (resposta == 0) {
+			int id = Integer.parseInt(txt_id.getText().trim());
+						
+			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
+			cdao.delete(id);
+			
+			// atualiza tudo
+			ac_ler();
+			
+			// limpa os campos de texto da tela
+			limparCampos();
 		}
-		
-		// deleta o usuário craiando uma nova instância de Cadastro passando só o id
-		cdao.delete(new Cliente(id, null, null, null, null, null, null, null));
-		
-		// atualiza tudo
-		ac_ler();
-		
-		// limpa os campos de texto da tela
-		limparCampos();
 	}
 
 	private void limparCampos() {

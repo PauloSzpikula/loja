@@ -15,5 +15,5 @@ public interface ClienteDao {
 	public void create(Cliente c) throws SQLException;
 	public List<Cliente> read() throws SQLException;
 	public void update(Cliente c) throws SQLException;
-	public void delete(Cliente c) throws SQLException;
+	public void delete(int id) throws SQLException;
 }
