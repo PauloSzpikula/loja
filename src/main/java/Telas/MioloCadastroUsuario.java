@@ -1,5 +1,8 @@
 package Telas;
 
+//Autor: Paulo Szpikula, 12/11/2015 20:46
+//Descrição: Tela do cadastrar usuário
+
 import javax.swing.JPanel;
 
 import java.awt.GridBagLayout;

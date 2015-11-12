@@ -1,5 +1,8 @@
 package Telas;
 
+//Autor: Paulo Szpikula, 12/11/2015 20:46
+//Descrição: Modelo da tabela do Produto
+
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;

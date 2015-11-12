@@ -1,5 +1,8 @@
 package Telas;
 
+//Autor: Paulo Szpikula, 12/11/2015 20:46
+//Descrição: Modelo Abstrato
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
