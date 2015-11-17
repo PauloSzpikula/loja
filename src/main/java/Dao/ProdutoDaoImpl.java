@@ -105,7 +105,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		sql.setInt(1, id);
 		sql.executeUpdate();
 		sql.close();
-		read();
+		//read();
 		fecharConexao();
 	}	
 }

@@ -15,6 +15,7 @@ public interface UsuarioDao {
 	public void fecharConexao() throws SQLException;
 
 	public void create(Usuario u) throws SQLException;
-	public void update(Usuario u) throws SQLException;
 	public List<Usuario> read() throws SQLException;
+	public void update(Usuario u) throws SQLException;
+	public void delete(int id) throws SQLException;
 }

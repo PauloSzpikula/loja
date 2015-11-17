@@ -408,8 +408,6 @@ public class MioloCadastroCliente extends JPanel {
 		modelo.incluir(c);
 		// cria no banco um novo cadastro
 		cdao.create(c);
-		// limpa os campos de texto da tela
-		limparCampos();
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		// atualiza a tabela
@@ -430,6 +428,9 @@ public class MioloCadastroCliente extends JPanel {
 			// inclui a bagaça
 			modelo.incluir(c);
 		}
+		
+		// limpa os campos de texto da tela
+		limparCampos();
 	}
 	
 	protected void ac_atualizar(Cliente c) throws SQLException {
@@ -437,8 +438,6 @@ public class MioloCadastroCliente extends JPanel {
 		cdao.update(c);
 		// atualizar a tabela
 		ac_ler();
-		// limpa os campos de texto da tela
-		limparCampos();
 	}
 
 	protected void ac_deletar() throws SQLException{
@@ -452,9 +451,6 @@ public class MioloCadastroCliente extends JPanel {
 			
 			// atualiza tudo
 			ac_ler();
-			
-			// limpa os campos de texto da tela
-			limparCampos();
 		}
 	}
 

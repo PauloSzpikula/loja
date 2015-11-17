@@ -48,7 +48,30 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		ps.close();
 		fecharConexao();
 	}
+	
+	@Override
+	public ArrayList<Usuario> read() throws SQLException {
+		// uma variável lista, que vai armazenar todos os registros do banco
+		ArrayList<Usuario> lista = new ArrayList<Usuario>();
 		
+		abrirConexao();
+		//preparando o comando SQL
+		Statement st = con.createStatement();
+		// a variável result recebe todos os registros do banco
+		ResultSet result = st.executeQuery("SELECT * FROM USUARIO");
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			int id_usuario = result.getInt(1);
+			int id_cliente = result.getInt(2);
+			String senha = result.getString(3);
+			Usuario u = new Usuario(id_usuario, id_cliente, senha);
+			lista.add(u);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
+	}	
+	
 	@Override
 	public void update(Usuario u) throws SQLException {
 		abrirConexao();
@@ -64,26 +87,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 	
 	@Override
-	public ArrayList<Usuario> read() throws SQLException {
-		// uma variável lista, que vai armazenar todos os registros do banco
-		ArrayList<Usuario> lista = new ArrayList<Usuario>();
-		
+	public void delete(int id) throws SQLException {
 		abrirConexao();
-		//preparando o comando SQL
-		Statement st = con.createStatement();
-		// a variável result recebe todos os registros do banco
-		ResultSet result = st.executeQuery("SELECT * FROM USUARIO");
-		// percorremos os registros um a um adicionando na lista
-		while (result.next()) {
-			int id_usuario = result.getInt(2);
-			int id_cliente = result.getInt(1);
-			String senha = result.getString(3);
-			Usuario u = new Usuario(id_usuario, id_cliente, senha);
-			lista.add(u);
-		}
+		PreparedStatement sql = con.prepareStatement("DELETE FROM USUARIO WHERE ID = ?");
+		sql.setInt(1, id);
+		sql.executeUpdate();
+		sql.close();
+		//read();
 		fecharConexao();
-		// retorna a lista completa
-		return lista;
 	}
 	
 	public boolean procurar_login(int id, String senha) throws SQLException {
@@ -109,5 +120,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 		return resultado;
 	}
-	
+
+
 }

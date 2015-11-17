@@ -393,9 +393,6 @@ public class MioloCadastroProduto extends JPanel {
 		
 		// cria no banco um novo cadastro
 		pdao.create(p);
-
-		// limpa os campos de texto da tela
-		limparCampos();
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 
@@ -416,6 +413,8 @@ public class MioloCadastroProduto extends JPanel {
 			// inclui a bagaça
 			modelo.incluir(p);
 		}
+		// limpa os campos de texto da tela
+		limparCampos();
 	}
 
 	protected void ac_atualizar(Produto p) throws SQLException {
@@ -424,9 +423,6 @@ public class MioloCadastroProduto extends JPanel {
 		
 		// atualizar a tabela
 		ac_ler();
-		
-		// limpa os campos de texto da tela
-		limparCampos();
 	}
 	
 	protected void ac_deletar() throws SQLException {
@@ -442,9 +438,6 @@ public class MioloCadastroProduto extends JPanel {
 			
 			// atualiza tudo
 			ac_ler();
-			
-			// limpa os campos de texto da tela
-			limparCampos();
 		}
 	}
 	
