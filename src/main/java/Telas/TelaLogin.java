@@ -90,15 +90,11 @@ public class TelaLogin extends JPanel {
 		this();
 		btnEntrar.addActionListener(e -> {
 			
-			// verificar uma forma de pesquisar no banco pra ver se existe esse registro, olhar o cadastro de cliente
-			// consultar no banco se o usuário informado bate com a senha informada
-			
 			boolean usuario_existe = false;
 			try {
 				usuario_existe = usdao.procurar_login(Integer.parseInt(textField.getText()), passwordField.getText());
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			} 
 			
 			

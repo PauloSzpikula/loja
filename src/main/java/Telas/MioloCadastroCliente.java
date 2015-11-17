@@ -35,6 +35,8 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
+import org.jdesktop.swingx.renderer.StringValues;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -223,10 +225,40 @@ public class MioloCadastroCliente extends JPanel {
 					String id_c = txt_id.getText().trim();
 					String email_c = txt_email.getText().trim();
 					
-					// testa se tudo está de acordo para a inserção
-					if (!id_c.isEmpty() & !email_c.isEmpty()) {
+					// cria uma lista
+					ArrayList<Cliente> lista = new ArrayList<Cliente>();
+					// busca pelo cdao.read() todos os registros do banco
+					lista = cdao.read();
 					
-						int id = Integer.parseInt(txt_id.getText().trim());
+					// valida se o numero é numero e se é duplicado
+					int id = 0;
+					if (id_c.matches("[0-9]")) {
+						id = Integer.parseInt(id_c);
+					} else {
+						mensagemDeErro();
+						return;
+					}
+					
+					// uma variável booleana para testar se tem ids duplicados
+					boolean testaIdDuplicado = false;
+					
+					// varre a lista de cadastros do banco
+					for (Cliente cc : lista) {
+						// verifica se o id da lista é igual ao informado no textFild
+						if (cc.getId() == id) {
+							// seta verdadeiro para ids duplicados
+							testaIdDuplicado = true;
+						}
+					}
+					// aqui é lançado um erro caso o id seja dulicado
+					if (testaIdDuplicado) {
+						mensagemIdDuplicado();
+						return;
+					}
+					
+					// testa se os campos estão preenchidos para a inserção
+					if (!id_c.isEmpty() & !email_c.isEmpty()) {
+
 						String nome = txt_nome.getText().trim();
 						String telefone = txt_telefone.getText().trim();
 						String endereco = txt_endereco.getText().trim();
@@ -269,11 +301,24 @@ public class MioloCadastroCliente extends JPanel {
 				// ação de atualizar
 				try {
 					
-					String id_p = txt_id.getText().trim();
+					String id_c = txt_id.getText().trim();
+						
+					// cria uma lista
+					ArrayList<Cliente> lista = new ArrayList<Cliente>();
+					// busca pelo cdao.read() todos os registros do banco
+					lista = cdao.read();
 					
-					if (!id_p.isEmpty()) {
+					// valida se o numero é numero
+					int id = -1;
+					if (id_c.matches("[0-9]")) {
+						id = Integer.parseInt(id_c);
+					} else {
+						mensagemDeErro();
+						return;
+					}
+
+					if (!id_c.isEmpty()) {
 					
-						int id = Integer.parseInt(txt_id.getText().trim());
 						String nome = txt_nome.getText().trim();
 						String telefone = txt_telefone.getText().trim();
 						String endereco = txt_endereco.getText().trim();
@@ -319,7 +364,6 @@ public class MioloCadastroCliente extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				txt_id.setEnabled(false);
 				int linhaSelecionada = table.getSelectedRow();
 				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
@@ -350,57 +394,25 @@ public class MioloCadastroCliente extends JPanel {
 		}
 		
 	}
-	
+
+	protected void mensagemIdDuplicado() {
+		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
+	}
+
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 	}
 	
 	protected void ac_criar(Cliente c) throws SQLException {
-	
-		// cria uma lista
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-			
-		// busca pelo cdao.read() todos os registros do banco
-		lista = cdao.read();
-			
-		// uma variável booleana para testar se tem ids duplicados
-		boolean testaIdDuplicado = false;
-			
-		int id = 0;
-		// valida se o numero é numero e se é duplicado
-		try {
-			// varre a lista de cadastros do banco
-			for (Cliente cc : lista) {
-				// verifica se o id da lista é igual ao informado no textFild
-				if (cc.getId() == c.getId()) {
-					// seta verdadeiro para ids duplicados
-					testaIdDuplicado = true;
-				}
-			}
-			// aqui é lançado um erro caso o id seja dulicado
-			if (testaIdDuplicado) {
-				JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
-				return;
-			} else {
-				// éééé passou não tem duplicidade
-				id = Integer.parseInt(txt_id.getText().trim());
-			}
-
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
-		}
 		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
 		modelo.incluir(c);
-		
 		// cria no banco um novo cadastro
 		cdao.create(c);
-
 		// limpa os campos de texto da tela
 		limparCampos();
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
-
+		// atualiza a tabela
 		ac_ler();
 	}
 
@@ -420,23 +432,11 @@ public class MioloCadastroCliente extends JPanel {
 		}
 	}
 	
-	protected void ac_atualizar(Cliente c) throws SQLException{		
-				
-		int id = 0;
-		// valida se o numero é numero
-		try{
-			id = c.getId();			
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
-		}
-
+	protected void ac_atualizar(Cliente c) throws SQLException {
 		// atualiza no banco
 		cdao.update(c);
-		
 		// atualizar a tabela
 		ac_ler();
-		
 		// limpa os campos de texto da tela
 		limparCampos();
 	}
