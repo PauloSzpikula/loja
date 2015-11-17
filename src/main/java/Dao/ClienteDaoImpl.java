@@ -118,7 +118,6 @@ public class ClienteDaoImpl implements ClienteDao {
 		ResultSet result = st.executeQuery("SELECT ID FROM CLIENTE");
 		while (result.next()) {
 			int id = result.getInt(1);
-//			Cliente c = new Cliente(id);
 			lista.add(id);
 		}
 		fecharConexao();

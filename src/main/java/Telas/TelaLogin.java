@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import Dao.UsuarioDaoImpl;
+
 import java.awt.FlowLayout;
 
 public class TelaLogin extends JPanel {
@@ -19,7 +23,12 @@ public class TelaLogin extends JPanel {
 	private JPasswordField passwordField;
 	private JButton btnEntrar;
 	private JPanel panel;
+	
+	// implementação do usuário no banco
+	UsuarioDaoImpl usdao = new UsuarioDaoImpl();
 
+	
+	
 	public TelaLogin() {
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
@@ -76,13 +85,24 @@ public class TelaLogin extends JPanel {
 				panel.add(btnEntrar);
 	}
 
+	@SuppressWarnings("deprecation")
 	public TelaLogin(Runnable acaoOk) {
 		this();
 		btnEntrar.addActionListener(e -> {
 			
 			// verificar uma forma de pesquisar no banco pra ver se existe esse registro, olhar o cadastro de cliente
+			// consultar no banco se o usuário informado bate com a senha informada
 			
-			if (textField.getText().trim().equals("z") && new String(passwordField.getPassword()).equals("z")) {
+			boolean usuario_existe = false;
+			try {
+				usuario_existe = usdao.procurar_login(Integer.parseInt(textField.getText()), passwordField.getText());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+			
+			
+			if (usuario_existe || (textField.getText().trim().equals("z") && new String(passwordField.getPassword()).equals("z"))) {
 				acaoOk.run();
 			} else {
 				JOptionPane.showMessageDialog(TelaLogin.this, "Usuário e/ou senha inválidos!");

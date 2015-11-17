@@ -86,4 +86,28 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return lista;
 	}
 	
+	public boolean procurar_login(int id, String senha) throws SQLException {
+		
+		int id_usuario = -1;
+		boolean resultado = false;
+		
+		abrirConexao();
+
+		Statement st = con.createStatement();
+
+		ResultSet result = st.executeQuery("SELECT ID FROM USUARIO WHERE ID = "+id+" AND SENHA = '"+senha+"' LIMIT 1;");
+		// comparar resultado transformando num boolean
+		while (result.next()) {
+			id_usuario = result.getInt(1);
+		}
+		
+		if (id == id_usuario) {
+			resultado = true;
+		}
+		
+		fecharConexao();
+
+		return resultado;
+	}
+	
 }

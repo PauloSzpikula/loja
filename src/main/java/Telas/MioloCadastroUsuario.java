@@ -238,11 +238,8 @@ public class MioloCadastroUsuario extends JPanel {
 	}
 
 	private ArrayList<Integer> populaComboBox() throws SQLException {
-        ArrayList<Integer> array = new ArrayList<Integer>();  
-		array = cdao.listaIdClientes();
-		return array;
+        return cdao.listaIdClientes();
 	}
-	
 	
 	protected void ac_ler() throws SQLException {
 		// limpa a tabela para não duplicar tudo
