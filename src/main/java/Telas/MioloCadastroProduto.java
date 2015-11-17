@@ -4,23 +4,34 @@ package Telas;
 //Descrição: Tela do cadastrar Produto
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
+
 import Dao.ProdutoDaoImpl;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import loja.Categoria;
+import loja.Cliente;
 import loja.Produto;
 import loja.Unidade;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
@@ -152,9 +163,6 @@ public class MioloCadastroProduto extends JPanel {
 		add(txt_custo, gbc_txt_custo);
 		txt_custo.setColumns(10);
 		
-		// instancia o ModeloCadastro
-		modelo = new ModeloProduto();
-		
 		JLabel lblNewLabel_6 = new JLabel("MARGEM DE LUCRO");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.gridwidth = 2;
@@ -185,7 +193,6 @@ public class MioloCadastroProduto extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				txt_id.setEnabled(false);
 				int linhaSelecionada = table.getSelectedRow();
 				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 				txt_cod_barras.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
@@ -201,6 +208,9 @@ public class MioloCadastroProduto extends JPanel {
 			}
 		});
 		scrollPane.setViewportView(table);
+		
+		// instancia o ModeloCadastro
+		modelo = new ModeloProduto();
 		// seta o modelo da tabela 
 		table.setModel(modelo);
 		
@@ -224,10 +234,41 @@ public class MioloCadastroProduto extends JPanel {
 					String custo_p = txt_custo.getText().trim();
 					String marLuc_p = txt_margem_lucro.getText().trim();
 					
+					
+					// cria uma lista
+					ArrayList<Produto> lista = new ArrayList<Produto>();
+					// busca pelo pdao.read() todos os registros do banco
+					lista = pdao.read();
+					
+					// valida se o numero é numero e se é duplicado
+					int id = 0;
+					if (id_p.matches("[0-9]")) {
+						id = Integer.parseInt(id_p);
+					} else {
+						mensagemDeErro();
+						return;
+					}
+					
+					// uma variável booleana para testar se tem ids duplicados
+					boolean testaIdDuplicado = false;
+					
+					// varre a lista de cadastros do banco
+					for (Produto pp : lista) {
+						// verifica se o id da lista é igual ao informado no textFild
+						if (pp.getId() == id) {
+							// seta verdadeiro para ids duplicados
+							testaIdDuplicado = true;
+						}
+					}
+					// aqui é lançado um erro caso o id seja dulicado
+					if (testaIdDuplicado) {
+						mensagemIdDuplicado();
+						return;
+					}
+					
 					// testa se tudo está de acordo para a inserção
 					if (!id_p.isEmpty() & !codBar_p.isEmpty() & !custo_p.isEmpty() & !marLuc_p.isEmpty()) {
 						
-						int id = Integer.parseInt(txt_id.getText().trim());
 						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
 						String categoria = String.valueOf(cb_categoria.getSelectedItem());
 						String descricao = txt_descricao.getText().trim();
@@ -271,9 +312,22 @@ public class MioloCadastroProduto extends JPanel {
 
 					String id_p = txt_id.getText().trim();
 					
-					if (!id_p.isEmpty()) {
+					// cria uma lista
+					ArrayList<Produto> lista = new ArrayList<Produto>();
+					// busca pelo cdao.read() todos os registros do banco
+					lista = pdao.read();
 					
-						int id = Integer.parseInt(txt_id.getText().trim());
+					// valida se o numero é numero
+					int id = -1;
+					if (id_p.matches("[0-9]")) {
+						id = Integer.parseInt(id_p);
+					} else {
+						mensagemDeErro();
+						return;
+					}
+					
+					if (!id_p.isEmpty()) {
+
 						float codigoDeBarras = Float.valueOf(txt_cod_barras.getText().trim());
 						String categoria = String.valueOf(cb_categoria.getSelectedItem());
 						String descricao = txt_descricao.getText().trim();
@@ -323,45 +377,17 @@ public class MioloCadastroProduto extends JPanel {
 		
 	}
 	
+	protected void mensagemIdDuplicado() {
+		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
+	}
+	
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 		
 	}
 
 	protected void ac_criar(Produto p) throws SQLException {
-		// cria uma lista
-		ArrayList<Produto> lista = new ArrayList<Produto>();
-			
-		// busca pelo cdao.read() todos os registros do banco
-		lista = pdao.read();
-			
-		// uma variável booleana para testar se tem ids duplicados
-		boolean testaIdDuplicado = false;
-			
-		int id = 0;
-		// valida se o numero é numero e se é duplicado
-		try {
-			// varre a lista de cadastros do banco
-			for (Produto pp : lista) { 
-				// verifica se o id da lista é igual ao informado no textFild
-				if (pp.getId() == p.getId()) {
-					// seta verdadeiro para ids duplicados
-					testaIdDuplicado = true;
-				}
-			}
-			// aqui é lançado um erro caso o id seja dulicado
-			if (testaIdDuplicado) {
-				JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
-				return;
-			} else {
-				// éééé passou não tem duplicidade
-				id = Integer.parseInt(txt_id.getText().trim());
-			}
-
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
-		}
+		
 		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
 		modelo.incluir(p);
 		
@@ -393,14 +419,6 @@ public class MioloCadastroProduto extends JPanel {
 	}
 
 	protected void ac_atualizar(Produto p) throws SQLException {
-		int id = 0;
-		// valida se o numero é numero
-		try{
-			id = Integer.parseInt(txt_id.getText().trim());			
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(this, "Id Inválido!");
-			return;
-		}
 		// atualiza no banco
 		pdao.update(p);
 		
