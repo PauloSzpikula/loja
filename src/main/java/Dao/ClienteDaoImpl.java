@@ -107,4 +107,22 @@ public class ClienteDaoImpl implements ClienteDao {
 		sql.close();
 		fecharConexao();
 	}
+	
+	public ArrayList<Cliente> listaIdClientes() throws SQLException {
+		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		
+		abrirConexao();
+		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT ID FROM CLIENTE");
+		while (result.next()) {
+			int id = result.getInt(1);
+			Cliente c = new Cliente(id);
+			lista.add(c);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
+	}
+
+	
 }

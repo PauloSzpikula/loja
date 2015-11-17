@@ -26,6 +26,10 @@ public class Cliente {
 		this.genero = genero;
 	}
 
+	public Cliente(int id2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

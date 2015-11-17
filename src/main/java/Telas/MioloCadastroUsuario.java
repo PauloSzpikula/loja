@@ -17,10 +17,19 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 import java.awt.FlowLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 
+import loja.Cliente;
+import Dao.ClienteDaoImpl;
 import Dao.UsuarioDaoImpl;
 
 
@@ -31,6 +40,11 @@ public class MioloCadastroUsuario extends JPanel {
 	// implementação do produto no banco
 	UsuarioDaoImpl usdao = new UsuarioDaoImpl();
 	
+	// implementação do cliente no banco
+	ClienteDaoImpl cdao = new ClienteDaoImpl();
+	
+	
+	private Connection con;
 	/**
 	 * Create the panel.
 	 */
@@ -51,10 +65,32 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_lblNewLabel.gridy = 0;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
-		DefaultComboBoxModel<ArrayList> model = new DefaultComboBoxModel<ArrayList>();
+//		DefaultComboBoxModel<ArrayList> lista = new DefaultComboBoxModel<ArrayList>();
+		JComboBox<Integer> comboBox = new JComboBox<Integer>();
+		
+		List<Cliente> lista = new ArrayList<Cliente>();
+		
+		try {
+			lista = populaComboBox();
+			Iterator<Cliente> it = lista.iterator();
+			while (it.hasNext()) {
+				Cliente cat = it.next();
+		
+				cat.getId();
 		
 		
-		JComboBox comboBox = new JComboBox(model);
+				comboBox.addItem(cat.getId());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+
+		
+		
+		
+		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -114,5 +150,32 @@ public class MioloCadastroUsuario extends JPanel {
 		JButton btnNewButton_1 = new JButton("Update");
 		panel.add(btnNewButton_1);
 
+		
+
+		
+	}
+
+	
+//	public List<Cliente> populaComboBox() {  
+//        List<Cliente> array = new ArrayList<Cliente>();  
+//        ResultSet result = con.query("SELECT * FROM CLIENTE");  
+//        try {  
+//            while (result.next()) {  
+//                Cliente pais = new Cliente();  
+//                pais.setId(result.getInt("cod_pais"));  
+//                array.add(pais);  
+//            }  
+//        } catch (SQLException ex) {  
+//        	
+//        }  
+//        return array;  
+//    }  
+	
+	
+	
+	private List<Cliente> populaComboBox() throws SQLException {
+        List<Cliente> array = new ArrayList<Cliente>();  
+		array = cdao.listaIdClientes();
+		return array;
 	}
 }
