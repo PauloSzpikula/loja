@@ -3,7 +3,12 @@ package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import loja.Cliente;
 import loja.Usuario;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:40
@@ -57,4 +62,28 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		sql.close();
 		fecharConexao();
 	}
+	
+	@Override
+	public ArrayList<Usuario> read() throws SQLException {
+		// uma variável lista, que vai armazenar todos os registros do banco
+		ArrayList<Usuario> lista = new ArrayList<Usuario>();
+		
+		abrirConexao();
+		//preparando o comando SQL
+		Statement st = con.createStatement();
+		// a variável result recebe todos os registros do banco
+		ResultSet result = st.executeQuery("SELECT * FROM USUARIO");
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			int id_usuario = result.getInt(2);
+			int id_cliente = result.getInt(1);
+			String senha = result.getString(3);
+			Usuario u = new Usuario(id_usuario, id_cliente, senha);
+			lista.add(u);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
+	}
+	
 }

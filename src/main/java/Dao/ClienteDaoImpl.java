@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+
 import loja.Cliente;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:40
@@ -108,16 +110,16 @@ public class ClienteDaoImpl implements ClienteDao {
 		fecharConexao();
 	}
 	
-	public ArrayList<Cliente> listaIdClientes() throws SQLException {
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+	public ArrayList<Integer> listaIdClientes() throws SQLException {
+		ArrayList<Integer> lista = new ArrayList<Integer>();
 		
 		abrirConexao();
 		Statement st = con.createStatement();
 		ResultSet result = st.executeQuery("SELECT ID FROM CLIENTE");
 		while (result.next()) {
 			int id = result.getInt(1);
-			Cliente c = new Cliente(id);
-			lista.add(c);
+//			Cliente c = new Cliente(id);
+			lista.add(id);
 		}
 		fecharConexao();
 		// retorna a lista completa
