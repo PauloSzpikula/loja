@@ -1,7 +1,7 @@
 package Telas;
 
-//Autor: Paulo Szpikula, 12/11/2015 20:46
-//Descrição: Tela do cadastrar Cliente
+//Autor: Paulo Szpikula, 19/11/2015 20:33
+//Descrição: Tela do cadastrar Pedido
 
 import javax.swing.JPanel;
 
@@ -40,7 +40,7 @@ import org.jdesktop.swingx.renderer.StringValues;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MioloCadastroVenda extends JPanel {
+public class MioloCadastroPedido extends JPanel {
 	private ModeloCliente modelo;
 	private JTextField textField;
 
@@ -48,10 +48,10 @@ public class MioloCadastroVenda extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MioloCadastroVenda() {
+	public MioloCadastroPedido() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 36, 47, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -67,27 +67,19 @@ public class MioloCadastroVenda extends JPanel {
 		
 		JComboBox cb_cliente = new JComboBox();
 		GridBagConstraints gbc_cb_cliente = new GridBagConstraints();
-		gbc_cb_cliente.insets = new Insets(0, 0, 5, 5);
+		gbc_cb_cliente.insets = new Insets(0, 0, 5, 0);
 		gbc_cb_cliente.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cb_cliente.gridx = 2;
 		gbc_cb_cliente.gridy = 0;
 		add(cb_cliente, gbc_cb_cliente);
 		
-		JLabel lblNome = new JLabel("PRODUTO");
-		GridBagConstraints gbc_lblNome = new GridBagConstraints();
-		gbc_lblNome.gridwidth = 2;
-		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNome.gridx = 0;
-		gbc_lblNome.gridy = 1;
-		add(lblNome, gbc_lblNome);
-		
-		JComboBox cb_produto = new JComboBox();
-		GridBagConstraints gbc_cb_produto = new GridBagConstraints();
-		gbc_cb_produto.insets = new Insets(0, 0, 5, 5);
-		gbc_cb_produto.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cb_produto.gridx = 2;
-		gbc_cb_produto.gridy = 1;
-		add(cb_produto, gbc_cb_produto);
+		JButton btnAdicionarProduto = new JButton("Adicionar Produto");
+		GridBagConstraints gbc_btnAdicionarProduto = new GridBagConstraints();
+		gbc_btnAdicionarProduto.anchor = GridBagConstraints.EAST;
+		gbc_btnAdicionarProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAdicionarProduto.gridx = 2;
+		gbc_btnAdicionarProduto.gridy = 1;
+		add(btnAdicionarProduto, gbc_btnAdicionarProduto);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -113,7 +105,7 @@ public class MioloCadastroVenda extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("00,00");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 3;
 		add(lblNewLabel, gbc_lblNewLabel);
@@ -135,15 +127,6 @@ public class MioloCadastroVenda extends JPanel {
 		add(textField, gbc_textField);
 		textField.setColumns(10);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 4;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
-		
 		JLabel lblTrocoR = new JLabel("TROCO R$:");
 		GridBagConstraints gbc_lblTrocoR = new GridBagConstraints();
 		gbc_lblTrocoR.gridwidth = 2;
@@ -154,14 +137,13 @@ public class MioloCadastroVenda extends JPanel {
 		
 		JLabel label = new JLabel("00,00");
 		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.insets = new Insets(0, 0, 5, 0);
 		gbc_label.gridx = 2;
 		gbc_label.gridy = 5;
 		add(label, gbc_label);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.gridwidth = 3;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
@@ -173,11 +155,11 @@ public class MioloCadastroVenda extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
-				try {
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		panel.add(btnNewButton);
@@ -186,11 +168,11 @@ public class MioloCadastroVenda extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de ler os registros
-				try {					
-					ac_ler();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+//				try {					
+//					ac_ler();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		panel.add(btnNewButton_1);
@@ -199,12 +181,12 @@ public class MioloCadastroVenda extends JPanel {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
-				try {
-					
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					
+//					
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		panel.add(btnNewButton_2);
@@ -213,16 +195,16 @@ public class MioloCadastroVenda extends JPanel {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
-				try {					
+//				try {					
 //					String id_p = txt_id.getText();
 //					if (!id_p.isEmpty()) {
 //						ac_deletar();
 //					} else {
 //						mensagemDeErro();	
 //					}	
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		panel.add(btnNewButton_3);
