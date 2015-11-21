@@ -18,47 +18,44 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 import loja.Cliente;
-import loja.Estado;
-import loja.Genero;
 
 import javax.swing.JButton;
-
-import Dao.ClienteDaoImpl;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
-import org.jdesktop.swingx.renderer.StringValues;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import Dao.ClienteDaoImpl;
 
 public class MioloCadastroPedido extends JPanel {
-	private ModeloCliente modelo;
+	//private ModeloCliente modelo;
 	private JTextField textField;
 
+	// implementação do cliente no banco
+	ClienteDaoImpl cdao = new ClienteDaoImpl();
+	
 	
 	/**
 	 * Create the panel.
 	 */
 	public MioloCadastroPedido() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 162};
 		gridBagLayout.rowHeights = new int[]{0, 36, 47, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblId = new JLabel("CLIENTE");
 		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
+		gbc_lblId.anchor = GridBagConstraints.EAST;
 		gbc_lblId.gridwidth = 2;
 		gbc_lblId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblId.gridx = 0;
@@ -66,6 +63,16 @@ public class MioloCadastroPedido extends JPanel {
 		add(lblId, gbc_lblId);
 		
 		JComboBox cb_cliente = new JComboBox();
+		cb_cliente.removeAllItems();
+		try {
+			ArrayList<String> lista = populaComboBox();
+			Iterator i = lista.iterator(); 
+			while(i.hasNext()) {  
+				  cb_cliente.addItem(String.valueOf(i.next()));  
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		GridBagConstraints gbc_cb_cliente = new GridBagConstraints();
 		gbc_cb_cliente.insets = new Insets(0, 0, 5, 0);
 		gbc_cb_cliente.fill = GridBagConstraints.HORIZONTAL;
@@ -74,8 +81,13 @@ public class MioloCadastroPedido extends JPanel {
 		add(cb_cliente, gbc_cb_cliente);
 		
 		JButton btnAdicionarProduto = new JButton("Adicionar Produto");
+		btnAdicionarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MioloCadastroPedidoItem itens = new MioloCadastroPedidoItem();
+				itens.show();
+			}
+		});
 		GridBagConstraints gbc_btnAdicionarProduto = new GridBagConstraints();
-		gbc_btnAdicionarProduto.anchor = GridBagConstraints.EAST;
 		gbc_btnAdicionarProduto.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAdicionarProduto.gridx = 2;
 		gbc_btnAdicionarProduto.gridy = 1;
@@ -93,10 +105,11 @@ public class MioloCadastroPedido extends JPanel {
 		JTable table = new JTable();
 		scrollPane.setViewportView(table);
 		// seta o modelo da tabela 
-		table.setModel(modelo);
+//		table.setModel(modelo);
 		
 		JLabel lblValorTotal = new JLabel("VALOR TOTAL R$:");
 		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
+		gbc_lblValorTotal.anchor = GridBagConstraints.EAST;
 		gbc_lblValorTotal.gridwidth = 2;
 		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
 		gbc_lblValorTotal.gridx = 0;
@@ -112,6 +125,7 @@ public class MioloCadastroPedido extends JPanel {
 		
 		JLabel lblValorPagoR = new JLabel("VALOR PAGO R$:");
 		GridBagConstraints gbc_lblValorPagoR = new GridBagConstraints();
+		gbc_lblValorPagoR.anchor = GridBagConstraints.EAST;
 		gbc_lblValorPagoR.gridwidth = 2;
 		gbc_lblValorPagoR.insets = new Insets(0, 0, 5, 5);
 		gbc_lblValorPagoR.gridx = 0;
@@ -129,6 +143,7 @@ public class MioloCadastroPedido extends JPanel {
 		
 		JLabel lblTrocoR = new JLabel("TROCO R$:");
 		GridBagConstraints gbc_lblTrocoR = new GridBagConstraints();
+		gbc_lblTrocoR.anchor = GridBagConstraints.EAST;
 		gbc_lblTrocoR.gridwidth = 2;
 		gbc_lblTrocoR.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTrocoR.gridx = 0;
@@ -210,7 +225,7 @@ public class MioloCadastroPedido extends JPanel {
 		panel.add(btnNewButton_3);
 		
 		// instancia o ModeloCadastro
-		modelo = new ModeloCliente();
+//		modelo = new ModeloCliente();
 	
 		//atualizar a lista
 		try {					
@@ -221,6 +236,10 @@ public class MioloCadastroPedido extends JPanel {
 		
 	}
 
+	private ArrayList<String> populaComboBox() throws SQLException {
+        return cdao.listaIdClientes();
+	}
+	
 	protected void mensagemIdDuplicado() {
 		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
 	}

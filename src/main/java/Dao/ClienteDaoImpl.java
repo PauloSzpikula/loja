@@ -110,15 +110,18 @@ public class ClienteDaoImpl implements ClienteDao {
 		fecharConexao();
 	}
 	
-	public ArrayList<Integer> listaIdClientes() throws SQLException {
-		ArrayList<Integer> lista = new ArrayList<Integer>();
+	public ArrayList<String> listaIdClientes() throws SQLException {
+		ArrayList<String> lista = new ArrayList<String>();
 		
 		abrirConexao();
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT ID FROM CLIENTE");
+		ResultSet result = st.executeQuery("SELECT ID, NOME FROM CLIENTE");
 		while (result.next()) {
-			int id = result.getInt(1);
-			lista.add(id);
+			StringBuilder sb = new StringBuilder();
+			sb.append(result.getString(1));
+			sb.append(" - ");
+			sb.append(result.getString(2));
+			lista.add(sb.toString());
 		}
 		fecharConexao();
 		// retorna a lista completa

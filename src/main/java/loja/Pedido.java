@@ -1,10 +1,9 @@
 package loja;
 
-//Autor: Paulo Szpikula, 29/10/2015 19:25
-//Descrição: Classe cliente
+//Autor: Paulo Szpikula, 21/11/2015 08:33
+//Descrição: Classe Pedido
 
-public class Cliente {
-
+public class Pedido {
 	private int id;
 	private String nome;
 	private String telefone;
@@ -14,7 +13,9 @@ public class Cliente {
 	private String email;
 	private String genero;
 
-	public Cliente(int id, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero) {
+	private int id_pedido;
+	
+	public Pedido(int id, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero, int id_pedido) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -24,6 +25,7 @@ public class Cliente {
 		this.estado = estado;
 		this.email = email;
 		this.genero = genero;
+		this.id_pedido = id_pedido;
 	}
 
 	public int getId() {
@@ -88,5 +90,20 @@ public class Cliente {
 	
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}	
+	
+	public int getId_pedido() {
+		return id_pedido;
+	}
+	
+	public void setId_pedido(int id_pedido) {
+		this.id_pedido = id_pedido;
 	}
 }
+
+
+
+
+
+
+

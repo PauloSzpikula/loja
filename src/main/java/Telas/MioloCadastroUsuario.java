@@ -87,7 +87,7 @@ public class MioloCadastroUsuario extends JPanel {
 		JComboBox cb_id_cliente = new JComboBox();
 		cb_id_cliente.removeAllItems();
 		try {
-			ArrayList<Integer> lista = populaComboBox();
+			ArrayList<String> lista = populaComboBox();
 			Iterator i = lista.iterator(); 
 			while(i.hasNext()) {  
 				  cb_id_cliente.addItem(String.valueOf(i.next()));  
@@ -365,7 +365,7 @@ public class MioloCadastroUsuario extends JPanel {
 		ac_ler();
 	}
 
-	private ArrayList<Integer> populaComboBox() throws SQLException {
+	private ArrayList<String> populaComboBox() throws SQLException {
         return cdao.listaIdClientes();
 	}
 	
