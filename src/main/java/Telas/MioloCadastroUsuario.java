@@ -164,6 +164,7 @@ public class MioloCadastroUsuario extends JPanel {
 		JButton btn_create = new JButton("Create");
 		btn_create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				try {
 					
 					String id_u = txt_id_usuario.getText().trim();
@@ -186,8 +187,12 @@ public class MioloCadastroUsuario extends JPanel {
 					// uma variável booleana para testar se tem ids duplicados
 					boolean testaIdDuplicado = false;
 					
-					int id_c = Integer.parseInt(cb_id_cliente.getSelectedItem().toString());
+					String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
 					
+					String id_cli = id_nome.substring(0,id_nome.indexOf("-"));			
+					
+					int id_c = Integer.parseInt(id_cli);
+
 					// varre a lista de cadastros do banco
 					for (Usuario uu : lista) {
 						// verifica se o id da lista é igual ao informado no textFild
@@ -205,11 +210,10 @@ public class MioloCadastroUsuario extends JPanel {
 					// testa se tudo está de acordo para a inserção
 					if (!id_u.isEmpty() & !senha_u.isEmpty()) {
 						
-						int id_cliente = Integer.parseInt(cb_id_cliente.getSelectedItem().toString());
 						String senha = txt_senha.getText().trim();
 
 						// instancia um noco cadastro
-						Usuario u = new Usuario(id, id_cliente, senha);
+						Usuario u = new Usuario(id, id_c, senha);
 						ac_criar(u);
 					}
 				} catch (SQLException e) {

@@ -1,5 +1,6 @@
 package Dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import loja.Pedido;
 
 //Autor: Paulo Szpikula, 21/11/2015 08:05
@@ -16,8 +18,7 @@ import loja.Pedido;
 public class PedidoDaoImpl implements PedidoDao {
 
 	private Connection con;
-	private int id_pedido = 0;
-//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, ID_PEDIDO INT);
+//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL);
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -36,17 +37,20 @@ public class PedidoDaoImpl implements PedidoDao {
 	public void create(Pedido p) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, ID_PEDIDO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
 		ps.setInt(1, p.getId());
-		ps.setString(2, p.getNome());
-		ps.setString(3, p.getTelefone());
-		ps.setString(4, p.getEndereco());
-		ps.setString(5, p.getCidade());
-		ps.setString(6, p.getEstado());
-		ps.setString(7, p.getEmail());
-		ps.setString(8, p.getGenero());
-		ps.setInt(9, id_pedido++);
+		ps.setInt(2, p.getId_cliente());		
+		ps.setString(3, p.getNome());
+		ps.setString(4, p.getTelefone());
+		ps.setString(5, p.getEndereco());
+		ps.setString(6, p.getCidade());
+		ps.setString(7, p.getEstado());
+		ps.setString(8, p.getEmail());
+		ps.setString(9, p.getGenero());
+		ps.setBigDecimal(10, p.getTotal());
+		ps.setBigDecimal(11, p.getValor_pago());
+		ps.setBigDecimal(12, p.getTroco());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -67,15 +71,18 @@ public class PedidoDaoImpl implements PedidoDao {
 		// percorremos os registros um a um adicionando na lista
 		while (result.next()) {
 			int id = result.getInt(1);
-			String nome = result.getString(2);
-			String telefone = result.getString(3);
-			String endereco = result.getString(4);
-			String cidade = result.getString(5);
-			String estado = result.getString(6);
-			String email = result.getString(7);
-			String genero = result.getString(8);
-			int id_pedido = result.getInt(9);
-			Pedido p = new Pedido(id, nome, telefone, endereco, cidade, estado, email, genero, id_pedido);
+			int id_cliente = result.getInt(2);
+			String nome = result.getString(3);
+			String telefone = result.getString(4);
+			String endereco = result.getString(5);
+			String cidade = result.getString(6);
+			String estado = result.getString(7);
+			String email = result.getString(8);
+			String genero = result.getString(9);
+			BigDecimal total = result.getBigDecimal(10);
+			BigDecimal valor_pago = result.getBigDecimal(11);
+			BigDecimal troco = result.getBigDecimal(12);
+			Pedido p = new Pedido(id, id_cliente, nome, telefone, endereco, cidade, estado, email, genero, total, valor_pago, troco);
 			lista.add(p);
 		}
 		fecharConexao();
@@ -86,17 +93,20 @@ public class PedidoDaoImpl implements PedidoDao {
 	@Override
 	public void update(Pedido p) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, ID_PEDIDO = ? WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, ID_PEDIDO = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, TOTAL = ?, VALOR_PAGO = ?, TROCO = ? WHERE ID = ?");
 		sql.setInt(1, p.getId());
-		sql.setString(2, p.getNome());
-		sql.setString(3, p.getTelefone());
-		sql.setString(4, p.getEndereco());
-		sql.setString(5, p.getCidade());
-		sql.setString(6, p.getEstado());
-		sql.setString(7, p.getEmail());
-		sql.setString(8, p.getGenero());
-		sql.setInt(9, p.getId_pedido());
-		sql.setInt(10, p.getId());
+		sql.setInt(2, p.getId_cliente());
+		sql.setString(3, p.getNome());
+		sql.setString(4, p.getTelefone());
+		sql.setString(5, p.getEndereco());
+		sql.setString(6, p.getCidade());
+		sql.setString(7, p.getEstado());
+		sql.setString(8, p.getEmail());
+		sql.setString(9, p.getGenero());
+		sql.setBigDecimal(10, p.getTotal());
+		sql.setBigDecimal(11, p.getValor_pago());
+		sql.setBigDecimal(12, p.getTroco());
+		sql.setInt(13, p.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();
