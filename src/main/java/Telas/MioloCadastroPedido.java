@@ -270,11 +270,11 @@ public class MioloCadastroPedido extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de ler os registros
-//				try {					
-//					ac_ler();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
+				try {					
+					ac_ler();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		panel.add(btnNewButton_1);
@@ -344,22 +344,22 @@ public class MioloCadastroPedido extends JPanel {
 	}
 
 	protected void ac_ler() throws SQLException {
-//		// limpa a tabela para não duplicar tudo
-//		modelo.clear();
-//		// cria uma lista que vai conter a outra lista -- isso é muito loko
-//		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-//
-//		// lista recebe o retorno do read()
-//		lista = cdao.read();
-//
-//		// varre a lista inserindo em outra lista
-//		for (Cliente c : lista) { 
-//			// inclui a bagaça
-//			modelo.incluir(c);
-//		}
-//		
-//		// limpa os campos de texto da tela
-//		limparCampos();
+		// limpa a tabela para não duplicar tudo
+		modelo.clear();
+		// cria uma lista que vai conter a outra lista -- isso é muito loko
+		ArrayList<Pedido> lista = new ArrayList<Pedido>();
+
+		// lista recebe o retorno do read()
+		lista = pdao.read();
+
+		// varre a lista inserindo em outra lista
+		for (Cliente c : lista) { 
+			// inclui a bagaça
+			modelo.incluir(c);
+		}
+		
+		// limpa os campos de texto da tela
+		limparCampos();
 	}
 	
 	protected void ac_atualizar(Cliente c) throws SQLException {
