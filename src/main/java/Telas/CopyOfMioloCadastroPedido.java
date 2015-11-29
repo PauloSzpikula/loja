@@ -37,7 +37,7 @@ import javax.swing.JScrollPane;
 import Dao.ClienteDaoImpl;
 import Dao.PedidoDaoImpl;
 
-public class MioloCadastroPedido extends JPanel {
+public class CopyOfMioloCadastroPedido extends JPanel {
 	private ModeloPedido modelo;
 
 	// implementação do cliente no banco
@@ -51,7 +51,7 @@ public class MioloCadastroPedido extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MioloCadastroPedido() {
+	public CopyOfMioloCadastroPedido() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 162};
 		gridBagLayout.rowHeights = new int[]{0, 36, 119, 32, 0};

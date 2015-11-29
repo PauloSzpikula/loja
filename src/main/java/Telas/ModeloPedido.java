@@ -38,11 +38,11 @@ public class ModeloPedido extends AbstractTableModel {
 		case 1:
 			return p.getId_cliente();
 		case 2:
-			return p.getTotal();
+			return p.getNome();
 		case 3:
-			return p.getValor_pago();	
+			return p.getTotal();	
 		case 4:
-			return p.getTroco();
+			return p.getStatus();
 		default:
 			return "Erro";
 		}
@@ -58,15 +58,15 @@ public class ModeloPedido extends AbstractTableModel {
 
 		switch (col) {
 		case 0:
-			return "Id";
+			return "Id Pedido";
 		case 1:
 			return "Id Cliente";
 		case 2:
-			return "Total";
+			return "Nome";
 		case 3:
-			return "Valor pago";
+			return "Total";
 		case 4:
-			return "Troco";
+			return "Status";
 		default:
 			return "Erro";
 		}

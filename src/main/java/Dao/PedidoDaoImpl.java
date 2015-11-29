@@ -18,7 +18,7 @@ import loja.Pedido;
 public class PedidoDaoImpl implements PedidoDao {
 
 	private Connection con;
-//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL);
+//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN);
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -37,7 +37,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	public void create(Pedido p) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
 		ps.setInt(1, p.getId());
 		ps.setInt(2, p.getId_cliente());		
@@ -51,6 +51,7 @@ public class PedidoDaoImpl implements PedidoDao {
 		ps.setBigDecimal(10, p.getTotal());
 		ps.setBigDecimal(11, p.getValor_pago());
 		ps.setBigDecimal(12, p.getTroco());
+		ps.setBoolean(13, p.getStatus());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -82,7 +83,8 @@ public class PedidoDaoImpl implements PedidoDao {
 			BigDecimal total = result.getBigDecimal(10);
 			BigDecimal valor_pago = result.getBigDecimal(11);
 			BigDecimal troco = result.getBigDecimal(12);
-			Pedido p = new Pedido(id, id_cliente, nome, telefone, endereco, cidade, estado, email, genero, total, valor_pago, troco);
+			boolean status = result.getBoolean(13);
+			Pedido p = new Pedido(id, id_cliente, nome, telefone, endereco, cidade, estado, email, genero, total, valor_pago, troco, status);
 			lista.add(p);
 		}
 		fecharConexao();
@@ -93,7 +95,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	@Override
 	public void update(Pedido p) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, ID_PEDIDO = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, TOTAL = ?, VALOR_PAGO = ?, TROCO = ? WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, ID_PEDIDO = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, TOTAL = ?, VALOR_PAGO = ?, TROCO = ?, STATUS = ? WHERE ID = ?");
 		sql.setInt(1, p.getId());
 		sql.setInt(2, p.getId_cliente());
 		sql.setString(3, p.getNome());
@@ -106,7 +108,8 @@ public class PedidoDaoImpl implements PedidoDao {
 		sql.setBigDecimal(10, p.getTotal());
 		sql.setBigDecimal(11, p.getValor_pago());
 		sql.setBigDecimal(12, p.getTroco());
-		sql.setInt(13, p.getId());
+		sql.setBoolean(13, p.getStatus());
+		sql.setInt(14, p.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();

@@ -18,11 +18,9 @@ public class Pedido {
 	private BigDecimal total;
 	private BigDecimal valor_pago;
 	private BigDecimal troco;
+	private boolean status;
 	
-
-
-	
-	public Pedido(int id, int id_cliente, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero, BigDecimal total, BigDecimal valor_pago, BigDecimal troco) {
+	public Pedido(int id, int id_cliente, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero, BigDecimal total, BigDecimal valor_pago, BigDecimal troco, boolean status) {
 		super();
 		this.id = id;
 		this.id_cliente = id_cliente;		
@@ -36,7 +34,7 @@ public class Pedido {
 		this.total = total;
 		this.valor_pago = valor_pago;
 		this.troco = troco;
-
+		this.status = status;
 	}
 
 	public BigDecimal getTotal() {
@@ -61,6 +59,14 @@ public class Pedido {
 
 	public void setTroco(BigDecimal troco) {
 		this.troco = troco;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public int getId() {
