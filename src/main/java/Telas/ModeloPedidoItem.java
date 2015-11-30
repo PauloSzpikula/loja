@@ -15,7 +15,7 @@ public class ModeloPedidoItem extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -37,14 +37,16 @@ public class ModeloPedidoItem extends AbstractTableModel {
 		case 0:
 			return i.getId();
 		case 1:
-			return i.getDescricao();
+			return i.getId_pedido();
 		case 2:
-			return i.getUnidade();
+			return i.getDescricao();
 		case 3:
-			return i.getCusto();	
+			return i.getUnidade();
 		case 4:
-			return i.getQuantidade();
+			return i.getCusto();	
 		case 5:
+			return i.getQuantidade();
+		case 6:
 			return i.getValot_total();
 		default:
 			return "Erro";
@@ -63,14 +65,16 @@ public class ModeloPedidoItem extends AbstractTableModel {
 		case 0:
 			return "Id";
 		case 1:
-			return "Descrição";
+			return "Id Pedido";
 		case 2:
-			return "Unidade";
+			return "Descrição";
 		case 3:
-			return "Valor";
+			return "Unidade";
 		case 4:
-			return "Quantidade";
+			return "Valor";
 		case 5:
+			return "Quantidade";
+		case 6:
 			return "Total";
 		default:
 			return "Erro";

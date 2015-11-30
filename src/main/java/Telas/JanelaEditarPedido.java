@@ -18,11 +18,16 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import Dao.ItemDaoImpl;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
+import loja.Item;
 import loja.Pedido;
 
 public class JanelaEditarPedido extends JDialog {
@@ -31,6 +36,10 @@ public class JanelaEditarPedido extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private ModeloPedidoItem modelo;
+	
+	// implementação do item no banco
+	ItemDaoImpl idao = new ItemDaoImpl();
+	
 	
 	/**
 	 * Launch the application.
@@ -142,10 +151,16 @@ public class JanelaEditarPedido extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					
-						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem();
+						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem(p);
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						janela.setVisible(true);
 						
+						//atualizar a lista
+						try {					
+							ac_ler();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -171,5 +186,36 @@ public class JanelaEditarPedido extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	
+		//atualizar a lista
+		try {					
+			ac_ler();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+
+	protected void ac_ler() throws SQLException {
+		// limpa a tabela para não duplicar tudo
+		modelo.clear();
+		// cria uma lista que vai conter a outra lista -- isso é muito loko
+		ArrayList<Item> lista = new ArrayList<Item>();
+
+		// lista recebe o retorno do read()
+		lista = idao.read();
+
+		// varre a lista inserindo em outra lista
+		for (Item i : lista) { 
+			// inclui a bagaça
+			modelo.incluir(i);
+		}
+		
+		// limpa os campos de texto da tela
+		limparCampos();
+	}
+
+	private void limparCampos() {
+	
+	}
+	
 }

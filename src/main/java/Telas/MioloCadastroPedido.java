@@ -137,6 +137,14 @@ public class MioloCadastroPedido extends JPanel {
 				JanelaCadastroPedido janela = new JanelaCadastroPedido();
 		        janela.setLocationRelativeTo(null);
 		        janela.setVisible(true);
+			
+		    	//atualizar a lista
+				try {					
+					ac_ler();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			
 			}
 		});
 		panel.add(btnNewButton);
