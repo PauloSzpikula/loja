@@ -30,17 +30,20 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 import Dao.ClienteDaoImpl;
 import Dao.PedidoDaoImpl;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MioloCadastroPedido extends JPanel {
 	private ModeloPedido modelo;
+	private int id_recuperado;
 	
 	// implementação do cliente no banco
 	PedidoDaoImpl pdao = new PedidoDaoImpl();
@@ -54,7 +57,7 @@ public class MioloCadastroPedido extends JPanel {
 	public MioloCadastroPedido() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 162};
-		gridBagLayout.rowHeights = new int[]{0, 119, 32, 0};
+		gridBagLayout.rowHeights = new int[]{0, 169, 32, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -109,7 +112,8 @@ public class MioloCadastroPedido extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				int linhaSelecionada = table.getSelectedRow();
+				id_recuperado = (int) modelo.getValueAt(linhaSelecionada,0);
 			
 			}
 		});
@@ -155,13 +159,16 @@ public class MioloCadastroPedido extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
 				try {
-
 					
+					List<Pedido> lista = new ArrayList<Pedido>();
+					lista = pdao.pegaPedido(id_recuperado);
 					
+					Pedido pedido = new Pedido();
+					for (Pedido p: lista) { 
+						pedido = p;
+					}					
 					
-					
-					
-					JanelaEditarPedido janela = new JanelaEditarPedido();
+					JanelaEditarPedido janela = new JanelaEditarPedido(pedido);
 			        janela.setLocationRelativeTo(null);
 			        janela.setVisible(true);
 					
@@ -237,13 +244,6 @@ public class MioloCadastroPedido extends JPanel {
 		
 		// limpa os campos de texto da tela
 		limparCampos();
-	}
-	
-	protected void ac_atualizar(Cliente c) throws SQLException {
-//		// atualiza no banco
-//		cdao.update(c);
-//		// atualizar a tabela
-//		ac_ler();
 	}
 
 	protected void ac_deletar() throws SQLException{

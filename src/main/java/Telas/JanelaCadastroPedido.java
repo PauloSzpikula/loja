@@ -2,25 +2,34 @@ package Telas;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
 import Dao.ClienteDaoImpl;
 import Dao.PedidoDaoImpl;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import loja.Cliente;
 import loja.Pedido;
 
 public class JanelaCadastroPedido extends JDialog {
@@ -131,7 +140,7 @@ public class JanelaCadastroPedido extends JDialog {
 							
 							// valida se o numero é numero e se é duplicado
 							int id = 0;
-							if (id_p.matches("[0-9]")) {
+							if (id_p.matches("[0-9]+")) {
 								id = Integer.parseInt(id_p);
 							} else {
 								mensagemDeErro();
@@ -159,15 +168,38 @@ public class JanelaCadastroPedido extends JDialog {
 							String id_nome = cb_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
 							
 							String id_cli = id_nome.substring(0,id_nome.indexOf("-"));			
-							
+							String nome_cli = id_nome.substring(id_nome.indexOf("-")+1);
 							int id_c = Integer.parseInt(id_cli);
 							
 							
 							// testa se os campos estão preenchidos para a inserção
 							if (!id_p.isEmpty() & !id_cc.isEmpty()) {
 								
+								
+								// montar a consulta do cliente no banco para popular o resto dos campos
+								
+								List<Cliente> lista_cliente = new ArrayList<Cliente>();
+								lista_cliente = cdao.pegaCliente(id_c);
+								
+								String telefone = null;
+								String endereco = null;
+								String cidade = null;
+								String estado = null;
+								String email = null;
+								String genero = null;
+								
+								Cliente cliente = new Cliente();
+								for (Cliente c: lista_cliente) { 
+									telefone = c.getTelefone();
+									endereco = c.getEndereco();
+									cidade = c.getCidade();
+									estado = c.getEstado();
+									email = c.getEmail();
+									genero = c.getGenero();
+								}					
+								
 								// instancia um noco cadastro
-								Pedido p = new Pedido(id, id_c, null, null, null, null, null, null, null, null, null, null, false);
+								Pedido p = new Pedido(id, id_c, nome_cli, telefone, endereco, cidade, estado, email, genero, null, null, null, false);
 								
 								ac_criar(p);
 							}
@@ -194,12 +226,18 @@ public class JanelaCadastroPedido extends JDialog {
 	}
 
 	
-	protected void ac_criar(Pedido p) throws SQLException {
+	protected void ac_criar(Pedido p) throws SQLException {		
 		// cria no banco um novo cadastro
 		pdao.create(p);
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+		
 		dispose();
+		
+		JanelaEditarPedido janela = new JanelaEditarPedido(p);
+        janela.setLocationRelativeTo(null);
+        janela.setVisible(true);
+		
 	}
 	
 

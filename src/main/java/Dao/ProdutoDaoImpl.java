@@ -107,5 +107,5 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		sql.close();
 		//read();
 		fecharConexao();
-	}	
+	}
 }

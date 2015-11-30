@@ -128,5 +128,39 @@ public class ClienteDaoImpl implements ClienteDao {
 		return lista;
 	}
 
+
+	public List<Cliente> pegaCliente(int x) throws SQLException {
+		// uma variável lista, que vai armazenar todos os registros do banco
+		List<Cliente> lista = new ArrayList<Cliente>();
+		
+		abrirConexao();
+		//preparando o comando SQL
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT * FROM CLIENTE WHERE ID = ");
+		sb.append(String.valueOf(x));
+		sb.append(";");		
+
+		Statement st = con.createStatement();		
+		// a variável result recebe todos os registros do banco
+		ResultSet result = st.executeQuery(String.valueOf(sb));
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			int id = result.getInt(1);
+			String nome = result.getString(2);
+			String telefone = result.getString(3);
+			String endereco = result.getString(4);
+			String cidade = result.getString(5);
+			String estado = result.getString(6);
+			String email = result.getString(7);
+			String genero = result.getString(8);
+			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+			lista.add(c);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
+	}
+	
 	
 }

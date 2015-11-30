@@ -177,7 +177,7 @@ public class MioloCadastroUsuario extends JPanel {
 					
 					// valida se o numero é numero e se é duplicado
 					int id = 0;
-					if (id_u.matches("[0-9]")) {
+					if (id_u.matches("[0-9]+")) {
 						id = Integer.parseInt(id_u);
 					} else {
 						mensagemDeErro();
@@ -251,7 +251,7 @@ public class MioloCadastroUsuario extends JPanel {
 					
 					// valida se o numero é numero
 					int id = -1;
-					if (id_u.matches("[0-9]")) {
+					if (id_u.matches("[0-9]+")) {
 						id = Integer.parseInt(id_u);
 					} else {
 						mensagemDeErro();

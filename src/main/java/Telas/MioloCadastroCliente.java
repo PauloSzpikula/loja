@@ -232,7 +232,7 @@ public class MioloCadastroCliente extends JPanel {
 					
 					// valida se o numero é numero e se é duplicado
 					int id = 0;
-					if (id_c.matches("[0-9]")) {
+					if (id_c.matches("[0-9]+")) {
 						id = Integer.parseInt(id_c);
 					} else {
 						mensagemDeErro();
@@ -310,7 +310,7 @@ public class MioloCadastroCliente extends JPanel {
 					
 					// valida se o numero é numero
 					int id = -1;
-					if (id_c.matches("[0-9]")) {
+					if (id_c.matches("[0-9]+")) {
 						id = Integer.parseInt(id_c);
 					} else {
 						mensagemDeErro();

@@ -23,28 +23,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import loja.Pedido;
+
 public class JanelaEditarPedido extends JDialog {
 
+	private static final Pedido p = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			JanelaEditarPedido dialog = new JanelaEditarPedido();
+			JanelaEditarPedido dialog = new JanelaEditarPedido(p);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	/**
 	 * Create the dialog.
 	 */
-	public JanelaEditarPedido() {
+	public JanelaEditarPedido(Pedido p) {
+		
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -65,8 +70,8 @@ public class JanelaEditarPedido extends JDialog {
 			gbc_lblNewLabel.gridy = 0;
 			contentPanel.add(lblNewLabel, gbc_lblNewLabel);
 		}
-		{
-			JLabel lblNewLabel_2 = new JLabel("New label");
+		{	
+			JLabel lblNewLabel_2 = new JLabel(String.valueOf(p.getId()));
 			GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 			gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
@@ -84,7 +89,7 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		}
 		{
-			JLabel lblNewLabel_3 = new JLabel("New label");
+			JLabel lblNewLabel_3 = new JLabel(String.valueOf(p.getNome()));
 			GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 			gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 0);
@@ -115,8 +120,8 @@ public class JanelaEditarPedido extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int linhaSelecionada = table.getSelectedRow();
-						txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+					//	int linhaSelecionada = table.getSelectedRow();
+						//txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 					}
 				});
 				scrollPane.setViewportView(table);
@@ -152,5 +157,4 @@ public class JanelaEditarPedido extends JDialog {
 			}
 		}
 	}
-
 }

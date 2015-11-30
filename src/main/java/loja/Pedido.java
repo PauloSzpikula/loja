@@ -37,6 +37,10 @@ public class Pedido {
 		this.status = status;
 	}
 
+	public Pedido() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public BigDecimal getTotal() {
 		return total;
 	}

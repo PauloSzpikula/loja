@@ -10,15 +10,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import loja.Item;
 import loja.Pedido;
 
-//Autor: Paulo Szpikula, 21/11/2015 08:05
-//Descrição: Implementação da Interface para manipular o modelo do Pedido
+//Autor: Paulo Szpikula, 29/11/2015 22:36
+//Descrição: Implementação da Interface para manipular o modelo do Item
 
-public class PedidoDaoImpl implements PedidoDao {
+public class ItemDaoImpl implements PedidoDao {
 
 	private Connection con;
-//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN);
+//	CREATE TABLE ITEM(ID INT PRIMARY KEY, ID_PEDIDO INT, ID_PRODUTO INT, CODBARRAS DOUBLE, CATEGORIA VARCHAR(30), DESCRICAO VARCHAR(50), UNIDADE VARCHAR(5), CUSTO DECIMAL(18,2), MARGEMLUCRO DECIMAL(18,2), QUANTIDADE INT, VALORTOTAL DECIMAL(18,2));	
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -34,24 +35,22 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 	
 	@Override
-	public void create(Pedido p) throws SQLException {
+	public void create(Item i) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO ITEM (ID, ID_PEDIDO, ID_PRODUTO, CODBARRAS, CATEGORIA, DESCRICAO, UNIDADE, CUSTO, MARGEMLUCRO, QUANTIDADE, VALORTOTAL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, p.getId());
-		ps.setInt(2, p.getId_cliente());		
-		ps.setString(3, p.getNome());
-		ps.setString(4, p.getTelefone());
-		ps.setString(5, p.getEndereco());
-		ps.setString(6, p.getCidade());
-		ps.setString(7, p.getEstado());
-		ps.setString(8, p.getEmail());
-		ps.setString(9, p.getGenero());
-		ps.setBigDecimal(10, p.getTotal());
-		ps.setBigDecimal(11, p.getValor_pago());
-		ps.setBigDecimal(12, p.getTroco());
-		ps.setBoolean(13, p.getStatus());
+		ps.setInt(1, i.getId());
+		ps.setInt(2, i.getId_pedido());		
+		ps.setInt(3, i.getId_produto());
+		ps.setFloat(4, i.getCodigoDeBarras());
+		ps.setString(5, i.getCategoria());
+		ps.setString(6, i.getDescricao());
+		ps.setString(7, i.getUnidade());
+		ps.setBigDecimal(8, i.getCusto());
+		ps.setBigDecimal(9, i.getMargemDeLucro());
+		ps.setInt(10, i.getQuantidade());
+		ps.setBigDecimal(11, i.getValot_total());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
