@@ -118,7 +118,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		ResultSet result = st.executeQuery("SELECT ID, NOME FROM CLIENTE");
 		while (result.next()) {
 			StringBuilder sb = new StringBuilder();
-			sb.append(result.getString(1));
+			sb.append(result.getInt(1));
 			sb.append(" - ");
 			sb.append(result.getString(2));
 			lista.add(sb.toString());

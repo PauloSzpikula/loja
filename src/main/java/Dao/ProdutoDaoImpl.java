@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+
+import loja.Cliente;
 import loja.Produto;
 
 //Autor: Paulo Szpikula, 01/10/2015 09:11
@@ -43,7 +46,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		ps.setString(3, p.getCategoria());
 		ps.setString(4, p.getDescricao());
 		ps.setString(5, p.getUnidade());
-		ps.setBigDecimal(6, p.getCusto());
+		ps.setBigDecimal(6, p.getValor());
 		ps.setBigDecimal(7, p.getMargemDeLucro());
 		//executando o comando SQL
 		ps.executeUpdate();
@@ -70,9 +73,9 @@ public class ProdutoDaoImpl implements ProdutoDao {
 				String categoria = result.getString(3);
 				String descricao = result.getString(4);
 				String unidade = result.getString(5);
-				BigDecimal custo = result.getBigDecimal(6);
+				BigDecimal valor = result.getBigDecimal(6);
 				BigDecimal margemDeLucro = result.getBigDecimal(7);
-				Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, custo, margemDeLucro);
+				Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, valor, margemDeLucro);
 				lista.add(p);
 			}
 		}
@@ -90,7 +93,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		sql.setString(3, p.getCategoria());
 		sql.setString(4, p.getDescricao());
 		sql.setString(5, p.getUnidade());
-		sql.setBigDecimal(6, p.getCusto());
+		sql.setBigDecimal(6, p.getValor());
 		sql.setBigDecimal(7, p.getMargemDeLucro());
 		sql.setInt(8, p.getId());
 		//executando o comando SQL
@@ -107,5 +110,37 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		sql.close();
 		//read();
 		fecharConexao();
+	}
+	
+	public List<Produto> pegaProduto(int x) throws SQLException {
+		// uma variável lista, que vai armazenar todos os registros do banco
+		List<Produto> lista = new ArrayList<Produto>();
+		
+		abrirConexao();
+		//preparando o comando SQL
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT * FROM PRODUTO WHERE ID = ");
+		sb.append(String.valueOf(x));
+		sb.append(";");		
+
+		Statement st = con.createStatement();		
+		// a variável result recebe todos os registros do banco
+		ResultSet result = st.executeQuery(String.valueOf(sb));
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			int id = result.getInt(1);
+			float codigoDeBarras = result.getFloat(2);
+			String categoria = result.getString(3);
+			String descricao = result.getString(4);
+			String unidade = result.getString(5);
+			BigDecimal valor = result.getBigDecimal(6);
+			BigDecimal margemDeLucro = result.getBigDecimal(7);
+			Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, valor, margemDeLucro);
+			lista.add(p);
+		}
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
 	}
 }

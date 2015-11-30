@@ -7,14 +7,15 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import loja.Item;
 import loja.Pedido;
 
 public class ModeloPedidoItem extends AbstractTableModel {
-	private ArrayList<Pedido> lista = new ArrayList<Pedido>();
+	private ArrayList<Item> lista = new ArrayList<Item>();
 	
 	@Override
 	public int getColumnCount() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -31,25 +32,27 @@ public class ModeloPedidoItem extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		Pedido p = lista.get(row);
+		Item i = lista.get(row);
 		switch (col) {
 		case 0:
-			return p.getId();
+			return i.getId();
 		case 1:
-			return p.getId_cliente();
+			return i.getDescricao();
 		case 2:
-			return p.getNome();
+			return i.getUnidade();
 		case 3:
-			return p.getTotal();	
+			return i.getCusto();	
 		case 4:
-			return p.getStatus();
+			return i.getQuantidade();
+		case 5:
+			return i.getValot_total();
 		default:
 			return "Erro";
 		}
 	}
 
-	public void incluir (Pedido p){
-		lista.add(p);
+	public void incluir (Item i){
+		lista.add(i);
 		super.fireTableDataChanged();
 	}
 
@@ -58,15 +61,17 @@ public class ModeloPedidoItem extends AbstractTableModel {
 
 		switch (col) {
 		case 0:
-			return "Id Pedido";
+			return "Id";
 		case 1:
-			return "Id Cliente";
+			return "Descrição";
 		case 2:
-			return "Nome";
+			return "Unidade";
 		case 3:
-			return "Total";
+			return "Valor";
 		case 4:
-			return "Status";
+			return "Quantidade";
+		case 5:
+			return "Total";
 		default:
 			return "Erro";
 		}

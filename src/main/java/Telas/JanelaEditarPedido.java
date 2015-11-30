@@ -30,6 +30,7 @@ public class JanelaEditarPedido extends JDialog {
 	private static final Pedido p = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+	private ModeloPedidoItem modelo;
 	
 	/**
 	 * Launch the application.
@@ -117,6 +118,11 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
 				table = new JTable();
+				// instancia o ModeloCadastro
+				modelo = new ModeloPedidoItem();
+				
+				// seta o modelo da tabela 
+				table.setModel(modelo);
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -133,6 +139,15 @@ public class JanelaEditarPedido extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Adicionar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					
+						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem();
+						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						janela.setVisible(true);
+						
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

@@ -43,7 +43,7 @@ public class ModeloProduto extends AbstractTableModel {
 		case 4:
 			return p.getUnidade();
 		case 5:
-			return p.getCusto();
+			return p.getValor();
 		case 6:
 			return p.getMargemDeLucro();
 		default:
@@ -71,7 +71,7 @@ public class ModeloProduto extends AbstractTableModel {
 		case 4:
 			return "Unidade";
 		case 5:
-			return "Custo";
+			return "Valor";
 		case 6:
 			return "Margem de Lucro";
 		default:

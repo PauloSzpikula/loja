@@ -12,17 +12,17 @@ public class Produto {
 	private String categoria;
 	private String descricao;
 	private String unidade;
-	private BigDecimal custo;
+	private BigDecimal valor;
 	private BigDecimal margemDeLucro;
 	
-	public Produto(int id, float codigoDeBarras, String categoria, String descricao, String unidade, BigDecimal custo, BigDecimal margemDeLucro) {
+	public Produto(int id, float codigoDeBarras, String categoria, String descricao, String unidade, BigDecimal valor, BigDecimal margemDeLucro) {
 		super();
 		this.id = id;
 		this.codigoDeBarras = codigoDeBarras;
 		this.categoria = categoria;
 		this.descricao = descricao;
 		this.unidade = unidade;
-		this.custo = custo;
+		this.valor = valor;
 		this.margemDeLucro = margemDeLucro;
 	}
 
@@ -66,12 +66,12 @@ public class Produto {
 		this.unidade = unidade;
 	}
 	
-	public BigDecimal getCusto() {
-		return custo;
+	public BigDecimal getValor() {
+		return valor;
 	}
 	
-	public void setCusto(BigDecimal custo) {
-		this.custo = custo;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 	
 	public BigDecimal getMargemDeLucro() {

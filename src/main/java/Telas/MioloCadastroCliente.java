@@ -66,6 +66,7 @@ public class MioloCadastroCliente extends JPanel {
 		JLabel lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
+		gbc_lblId.anchor = GridBagConstraints.EAST;
 		gbc_lblId.gridwidth = 2;
 		gbc_lblId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblId.gridx = 0;
@@ -83,6 +84,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNome = new JLabel("NOME");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
+		gbc_lblNome.anchor = GridBagConstraints.EAST;
 		gbc_lblNome.gridwidth = 2;
 		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNome.gridx = 0;
@@ -100,6 +102,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("TELEFONE");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
@@ -117,6 +120,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel_2 = new JLabel("ENDERE\u00C7O");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.gridwidth = 2;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
@@ -134,6 +138,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("CIDADE");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.gridwidth = 2;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
@@ -151,6 +156,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblEstado = new JLabel("ESTADO");
 		GridBagConstraints gbc_lblEstado = new GridBagConstraints();
+		gbc_lblEstado.anchor = GridBagConstraints.EAST;
 		gbc_lblEstado.gridwidth = 2;
 		gbc_lblEstado.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEstado.gridx = 0;
@@ -167,6 +173,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblEmail = new JLabel("EMAIL");
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.anchor = GridBagConstraints.EAST;
 		gbc_lblEmail.gridwidth = 2;
 		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEmail.gridx = 0;
@@ -184,6 +191,7 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JLabel lblGenero = new JLabel("G\u00CANERO");
 		GridBagConstraints gbc_lblGenero = new GridBagConstraints();
+		gbc_lblGenero.anchor = GridBagConstraints.EAST;
 		gbc_lblGenero.gridwidth = 2;
 		gbc_lblGenero.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGenero.gridx = 0;

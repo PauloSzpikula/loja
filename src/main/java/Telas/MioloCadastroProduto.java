@@ -65,6 +65,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("ID");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
@@ -82,6 +83,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("C\u00D3D. BARRAS");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.gridwidth = 2;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
@@ -99,6 +101,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel_2 = new JLabel("CATEGORIA");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.gridwidth = 2;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
@@ -115,6 +118,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel_3 = new JLabel("DESCRI\u00C7\u00C3O");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.gridwidth = 2;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 0;
@@ -132,6 +136,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel_4 = new JLabel("UNIDADE");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
+		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_4.gridwidth = 2;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_4.gridx = 0;
@@ -146,8 +151,9 @@ public class MioloCadastroProduto extends JPanel {
 		gbc_cb_unidade.gridy = 4;
 		add(cb_unidade, gbc_cb_unidade);
 		
-		JLabel lblNewLabel_5 = new JLabel("CUSTO");
+		JLabel lblNewLabel_5 = new JLabel("VALOR");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.gridwidth = 2;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 0;
@@ -165,6 +171,7 @@ public class MioloCadastroProduto extends JPanel {
 		
 		JLabel lblNewLabel_6 = new JLabel("MARGEM DE LUCRO");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_6.gridwidth = 2;
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_6.gridx = 0;
