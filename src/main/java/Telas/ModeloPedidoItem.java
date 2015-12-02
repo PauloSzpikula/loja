@@ -43,7 +43,7 @@ public class ModeloPedidoItem extends AbstractTableModel {
 		case 3:
 			return i.getUnidade();
 		case 4:
-			return i.getCusto();	
+			return i.getValor();	
 		case 5:
 			return i.getQuantidade();
 		case 6:

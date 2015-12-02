@@ -11,13 +11,13 @@ public class Item {
 	private String categoria;
 	private String descricao;
 	private String unidade;
-	private BigDecimal custo;
+	private BigDecimal valor;
 	private BigDecimal margemDeLucro;
 	private int quantidade;
 	private BigDecimal valot_total;
 	
 	
-	public Item(int id, int id_pedido, int id_produto, float codigoDeBarras, String categoria, String descricao, String unidade, BigDecimal custo, BigDecimal margemDeLucro, int quantidade, BigDecimal valot_total) {
+	public Item(int id, int id_pedido, int id_produto, float codigoDeBarras, String categoria, String descricao, String unidade, BigDecimal valor, BigDecimal margemDeLucro, int quantidade, BigDecimal valot_total) {
 		super();
 		this.id = id;
 		this.id_pedido = id_pedido;
@@ -26,7 +26,7 @@ public class Item {
 		this.categoria = categoria;
 		this.descricao = descricao;
 		this.unidade = unidade;
-		this.custo = custo;
+		this.valor = valor;
 		this.margemDeLucro = margemDeLucro;
 		this.quantidade = quantidade;
 		this.valot_total = valot_total;
@@ -74,11 +74,11 @@ public class Item {
 	public void setUnidade(String unidade) {
 		this.unidade = unidade;
 	}
-	public BigDecimal getCusto() {
-		return custo;
+	public BigDecimal getValor() {
+		return valor;
 	}
-	public void setCusto(BigDecimal custo) {
-		this.custo = custo;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 	public BigDecimal getMargemDeLucro() {
 		return margemDeLucro;
