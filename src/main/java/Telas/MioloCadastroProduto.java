@@ -31,6 +31,7 @@ import loja.Categoria;
 import loja.Cliente;
 import loja.Produto;
 import loja.Unidade;
+import modelos.ModeloProduto;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

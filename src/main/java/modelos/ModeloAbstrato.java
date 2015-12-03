@@ -1,4 +1,4 @@
-package Telas;
+package modelos;
 
 //Autor: Paulo Szpikula, 12/11/2015 20:46
 //Descrição: Modelo Abstrato

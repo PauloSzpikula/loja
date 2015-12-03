@@ -21,6 +21,7 @@ import javax.swing.JComboBox;
 
 import loja.Cliente;
 import loja.Pedido;
+import modelos.ModeloPedido;
 
 import javax.swing.JButton;
 
@@ -62,34 +63,6 @@ public class MioloCadastroPedido extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblId = new JLabel("PEDIDO");
-		lblId.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
-		gbc_lblId.gridwidth = 2;
-		gbc_lblId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblId.gridx = 0;
-		gbc_lblId.gridy = 0;
-		add(lblId, gbc_lblId);
-		
-		JComboBox cb_cliente = new JComboBox();
-//		cb_cliente.removeAllItems();
-//		try {
-//			ArrayList<String> lista = populaComboBox();
-//			Iterator i = lista.iterator(); 
-//			while(i.hasNext()) {  
-//				  cb_cliente.addItem(String.valueOf(i.next()));  
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-		GridBagConstraints gbc_cb_cliente = new GridBagConstraints();
-		gbc_cb_cliente.insets = new Insets(0, 0, 5, 0);
-		gbc_cb_cliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cb_cliente.gridx = 2;
-		gbc_cb_cliente.gridy = 0;
-		add(cb_cliente, gbc_cb_cliente);
-		
 		GridBagConstraints gbc_btnAdicionarProduto = new GridBagConstraints();
 		gbc_btnAdicionarProduto.anchor = GridBagConstraints.EAST;
 		gbc_btnAdicionarProduto.insets = new Insets(0, 0, 5, 0);
@@ -98,11 +71,12 @@ public class MioloCadastroPedido extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 2;
 		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
+		gbc_scrollPane.gridy = 0;
 		add(scrollPane, gbc_scrollPane);
 		
 		// instancia o ModeloCadastro
@@ -168,13 +142,8 @@ public class MioloCadastroPedido extends JPanel {
 				// ação de atualizar
 				try {
 					
-					List<Pedido> lista = new ArrayList<Pedido>();
-					lista = pdao.pegaPedido(id_recuperado);
-					
 					Pedido pedido = new Pedido();
-					for (Pedido p: lista) { 
-						pedido = p;
-					}					
+					pedido = pdao.pegaPedido(id_recuperado);	
 					
 					JanelaEditarPedido janela = new JanelaEditarPedido(pedido);
 			        janela.setLocationRelativeTo(null);

@@ -1,4 +1,4 @@
-package Telas;
+package modelos;
 
 //Autor: Paulo Szpikula, 12/11/2015 20:46
 //Descrição: Modelo da tabela do Cliente
@@ -7,15 +7,14 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import loja.Item;
-import loja.Pedido;
+import loja.Cliente;
 
-public class ModeloPedidoItem extends AbstractTableModel {
-	private ArrayList<Item> lista = new ArrayList<Item>();
+public class ModeloCliente extends AbstractTableModel {
+	private ArrayList<Cliente> lista = new ArrayList<Cliente>();
 	
 	@Override
 	public int getColumnCount() {
-		return 7;
+		return 8;
 	}
 
 	@Override
@@ -32,29 +31,31 @@ public class ModeloPedidoItem extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		Item i = lista.get(row);
+		Cliente c = lista.get(row);
 		switch (col) {
 		case 0:
-			return i.getId();
+			return c.getId();
 		case 1:
-			return i.getId_pedido();
+			return c.getNome();
 		case 2:
-			return i.getDescricao();
+			return c.getTelefone();
 		case 3:
-			return i.getUnidade();
+			return c.getEndereco();	
 		case 4:
-			return i.getValor();	
+			return c.getCidade();
 		case 5:
-			return i.getQuantidade();
+			return c.getEstado();
 		case 6:
-			return i.getValot_total();
+			return c.getEmail();
+		case 7:
+			return c.getGenero();
 		default:
 			return "Erro";
 		}
 	}
 
-	public void incluir (Item i){
-		lista.add(i);
+	public void incluir (Cliente c){
+		lista.add(c);
 		super.fireTableDataChanged();
 	}
 
@@ -65,17 +66,19 @@ public class ModeloPedidoItem extends AbstractTableModel {
 		case 0:
 			return "Id";
 		case 1:
-			return "Id Pedido";
+			return "Nome";
 		case 2:
-			return "Descrição";
+			return "Telefone";
 		case 3:
-			return "Unidade";
+			return "Endereço";
 		case 4:
-			return "Valor";
+			return "Cidade";
 		case 5:
-			return "Quantidade";
+			return "Estado";
 		case 6:
-			return "Total";
+			return "Email";
+		case 7:
+			return "Genero";
 		default:
 			return "Erro";
 		}

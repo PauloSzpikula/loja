@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import loja.Cliente;
+import loja.Pedido;
 import loja.Produto;
 
 //Autor: Paulo Szpikula, 01/10/2015 09:11
@@ -112,35 +113,26 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		fecharConexao();
 	}
 	
-	public List<Produto> pegaProduto(int x) throws SQLException {
-		// uma variável lista, que vai armazenar todos os registros do banco
-		List<Produto> lista = new ArrayList<Produto>();
-		
+	public Produto pegaProduto(int id) throws SQLException {
+
 		abrirConexao();
-		//preparando o comando SQL
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM PRODUTO WHERE ID = ");
-		sb.append(String.valueOf(x));
-		sb.append(";");		
-
-		Statement st = con.createStatement();		
-		// a variável result recebe todos os registros do banco
-		ResultSet result = st.executeQuery(String.valueOf(sb));
-		// percorremos os registros um a um adicionando na lista
+		
+		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM PRODUTO WHERE ID = "+ id + " LIMIT 1");
+		
+		Produto p = new Produto();
+		
 		while (result.next()) {
-			int id = result.getInt(1);
-			float codigoDeBarras = result.getFloat(2);
-			String categoria = result.getString(3);
-			String descricao = result.getString(4);
-			String unidade = result.getString(5);
-			BigDecimal valor = result.getBigDecimal(6);
-			BigDecimal margemDeLucro = result.getBigDecimal(7);
-			Produto p = new Produto(id, codigoDeBarras, categoria, descricao, unidade, valor, margemDeLucro);
-			lista.add(p);
+			p.setId(result.getInt(1));
+			p.setCodigoDeBarras(result.getInt(2));
+			p.setCategoria(result.getString(3));
+			p.setDescricao(result.getString(4));
+			p.setUnidade(result.getString(5));
+			p.setValor(result.getBigDecimal(6));
+			p.setMargemDeLucro(result.getBigDecimal(7));
 		}
 		fecharConexao();
 		// retorna a lista completa
-		return lista;
+		return p;
 	}
 }

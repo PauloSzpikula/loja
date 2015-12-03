@@ -19,7 +19,7 @@ import loja.Item;
 public class ItemDaoImpl implements ItemDao {
 
 	private Connection con;
-//	CREATE TABLE ITEM(ID INT PRIMARY KEY, ID_PEDIDO INT, ID_PRODUTO INT, CODBARRAS DOUBLE, CATEGORIA VARCHAR(30), DESCRICAO VARCHAR(50), UNIDADE VARCHAR(5), VALOR DECIMAL(18,2), MARGEMLUCRO DECIMAL(18,2), QUANTIDADE INT, VALORTOTAL DECIMAL(18,2));	
+//	CREATE TABLE ITEM(ID INT AUTO_INCREMENT PRIMARY KEY, ID_PEDIDO INT, ID_PRODUTO INT, CODBARRAS DOUBLE, CATEGORIA VARCHAR(30), DESCRICAO VARCHAR(50), UNIDADE VARCHAR(5), VALOR DECIMAL(18,2), MARGEMLUCRO DECIMAL(18,2), QUANTIDADE INT, VALORTOTAL DECIMAL(18,2));	
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -38,19 +38,18 @@ public class ItemDaoImpl implements ItemDao {
 	public void create(Item i) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO ITEM (ID, ID_PEDIDO, ID_PRODUTO, CODBARRAS, CATEGORIA, DESCRICAO, UNIDADE, VALOR, MARGEMLUCRO, QUANTIDADE, VALORTOTAL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO ITEM (ID_PEDIDO, ID_PRODUTO, CODBARRAS, CATEGORIA, DESCRICAO, UNIDADE, VALOR, MARGEMLUCRO, QUANTIDADE, VALORTOTAL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, i.getId());
-		ps.setInt(2, i.getId_pedido());		
-		ps.setInt(3, i.getId_produto());
-		ps.setFloat(4, i.getCodigoDeBarras());
-		ps.setString(5, i.getCategoria());
-		ps.setString(6, i.getDescricao());
-		ps.setString(7, i.getUnidade());
-		ps.setBigDecimal(8, i.getValor());
-		ps.setBigDecimal(9, i.getMargemDeLucro());
-		ps.setInt(10, i.getQuantidade());
-		ps.setBigDecimal(11, i.getValot_total());
+		ps.setInt(1, i.getId_pedido());		
+		ps.setInt(2, i.getId_produto());
+		ps.setFloat(3, i.getCodigoDeBarras());
+		ps.setString(4, i.getCategoria());
+		ps.setString(5, i.getDescricao());
+		ps.setString(6, i.getUnidade());
+		ps.setBigDecimal(7, i.getValor());
+		ps.setBigDecimal(8, i.getMargemDeLucro());
+		ps.setInt(9, i.getQuantidade());
+		ps.setBigDecimal(10, i.getValot_total());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -93,19 +92,18 @@ public class ItemDaoImpl implements ItemDao {
 	public void update(Item p) throws SQLException {
 		abrirConexao();
 		
-		PreparedStatement sql = con.prepareStatement("UPDATE ITEM SET ID = ?, ID_PEDIDO = ?, ID_PRODUTO = ?, CODBARRAS = ?, CATEGORIA = ?, DESCRICAO = ?, UNIDADE = ?, VALOR = ?, MARGEMLUCRO = ?, QUANTIDADE = ?, VALORTOTAL = ?, WHERE ID = ?");
-		sql.setInt(1, p.getId());
-		sql.setInt(2, p.getId_pedido());
-		sql.setInt(3, p.getId_produto());
-		sql.setFloat(4, p.getCodigoDeBarras());
-		sql.setString(5, p.getCategoria());
-		sql.setString(6, p.getDescricao());
-		sql.setString(7, p.getUnidade());
-		sql.setBigDecimal(8, p.getValor());
-		sql.setBigDecimal(9, p.getMargemDeLucro());
-		sql.setInt(10, p.getQuantidade());
-		sql.setBigDecimal(11, p.getValot_total());
-		sql.setInt(14, p.getId());
+		PreparedStatement sql = con.prepareStatement("UPDATE ITEM SET ID_PEDIDO = ?, ID_PRODUTO = ?, CODBARRAS = ?, CATEGORIA = ?, DESCRICAO = ?, UNIDADE = ?, VALOR = ?, MARGEMLUCRO = ?, QUANTIDADE = ?, VALORTOTAL = ?, WHERE ID = ?");
+		sql.setInt(1, p.getId_pedido());
+		sql.setInt(2, p.getId_produto());
+		sql.setFloat(3, p.getCodigoDeBarras());
+		sql.setString(4, p.getCategoria());
+		sql.setString(5, p.getDescricao());
+		sql.setString(6, p.getUnidade());
+		sql.setBigDecimal(7, p.getValor());
+		sql.setBigDecimal(8, p.getMargemDeLucro());
+		sql.setInt(9, p.getQuantidade());
+		sql.setBigDecimal(10, p.getValot_total());
+		sql.setInt(11, p.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();
@@ -183,7 +181,7 @@ public class ItemDaoImpl implements ItemDao {
 	public void somaTotal(int id) throws SQLException {
 		 
 		abrirConexao();
-		PreparedStatement ps = con.prepareStatement("UPDATE ITEM SET VALORTOTAL = (SELECT SUM(CUSTO) FROM ITEM WHERE pedido_id = ?) where id = ?");
+		PreparedStatement ps = con.prepareStatement("UPDATE ITEM SET VALORTOTAL = (SELECT SUM(VALOR) FROM ITEM WHERE pedido_id = ?) where id = ?");
 		ps.setInt(1, id);
 		ps.setInt(2, id);
 		ps.executeUpdate();
@@ -197,7 +195,7 @@ public class ItemDaoImpl implements ItemDao {
 //	public void somaTotal(int id) throws SQLException {
 //		 
 //		abrirConexao();
-//		PreparedStatement ps = con.prepareStatement("UPDATE PRODUTO SET VALORTOTAL = (SELECT SUM(CUSTO) FROM ITEM WHERE pedido_id = ?) where id = ?");
+//		PreparedStatement ps = con.prepareStatement("UPDATE PRODUTO SET VALORTOTAL = (SELECT SUM(VALOR) FROM ITEM WHERE pedido_id = ?) where id = ?");
 //		ps.setInt(1, id);
 //		ps.setInt(2, id);
 //		ps.executeUpdate();

@@ -29,10 +29,11 @@ import java.util.ArrayList;
 
 import loja.Item;
 import loja.Pedido;
+import modelos.ModeloPedidoItem;
 
 public class JanelaEditarPedido extends JDialog {
 
-	private static final Pedido p = null;
+	private static Pedido pedido = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private ModeloPedidoItem modelo;
@@ -46,7 +47,7 @@ public class JanelaEditarPedido extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			JanelaEditarPedido dialog = new JanelaEditarPedido(p);
+			JanelaEditarPedido dialog = new JanelaEditarPedido(pedido);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -58,8 +59,9 @@ public class JanelaEditarPedido extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public JanelaEditarPedido(Pedido p) {
-		
+	public JanelaEditarPedido(Pedido pedido) {
+		// pedido global recebe pedido enviado
+		this.pedido = pedido;
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -81,7 +83,7 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(lblNewLabel, gbc_lblNewLabel);
 		}
 		{	
-			JLabel lblNewLabel_2 = new JLabel(String.valueOf(p.getId()));
+			JLabel lblNewLabel_2 = new JLabel(String.valueOf(pedido.getId()));
 			GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 			gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
@@ -99,7 +101,7 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		}
 		{
-			JLabel lblNewLabel_3 = new JLabel(String.valueOf(p.getNome()));
+			JLabel lblNewLabel_3 = new JLabel(String.valueOf(pedido.getNome()));
 			GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 			gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 0);
@@ -151,7 +153,7 @@ public class JanelaEditarPedido extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					
-						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem(p);
+						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem(pedido);
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						janela.setVisible(true);
 						

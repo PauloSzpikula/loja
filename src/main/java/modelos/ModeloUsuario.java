@@ -1,20 +1,18 @@
-package Telas;
+package modelos;
 
 //Autor: Paulo Szpikula, 12/11/2015 20:46
-//Descrição: Modelo da tabela do Cliente
+//Descrição: Modelo da tabela do usuário
 
 import java.util.ArrayList;
-
 import javax.swing.table.AbstractTableModel;
+import loja.Usuario;
 
-import loja.Pedido;
-
-public class ModeloPedido extends AbstractTableModel {
-	private ArrayList<Pedido> lista = new ArrayList<Pedido>();
+public class ModeloUsuario extends AbstractTableModel {
+	private ArrayList<Usuario> lista = new ArrayList<Usuario>();
 	
 	@Override
 	public int getColumnCount() {
-		return 5;
+		return 3;
 	}
 
 	@Override
@@ -31,25 +29,21 @@ public class ModeloPedido extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		Pedido p = lista.get(row);
+		Usuario u = lista.get(row);
 		switch (col) {
 		case 0:
-			return p.getId();
+			return u.getId();
 		case 1:
-			return p.getId_cliente();
+			return u.getIdDoCliente();
 		case 2:
-			return p.getNome();
-		case 3:
-			return p.getTotal();	
-		case 4:
-			return p.getStatus();
+			return u.getSenha();
 		default:
 			return "Erro";
 		}
 	}
 
-	public void incluir (Pedido p){
-		lista.add(p);
+	public void incluir (Usuario u){
+		lista.add(u);
 		super.fireTableDataChanged();
 	}
 
@@ -58,15 +52,11 @@ public class ModeloPedido extends AbstractTableModel {
 
 		switch (col) {
 		case 0:
-			return "Id Pedido";
+			return "Id";
 		case 1:
-			return "Id Cliente";
+			return "Id do Cliente";
 		case 2:
-			return "Nome";
-		case 3:
-			return "Total";
-		case 4:
-			return "Status";
+			return "Senha";
 		default:
 			return "Erro";
 		}

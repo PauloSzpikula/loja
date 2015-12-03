@@ -34,6 +34,7 @@ import java.awt.event.ActionEvent;
 import loja.Cliente;
 import loja.Produto;
 import loja.Usuario;
+import modelos.ModeloUsuario;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

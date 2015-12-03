@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import modelos.ModeloAbstrato;
+
 public class TelaCadastroPedido extends ModeloAbstrato {
 
 	public TelaCadastroPedido() {

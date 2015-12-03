@@ -126,42 +126,33 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 	
 
-	public List<Pedido> pegaPedido(int x) throws SQLException {
-		// uma variável lista, que vai armazenar todos os registros do banco
-		List<Pedido> lista = new ArrayList<Pedido>();
+	public Pedido pegaPedido(int id) throws SQLException {
+
 		abrirConexao();
 	
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM PEDIDO WHERE ID = ");
-		sb.append(String.valueOf(x));
-		sb.append(";");		
 		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM PEDIDO WHERE ID = "+ id + " LIMIT 1");
 		
-		// a variável result recebe todos os registros do banco
-		ResultSet result = st.executeQuery(String.valueOf(sb));
-
+		Pedido p = new Pedido();
+		
 		while (result.next()) {
-
-			int id = result.getInt(1);
-			int id_cliente = result.getInt(2);
-			String nome = result.getString(3);
-			String telefone = result.getString(4);
-			String endereco = result.getString(5);
-			String cidade = result.getString(6);
-			String estado = result.getString(7);
-			String email = result.getString(8);
-			String genero = result.getString(9);
-			BigDecimal total = result.getBigDecimal(10);
-			BigDecimal valor_pago = result.getBigDecimal(11);
-			BigDecimal troco = result.getBigDecimal(12);
-			boolean status = result.getBoolean(13);
-			
-			Pedido pedido = new Pedido(id, id_cliente, nome, telefone, endereco, cidade, estado, email, genero, total, valor_pago, troco, status);
-			lista.add(pedido);
+			p.setId(result.getInt(1));
+			p.setId(result.getInt(2));
+			p.setNome(result.getString(3));
+			p.setTelefone(result.getString(4));
+			p.setEndereco(result.getString(5));
+			p.setCidade(result.getString(6));
+			p.setEstado(result.getString(7));
+			p.setEmail(result.getString(8));
+			p.setGenero(result.getString(9));
+			p.setTotal(result.getBigDecimal(10));
+			p.setValor_pago(result.getBigDecimal(11));
+			p.setTroco(result.getBigDecimal(12));
+			p.setStatus(result.getBoolean(13));
 		}
 
 		fecharConexao();
 		// retorna a lista completa
-		return lista;
+		return p;
 	}
 }

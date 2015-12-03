@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import loja.Cliente;
 import loja.Estado;
 import loja.Genero;
+import modelos.ModeloCliente;
 
 import javax.swing.JButton;
 
