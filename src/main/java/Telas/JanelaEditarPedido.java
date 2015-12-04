@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -36,7 +37,8 @@ public class JanelaEditarPedido extends JDialog {
 	private static Pedido pedido = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private ModeloItem modelo = new ModeloItem();;
+	private ModeloItem modelo = new ModeloItem();
+	private int id_selecionado;
 	
 	// implementação do item no banco
 	ItemDaoImpl idao = new ItemDaoImpl();
@@ -61,7 +63,7 @@ public class JanelaEditarPedido extends JDialog {
 	 */
 	public JanelaEditarPedido(Pedido pedido) {
 		// pedido global recebe pedido enviado
-		//this.pedido = pedido;
+		this.pedido = pedido;
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -110,7 +112,7 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		}
 		{
-			JLabel lblNewLabel_4 = new JLabel("Itens do Pedido");
+			JLabel lblNewLabel_4 = new JLabel("ITENS DO PEDIDO");
 			GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 			gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 0);
 			gbc_lblNewLabel_4.gridwidth = 2;
@@ -134,8 +136,8 @@ public class JanelaEditarPedido extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-					//	int linhaSelecionada = table.getSelectedRow();
-						//txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+						int linhaSelecionada = table.getSelectedRow();
+						id_selecionado = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
 					}
 				});
 				scrollPane.setViewportView(table);
@@ -146,20 +148,14 @@ public class JanelaEditarPedido extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Adicionar");
+				JButton okButton = new JButton("Criar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-					
+						
 						JanelaEditarItem janela = new JanelaEditarItem(pedido);
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						janela.setVisible(true);
 						
-						//atualizar a lista
-						try {					
-							ac_ler();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -167,11 +163,35 @@ public class JanelaEditarPedido extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton btnEditar = new JButton("Editar");
+				JButton btnLer = new JButton("Ler");
+				btnLer.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							atualizarLista();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				buttonPane.add(btnLer);
+			}
+			{
+				JButton btnEditar = new JButton("Atualizar");
 				buttonPane.add(btnEditar);
 			}
 			{
-				JButton btnExcluir = new JButton("Excluir");
+				JButton btnExcluir = new JButton("Deletar");
+				btnExcluir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						// ação de deletar
+						try {
+							ac_deletar();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
 				buttonPane.add(btnExcluir);
 			}
 			{
@@ -188,33 +208,26 @@ public class JanelaEditarPedido extends JDialog {
 	
 		//atualizar a lista
 		try {					
-			ac_ler();
+			atualizarLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	protected void ac_ler() throws SQLException {
-		// limpa a tabela para não duplicar tudo
-		modelo.clear();
-		// cria uma lista que vai conter a outra lista -- isso é muito loko
-		ArrayList<Item> lista = new ArrayList<Item>();
-
-		// lista recebe o retorno do read()
-		lista = idao.read();
-
-		// varre a lista inserindo em outra lista
-		for (Item i : lista) { 
-			// inclui a bagaça
-			modelo.incluir(i);
-		}
+	protected void ac_deletar() throws SQLException {
+		// resposta do usuário, é emitida por um JOptionPane
+		int resposta = JOptionPane.showConfirmDialog(null, "Você está certo disso?","Deletar",JOptionPane.YES_OPTION);
 		
-		// limpa os campos de texto da tela
-		limparCampos();
+		if (resposta == 0) {
+			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
+			idao.delete(id_selecionado);
+			// atualiza tabela
+			atualizarLista();
+		}
 	}
 
-	private void limparCampos() {
-	
+	protected void atualizarLista() throws SQLException {
+		modelo.setarLista(idao.ListaItensDoId(pedido.getId()));
 	}
-	
+
 }

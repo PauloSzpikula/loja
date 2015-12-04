@@ -32,6 +32,10 @@ public class Item {
 		this.valot_total = valot_total;
 	}
 
+	public Item() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

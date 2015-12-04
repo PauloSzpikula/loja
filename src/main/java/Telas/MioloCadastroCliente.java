@@ -205,7 +205,7 @@ public class MioloCadastroCliente extends JPanel {
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnNewButton = new JButton("Create");
+		JButton btnNewButton = new JButton("Criar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de incluir
@@ -239,12 +239,12 @@ public class MioloCadastroCliente extends JPanel {
 		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Read");
+		JButton btnNewButton_1 = new JButton("Ler");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de ler os registros
 				try {					
-					ac_ler();
+					atualizarLista();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -252,7 +252,7 @@ public class MioloCadastroCliente extends JPanel {
 		});
 		panel.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Update");
+		JButton btnNewButton_2 = new JButton("Atualizar");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
@@ -284,7 +284,7 @@ public class MioloCadastroCliente extends JPanel {
 		});
 		panel.add(btnNewButton_2);
 		
-		JButton btnNewButton_3 = new JButton("Delete");
+		JButton btnNewButton_3 = new JButton("Deletar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
@@ -301,9 +301,8 @@ public class MioloCadastroCliente extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
 				int linhaSelecionada = table.getSelectedRow();
-				id_selecionado = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
+				id_selecionado = (int) modelo.getValueAt(linhaSelecionada,0);
 				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
 				txt_telefone.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)).trim());
 				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)).trim());
@@ -323,7 +322,7 @@ public class MioloCadastroCliente extends JPanel {
 	
 		//atualizar a lista
 		try {					
-			ac_ler();
+			atualizarLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -340,13 +339,6 @@ public class MioloCadastroCliente extends JPanel {
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		// atualiza a tabela
-		ac_ler();
-	}
-
-	protected void ac_ler() throws SQLException {
-		// limpa os campos de texto da tela
-		limparCampos();
-		// atualiza a tabela
 		atualizarLista();
 	}
 	
@@ -354,7 +346,7 @@ public class MioloCadastroCliente extends JPanel {
 		// atualiza no banco
 		cdao.update(c);
 		// atualizar a tabela
-		ac_ler();
+		atualizarLista();
 	}
 
 	protected void ac_deletar() throws SQLException{
@@ -364,12 +356,14 @@ public class MioloCadastroCliente extends JPanel {
 			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
 			cdao.delete(id_selecionado);
 			
-			// atualiza tudo
-			ac_ler();
+			// atualiza tabela
+			atualizarLista();
 		}
 	}
 	
 	protected void atualizarLista() throws SQLException {
+		// limpa os campos de texto da tela
+		limparCampos();
 		modelo.setarLista(cdao.read());
 	}
 	

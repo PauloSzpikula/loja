@@ -50,7 +50,6 @@ public class JanelaEditarItem extends JDialog {
 	// implementação do produto no banco
 	ProdutoDaoImpl pdao = new ProdutoDaoImpl();
 	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -140,24 +139,21 @@ public class JanelaEditarItem extends JDialog {
 						try {
 							String qtd = txt_qtd.getText().trim();
 							
-							String id_desc = cb_item.getSelectedItem().toString().trim().replaceAll("\\s+", "");
-							String id_item = id_desc.substring(0,id_desc.indexOf("-"));			
-
+							String id_descricao = cb_item.getSelectedItem().toString().trim().replaceAll("\\s+", "");
+							String id_produto = id_descricao.substring(0,id_descricao.indexOf("-"));			
 
 							// testa se os campos estão preenchidos para a inserção
 							if (!qtd.isEmpty()) {
 												
-								Produto produto = pdao.pegaProduto(Integer.parseInt(id_item));																
-								// instancia um noco cadastro
+								Produto produto = pdao.pegaProduto(Integer.parseInt(id_produto));
+								// instancia um novo cadastro
 								Item item = new Item(0, pedido.getId(), produto.getId(), produto.getCodigoDeBarras(), produto.getCategoria(), produto.getDescricao(), produto.getUnidade(), produto.getValor(), produto.getMargemDeLucro(), Integer.parseInt(qtd), null);
 								
 								ac_criar(item);
 							}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					
-					
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -177,10 +173,9 @@ public class JanelaEditarItem extends JDialog {
 		}
 	}
 	
-	protected void ac_criar(Item i) throws SQLException{
+	protected void ac_criar(Item item) throws SQLException{
 		// cria no banco um novo cadastro
-		idao.create(i);
-		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+		idao.create(item);
 		dispose();
 	}
 
@@ -188,10 +183,6 @@ public class JanelaEditarItem extends JDialog {
         return idao.listaIdProdutos();
 	}
 	
-	protected void mensagemIdDuplicado() {
-		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
-	}
-
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 	}

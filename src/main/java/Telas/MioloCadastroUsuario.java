@@ -124,10 +124,7 @@ public class MioloCadastroUsuario extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {			
 				int linhaSelecionada = table.getSelectedRow();
-				id_selecionado = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
-				cb_id_cliente.setEditable(true);
-				cb_id_cliente.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
-				cb_id_cliente.setEditable(false);
+				id_selecionado = (int) modelo.getValueAt(linhaSelecionada,0);
 				txt_senha.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)).trim());						
 			}
 		});
@@ -143,7 +140,7 @@ public class MioloCadastroUsuario extends JPanel {
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btn_create = new JButton("Create");
+		JButton btn_create = new JButton("Criar");
 		btn_create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -168,12 +165,12 @@ public class MioloCadastroUsuario extends JPanel {
 		});
 		panel.add(btn_create);
 		
-		JButton btn_read = new JButton("Read");
+		JButton btn_read = new JButton("Ler");
 		btn_read.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de ler os registros
 				try {				
-					ac_ler();
+					atualizarLista();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -181,7 +178,7 @@ public class MioloCadastroUsuario extends JPanel {
 		});
 		panel.add(btn_read);
 		
-		JButton btn_update = new JButton("Update");
+		JButton btn_update = new JButton("Atualizar");
 		btn_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de atualizar
@@ -208,7 +205,7 @@ public class MioloCadastroUsuario extends JPanel {
 		});
 		panel.add(btn_update);
 		
-		JButton btn_delete = new JButton("Delete");
+		JButton btn_delete = new JButton("Deletar");
 		btn_delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
@@ -225,7 +222,7 @@ public class MioloCadastroUsuario extends JPanel {
 		table.setModel(modelo);
 
 		try {
-			ac_ler();
+			atualizarLista();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -240,8 +237,8 @@ public class MioloCadastroUsuario extends JPanel {
 			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
 			usdao.delete(id_selecionado);
 			
-			// atualiza tudo
-			ac_ler();
+			// atualiza tabela
+			atualizarLista();
 		}
 	}
 
@@ -250,7 +247,7 @@ public class MioloCadastroUsuario extends JPanel {
 		usdao.update(usuario);
 		
 		// atualizar a tabela
-		ac_ler();
+		atualizarLista();
 	}
 	
 	protected void mensagemDeErro() {
@@ -261,21 +258,16 @@ public class MioloCadastroUsuario extends JPanel {
 		// cria no banco um novo cadastro
 		usdao.create(usuario);
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
-		ac_ler();
+		atualizarLista();
 	}
 
 	private ArrayList<String> populaComboBox() throws SQLException {
         return cdao.listaIdClientes();
 	}
 	
-	protected void ac_ler() throws SQLException {
+	protected void atualizarLista() throws SQLException {
 		// limpa os campos de texto da tela
 		limparCampos();
-		// atualiza a tabela
-		atualizarLista();
-	}
-	
-	protected void atualizarLista() throws SQLException {
 		modelo.setarLista(usdao.read());
 	}
 	

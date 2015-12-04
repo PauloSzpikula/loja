@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import loja.Cliente;
 import loja.Item;
 import loja.Item;
 
@@ -120,44 +121,33 @@ public class ItemDaoImpl implements ItemDao {
 	}
 	
 
-	public List<Item> pegaPedido(int x) throws SQLException {
-		// uma variável lista, que vai armazenar todos os registros do banco
-		List<Item> lista = new ArrayList<Item>();
+	public Item pegaItem(int id) throws SQLException {
+
 		abrirConexao();
 	
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM ITEM WHERE ID = ");
-		sb.append(String.valueOf(x));
-		sb.append(";");		
 		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM ITEM WHERE ID = "+ id + " LIMIT 1");
 		
-		// a variável result recebe todos os registros do banco
-		ResultSet result = st.executeQuery(String.valueOf(sb));
-
+		Item item = new Item();
+		
 		while (result.next()) {
-
-			int id = result.getInt(1);
-			int id_pedido = result.getInt(2);		
-			int id_produto = result.getInt(3);
-			float codigoDeBarras = result.getFloat(4);
-			String categoria = result.getString(5);
-			String descricao = result.getString(6);
-			String unidade = result.getString(7);
-			BigDecimal valor = result.getBigDecimal(8);
-			BigDecimal margemDeLucro = result.getBigDecimal(9);
-			int quantidade = result.getInt(10);
-			BigDecimal valot_total = result.getBigDecimal(11);
-			
-			Item i = new Item(id, id_pedido, id_produto, codigoDeBarras, categoria, descricao, unidade, valor, margemDeLucro, quantidade, valot_total);
-			lista.add(i);
+			item.setId(result.getInt(1));
+			item.setId_pedido(result.getInt(2));
+			item.setId_produto(result.getInt(3));
+			item.setCodigoDeBarras(result.getFloat(4));
+			item.setCategoria(result.getString(5));
+			item.setDescricao(result.getString(6));
+			item.setUnidade(result.getString(7));
+			item.setValor(result.getBigDecimal(8));
+			item.setMargemDeLucro(result.getBigDecimal(9));
+			item.setQuantidade(result.getInt(10));
+			item.setValot_total(result.getBigDecimal(11));
 		}
 
 		fecharConexao();
 		// retorna a lista completa
-		return lista;
+		return item;
 	}
-
-
 
 	public ArrayList<String> listaIdProdutos() throws SQLException {
 		ArrayList<String> lista = new ArrayList<String>();
@@ -177,6 +167,36 @@ public class ItemDaoImpl implements ItemDao {
 		return lista;
 	}
 
+	public ArrayList<Item> ListaItensDoId(int id) throws SQLException {
+		// uma variável lista, que vai armazenar todos os registros do banco
+		ArrayList<Item> lista = new ArrayList<Item>();
+		
+		abrirConexao();
+		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM ITEM WHERE ID_PEDIDO = "+ id);
+		
+		// percorremos os registros um a um adicionando na lista
+		while (result.next()) {
+			//int id = result.getInt(1);
+			int id_pedido = result.getInt(2);		
+			int id_produto = result.getInt(3);
+			float codigoDeBarras = result.getFloat(4);
+			String categoria = result.getString(5);
+			String descricao = result.getString(6);
+			String unidade = result.getString(7);
+			BigDecimal valor = result.getBigDecimal(8);
+			BigDecimal margemDeLucro = result.getBigDecimal(9);
+			int quantidade = result.getInt(10);
+			BigDecimal valot_total = result.getBigDecimal(11);
+			Item item = new Item(id, id_pedido, id_produto, codigoDeBarras, categoria, descricao, unidade, valor, margemDeLucro, quantidade, valot_total);
+			lista.add(item);
+		}
+
+		fecharConexao();
+		// retorna a lista completa
+		return lista;
+	}
+	
 	
 	public void somaTotal(int id) throws SQLException {
 		 

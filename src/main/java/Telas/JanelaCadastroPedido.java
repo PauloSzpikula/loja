@@ -43,6 +43,7 @@ public class JanelaCadastroPedido extends JDialog {
 	private JComboBox cb_cliente;
 	private final JPanel contentPanel = new JPanel();
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -153,8 +154,11 @@ public class JanelaCadastroPedido extends JDialog {
 		pdao.create(pedido);
 		
 		dispose();
+
+		String id_nome = cb_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
+		String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
 		
-		JanelaEditarPedido janela = new JanelaEditarPedido(pedido);
+		JanelaEditarPedido janela = new JanelaEditarPedido(pdao.pegaPedido(Integer.parseInt(id_cli)));
         janela.setLocationRelativeTo(null);
         janela.setVisible(true);
 		
