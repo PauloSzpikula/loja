@@ -59,6 +59,11 @@ public class ModeloCliente extends AbstractTableModel {
 		super.fireTableDataChanged();
 	}
 
+	public void setarLista (ArrayList<Cliente> lista){
+		this.lista = lista;
+		super.fireTableDataChanged();
+	}
+	
 	@Override
 	public String getColumnName (int col) {
 

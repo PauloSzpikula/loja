@@ -21,7 +21,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
 	private Connection con;
 
-//	CREATE TABLE PRODUTO(ID INT PRIMARY KEY, CODBARRAS DOUBLE, CATEGORIA VARCHAR(30), DESCRICAO VARCHAR(50), UNIDADE VARCHAR(5), CUSTO DECIMAL(18,2), MARGEMLUCRO DECIMAL(18,2));
+//	CREATE TABLE PRODUTO(ID INT AUTO_INCREMENT PRIMARY KEY, CODBARRAS DOUBLE, CATEGORIA VARCHAR(30), DESCRICAO VARCHAR(50), UNIDADE VARCHAR(5), CUSTO DECIMAL(18,2), MARGEMLUCRO DECIMAL(18,2));
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -40,15 +40,14 @@ public class ProdutoDaoImpl implements ProdutoDao {
 	public void create(Produto p) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PRODUTO (ID, CODBARRAS, CATEGORIA, DESCRICAO, UNIDADE, CUSTO, MARGEMLUCRO) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO PRODUTO (CODBARRAS, CATEGORIA, DESCRICAO, UNIDADE, CUSTO, MARGEMLUCRO) VALUES (?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, p.getId());
-		ps.setFloat(2, p.getCodigoDeBarras());
-		ps.setString(3, p.getCategoria());
-		ps.setString(4, p.getDescricao());
-		ps.setString(5, p.getUnidade());
-		ps.setBigDecimal(6, p.getValor());
-		ps.setBigDecimal(7, p.getMargemDeLucro());
+		ps.setFloat(1, p.getCodigoDeBarras());
+		ps.setString(2, p.getCategoria());
+		ps.setString(3, p.getDescricao());
+		ps.setString(4, p.getUnidade());
+		ps.setBigDecimal(5, p.getValor());
+		ps.setBigDecimal(6, p.getMargemDeLucro());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -120,19 +119,19 @@ public class ProdutoDaoImpl implements ProdutoDao {
 		Statement st = con.createStatement();
 		ResultSet result = st.executeQuery("SELECT * FROM PRODUTO WHERE ID = "+ id + " LIMIT 1");
 		
-		Produto p = new Produto();
+		Produto produto = new Produto();
 		
 		while (result.next()) {
-			p.setId(result.getInt(1));
-			p.setCodigoDeBarras(result.getInt(2));
-			p.setCategoria(result.getString(3));
-			p.setDescricao(result.getString(4));
-			p.setUnidade(result.getString(5));
-			p.setValor(result.getBigDecimal(6));
-			p.setMargemDeLucro(result.getBigDecimal(7));
+			produto.setId(result.getInt(1));
+			produto.setCodigoDeBarras(result.getInt(2));
+			produto.setCategoria(result.getString(3));
+			produto.setDescricao(result.getString(4));
+			produto.setUnidade(result.getString(5));
+			produto.setValor(result.getBigDecimal(6));
+			produto.setMargemDeLucro(result.getBigDecimal(7));
 		}
 		fecharConexao();
 		// retorna a lista completa
-		return p;
+		return produto;
 	}
 }

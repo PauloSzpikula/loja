@@ -18,7 +18,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	private Connection con;
 
-//	CREATE TABLE USUARIO(ID INT PRIMARY KEY, ID_CLIENTE INT, SENHA VARCHAR(30));
+//	CREATE TABLE USUARIO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, SENHA VARCHAR(30));
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -37,11 +37,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	public void create(Usuario u) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO USUARIO (ID, ID_CLIENTE, SENHA) VALUES (?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO USUARIO (ID_CLIENTE, SENHA) VALUES (?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, u.getId());
-		ps.setInt(2, u.getIdDoCliente());
-		ps.setString(3, u.getSenha());
+		ps.setInt(1, u.getIdDoCliente());
+		ps.setString(2, u.getSenha());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão

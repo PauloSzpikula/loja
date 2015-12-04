@@ -4,7 +4,10 @@ package modelos;
 //Descrição: Modelo da tabela do usuário
 
 import java.util.ArrayList;
+
 import javax.swing.table.AbstractTableModel;
+
+import loja.Produto;
 import loja.Usuario;
 
 public class ModeloUsuario extends AbstractTableModel {
@@ -47,6 +50,11 @@ public class ModeloUsuario extends AbstractTableModel {
 		super.fireTableDataChanged();
 	}
 
+	public void setarLista (ArrayList<Usuario> lista){
+		this.lista = lista;
+		super.fireTableDataChanged();
+	}
+	
 	@Override
 	public String getColumnName (int col) {
 

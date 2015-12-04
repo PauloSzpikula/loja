@@ -29,14 +29,14 @@ import java.util.ArrayList;
 
 import loja.Item;
 import loja.Pedido;
-import modelos.ModeloPedidoItem;
+import modelos.ModeloItem;
 
 public class JanelaEditarPedido extends JDialog {
 
 	private static Pedido pedido = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private ModeloPedidoItem modelo;
+	private ModeloItem modelo = new ModeloItem();;
 	
 	// implementação do item no banco
 	ItemDaoImpl idao = new ItemDaoImpl();
@@ -61,7 +61,7 @@ public class JanelaEditarPedido extends JDialog {
 	 */
 	public JanelaEditarPedido(Pedido pedido) {
 		// pedido global recebe pedido enviado
-		this.pedido = pedido;
+		//this.pedido = pedido;
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -129,9 +129,6 @@ public class JanelaEditarPedido extends JDialog {
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
 				table = new JTable();
-				// instancia o ModeloCadastro
-				modelo = new ModeloPedidoItem();
-				
 				// seta o modelo da tabela 
 				table.setModel(modelo);
 				table.addMouseListener(new MouseAdapter() {
@@ -153,7 +150,7 @@ public class JanelaEditarPedido extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					
-						JanelaEditarPedidoItem janela = new JanelaEditarPedidoItem(pedido);
+						JanelaEditarItem janela = new JanelaEditarItem(pedido);
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						janela.setVisible(true);
 						

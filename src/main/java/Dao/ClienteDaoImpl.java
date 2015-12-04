@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import loja.Cliente;
+import loja.Pedido;
 
 //Autor: Paulo Szpikula, 31/10/2015 21:40
 //Descrição: Implementação da Interface para manipular o modelo do cliente 
@@ -18,7 +19,7 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	private Connection con;
 
-//	CREATE TABLE CLIENTE(ID INT PRIMARY KEY, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR);
+//	CREATE TABLE CLIENTE(ID INT AUTO_INCREMENT PRIMARY KEY, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR);
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -37,16 +38,15 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void create(Cliente c) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO CLIENTE (ID, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO CLIENTE (NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, c.getId());
-		ps.setString(2, c.getNome());
-		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getEndereco());
-		ps.setString(5, c.getCidade());
-		ps.setString(6, c.getEstado());
-		ps.setString(7, c.getEmail());
-		ps.setString(8, c.getGenero());		
+		ps.setString(1, c.getNome());
+		ps.setString(2, c.getTelefone());
+		ps.setString(3, c.getEndereco());
+		ps.setString(4, c.getCidade());
+		ps.setString(5, c.getEstado());
+		ps.setString(6, c.getEmail());
+		ps.setString(7, c.getGenero());		
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -129,37 +129,29 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 
-	public List<Cliente> pegaCliente(int x) throws SQLException {
-		// uma variável lista, que vai armazenar todos os registros do banco
-		List<Cliente> lista = new ArrayList<Cliente>();
-		
+	public Cliente pegaCliente(int id) throws SQLException {
+
 		abrirConexao();
-		//preparando o comando SQL
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM CLIENTE WHERE ID = ");
-		sb.append(String.valueOf(x));
-		sb.append(";");		
-
-		Statement st = con.createStatement();		
-		// a variável result recebe todos os registros do banco
-		ResultSet result = st.executeQuery(String.valueOf(sb));
-		// percorremos os registros um a um adicionando na lista
+	
+		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM CLIENTE WHERE ID = "+ id + " LIMIT 1");
+		
+		Cliente cliente = new Cliente();
+		
 		while (result.next()) {
-			int id = result.getInt(1);
-			String nome = result.getString(2);
-			String telefone = result.getString(3);
-			String endereco = result.getString(4);
-			String cidade = result.getString(5);
-			String estado = result.getString(6);
-			String email = result.getString(7);
-			String genero = result.getString(8);
-			Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
-			lista.add(c);
+			cliente.setId(result.getInt(1));
+			cliente.setNome(result.getString(2));
+			cliente.setTelefone(result.getString(3));
+			cliente.setEndereco(result.getString(4));
+			cliente.setCidade(result.getString(5));
+			cliente.setEstado(result.getString(6));
+			cliente.setEmail(result.getString(7));
+			cliente.setGenero(result.getString(8));
 		}
+
 		fecharConexao();
 		// retorna a lista completa
-		return lista;
+		return cliente;
 	}
 	
 	

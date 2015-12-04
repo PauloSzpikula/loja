@@ -6,6 +6,8 @@ package modelos;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+
+import loja.Cliente;
 import loja.Produto;
 
 public class ModeloProduto extends AbstractTableModel {
@@ -53,6 +55,11 @@ public class ModeloProduto extends AbstractTableModel {
 
 	public void incluir (Produto p){
 		lista.add(p);
+		super.fireTableDataChanged();
+	}
+	
+	public void setarLista (ArrayList<Produto> lista){
+		this.lista = lista;
 		super.fireTableDataChanged();
 	}
 

@@ -42,14 +42,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MioloCadastroCliente extends JPanel {
-	private JTextField txt_id;
 	private JTextField txt_nome;
 	private JTextField txt_telefone;
 	private JTextField txt_endereco;
 	private JTextField txt_cidade;
 	private JTextField txt_email;
-	private ModeloCliente modelo;
-
+	private ModeloCliente modelo = new ModeloCliente();
+	private int id_selecionado;
 	// implementação do cliente no banco
 	ClienteDaoImpl cdao = new ClienteDaoImpl();
 	
@@ -59,29 +58,10 @@ public class MioloCadastroCliente extends JPanel {
 	public MioloCadastroCliente() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		JLabel lblId = new JLabel("ID");
-		lblId.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
-		gbc_lblId.gridwidth = 2;
-		gbc_lblId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblId.gridx = 0;
-		gbc_lblId.gridy = 0;
-		add(lblId, gbc_lblId);
-		
-		txt_id = new JTextField();
-		GridBagConstraints gbc_txt_id = new GridBagConstraints();
-		gbc_txt_id.fill = GridBagConstraints.BOTH;
-		gbc_txt_id.insets = new Insets(0, 0, 5, 0);
-		gbc_txt_id.gridx = 2;
-		gbc_txt_id.gridy = 0;
-		add(txt_id, gbc_txt_id);
-		txt_id.setColumns(10);
 		
 		JLabel lblNome = new JLabel("NOME");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
@@ -89,7 +69,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblNome.gridwidth = 2;
 		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNome.gridx = 0;
-		gbc_lblNome.gridy = 1;
+		gbc_lblNome.gridy = 0;
 		add(lblNome, gbc_lblNome);
 		
 		txt_nome = new JTextField();
@@ -97,7 +77,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_txt_nome.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_nome.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_nome.gridx = 2;
-		gbc_txt_nome.gridy = 1;
+		gbc_txt_nome.gridy = 0;
 		add(txt_nome, gbc_txt_nome);
 		txt_nome.setColumns(10);
 		
@@ -107,7 +87,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 2;
+		gbc_lblNewLabel.gridy = 1;
 		add(lblNewLabel, gbc_lblNewLabel);
 		
 		txt_telefone = new JTextField();
@@ -115,7 +95,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_txt_telefone.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_telefone.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_telefone.gridx = 2;
-		gbc_txt_telefone.gridy = 2;
+		gbc_txt_telefone.gridy = 1;
 		add(txt_telefone, gbc_txt_telefone);
 		txt_telefone.setColumns(10);
 		
@@ -125,7 +105,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblNewLabel_2.gridwidth = 2;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 3;
+		gbc_lblNewLabel_2.gridy = 2;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		txt_endereco = new JTextField();
@@ -133,7 +113,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_txt_endereco.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_endereco.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_endereco.gridx = 2;
-		gbc_txt_endereco.gridy = 3;
+		gbc_txt_endereco.gridy = 2;
 		add(txt_endereco, gbc_txt_endereco);
 		txt_endereco.setColumns(10);
 		
@@ -143,7 +123,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblNewLabel_1.gridwidth = 2;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 4;
+		gbc_lblNewLabel_1.gridy = 3;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		txt_cidade = new JTextField();
@@ -151,7 +131,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_txt_cidade.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_cidade.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_cidade.gridx = 2;
-		gbc_txt_cidade.gridy = 4;
+		gbc_txt_cidade.gridy = 3;
 		add(txt_cidade, gbc_txt_cidade);
 		txt_cidade.setColumns(10);
 		
@@ -161,7 +141,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblEstado.gridwidth = 2;
 		gbc_lblEstado.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEstado.gridx = 0;
-		gbc_lblEstado.gridy = 5;
+		gbc_lblEstado.gridy = 4;
 		add(lblEstado, gbc_lblEstado);
 		
 		JComboBox cb_estado = new JComboBox(Estado.values());
@@ -169,7 +149,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_cb_estado.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cb_estado.insets = new Insets(0, 0, 5, 0);
 		gbc_cb_estado.gridx = 2;
-		gbc_cb_estado.gridy = 5;
+		gbc_cb_estado.gridy = 4;
 		add(cb_estado, gbc_cb_estado);
 		
 		JLabel lblEmail = new JLabel("EMAIL");
@@ -178,7 +158,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblEmail.gridwidth = 2;
 		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEmail.gridx = 0;
-		gbc_lblEmail.gridy = 6;
+		gbc_lblEmail.gridy = 5;
 		add(lblEmail, gbc_lblEmail);
 		
 		txt_email = new JTextField();
@@ -186,7 +166,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_txt_email.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_email.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_email.gridx = 2;
-		gbc_txt_email.gridy = 6;
+		gbc_txt_email.gridy = 5;
 		add(txt_email, gbc_txt_email);
 		txt_email.setColumns(10);
 		
@@ -196,7 +176,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_lblGenero.gridwidth = 2;
 		gbc_lblGenero.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGenero.gridx = 0;
-		gbc_lblGenero.gridy = 7;
+		gbc_lblGenero.gridy = 6;
 		add(lblGenero, gbc_lblGenero);
 		
 		JComboBox cb_genero = new JComboBox(Genero.values());
@@ -204,7 +184,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_cb_genero.insets = new Insets(0, 0, 5, 0);
 		gbc_cb_genero.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cb_genero.gridx = 2;
-		gbc_cb_genero.gridy = 7;
+		gbc_cb_genero.gridy = 6;
 		add(cb_genero, gbc_cb_genero);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -213,7 +193,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 8;
+		gbc_scrollPane.gridy = 7;
 		add(scrollPane, gbc_scrollPane);
 		
 		JPanel panel = new JPanel();
@@ -221,7 +201,7 @@ public class MioloCadastroCliente extends JPanel {
 		gbc_panel.gridwidth = 2;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 9;
+		gbc_panel.gridy = 8;
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -231,43 +211,11 @@ public class MioloCadastroCliente extends JPanel {
 				// ação de incluir
 				try {
 					
-					String id_c = txt_id.getText().trim();
 					String email_c = txt_email.getText().trim();
 					
-					// cria uma lista
-					ArrayList<Cliente> lista = new ArrayList<Cliente>();
-					// busca pelo cdao.read() todos os registros do banco
-					lista = cdao.read();
-					
-					// valida se o numero é numero e se é duplicado
-					int id = 0;
-					if (id_c.matches("[0-9]+")) {
-						id = Integer.parseInt(id_c);
-					} else {
-						mensagemDeErro();
-						return;
-					}
-					
-					// uma variável booleana para testar se tem ids duplicados
-					boolean testaIdDuplicado = false;
-					
-					// varre a lista de cadastros do banco
-					for (Cliente cc : lista) {
-						// verifica se o id da lista é igual ao informado no textFild
-						if (cc.getId() == id) {
-							// seta verdadeiro para ids duplicados
-							testaIdDuplicado = true;
-						}
-					}
-					// aqui é lançado um erro caso o id seja dulicado
-					if (testaIdDuplicado) {
-						mensagemIdDuplicado();
-						return;
-					}
-					
 					// testa se os campos estão preenchidos para a inserção
-					if (!id_c.isEmpty() & !email_c.isEmpty()) {
-
+					if (!email_c.isEmpty()) {
+						
 						String nome = txt_nome.getText().trim();
 						String telefone = txt_telefone.getText().trim();
 						String endereco = txt_endereco.getText().trim();
@@ -277,7 +225,7 @@ public class MioloCadastroCliente extends JPanel {
 						String genero = cb_genero.getSelectedItem().toString();
 						
 						// instancia um noco cadastro
-						Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+						Cliente c = new Cliente(0, nome, telefone, endereco, cidade, estado, email, genero);
 						
 						ac_criar(c);
 					} else {
@@ -310,23 +258,9 @@ public class MioloCadastroCliente extends JPanel {
 				// ação de atualizar
 				try {
 					
-					String id_c = txt_id.getText().trim();
-						
-					// cria uma lista
-					ArrayList<Cliente> lista = new ArrayList<Cliente>();
-					// busca pelo cdao.read() todos os registros do banco
-					lista = cdao.read();
-					
-					// valida se o numero é numero
-					int id = -1;
-					if (id_c.matches("[0-9]+")) {
-						id = Integer.parseInt(id_c);
-					} else {
-						mensagemDeErro();
-						return;
-					}
+					String email_c = txt_email.getText().trim();
 
-					if (!id_c.isEmpty()) {
+					if (!email_c.isEmpty()) {
 					
 						String nome = txt_nome.getText().trim();
 						String telefone = txt_telefone.getText().trim();
@@ -337,7 +271,7 @@ public class MioloCadastroCliente extends JPanel {
 						String genero = cb_genero.getSelectedItem().toString();
 	
 						// instancia um noco cadastro
-						Cliente c = new Cliente(id, nome, telefone, endereco, cidade, estado, email, genero);
+						Cliente c = new Cliente(id_selecionado, nome, telefone, endereco, cidade, estado, email, genero);
 						
 						ac_atualizar(c);
 					} else {
@@ -355,12 +289,7 @@ public class MioloCadastroCliente extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {					
-					String id_p = txt_id.getText();
-					if (!id_p.isEmpty()) {
-						ac_deletar();
-					} else {
-						mensagemDeErro();	
-					}	
+					ac_deletar();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -374,7 +303,7 @@ public class MioloCadastroCliente extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				int linhaSelecionada = table.getSelectedRow();
-				txt_id.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+				id_selecionado = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaSelecionada,0)));
 				txt_nome.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
 				txt_telefone.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,2)).trim());
 				txt_endereco.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,3)).trim());
@@ -390,9 +319,6 @@ public class MioloCadastroCliente extends JPanel {
 		});
 		scrollPane.setViewportView(table);
 		
-		// instancia o ModeloCadastro
-		modelo = new ModeloCliente();
-		// seta o modelo da tabela 
 		table.setModel(modelo);
 	
 		//atualizar a lista
@@ -404,19 +330,13 @@ public class MioloCadastroCliente extends JPanel {
 		
 	}
 
-	protected void mensagemIdDuplicado() {
-		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
-	}
-
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
 	}
 	
-	protected void ac_criar(Cliente c) throws SQLException {
-		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
-		modelo.incluir(c);
+	protected void ac_criar(Cliente cliente) throws SQLException {
 		// cria no banco um novo cadastro
-		cdao.create(c);
+		cdao.create(cliente);
 		
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		// atualiza a tabela
@@ -424,22 +344,10 @@ public class MioloCadastroCliente extends JPanel {
 	}
 
 	protected void ac_ler() throws SQLException {
-		// limpa a tabela para não duplicar tudo
-		modelo.clear();
-		// cria uma lista que vai conter a outra lista -- isso é muito loko
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-
-		// lista recebe o retorno do read()
-		lista = cdao.read();
-
-		// varre a lista inserindo em outra lista
-		for (Cliente c : lista) { 
-			// inclui a bagaça
-			modelo.incluir(c);
-		}
-		
 		// limpa os campos de texto da tela
 		limparCampos();
+		// atualiza a tabela
+		atualizarLista();
 	}
 	
 	protected void ac_atualizar(Cliente c) throws SQLException {
@@ -453,18 +361,19 @@ public class MioloCadastroCliente extends JPanel {
 		// resposta do usuário, é emitida por um JOptionPane
 		int resposta = JOptionPane.showConfirmDialog(null, "Você está certo disso?","Deletar",JOptionPane.YES_OPTION);
 		if (resposta == 0) {
-			int id = Integer.parseInt(txt_id.getText().trim());
-						
 			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
-			cdao.delete(id);
+			cdao.delete(id_selecionado);
 			
 			// atualiza tudo
 			ac_ler();
 		}
 	}
-
+	
+	protected void atualizarLista() throws SQLException {
+		modelo.setarLista(cdao.read());
+	}
+	
 	private void limparCampos() {
-		txt_id.setText("");
 		txt_nome.setText("");
 		txt_telefone.setText("");
 		txt_endereco.setText("");

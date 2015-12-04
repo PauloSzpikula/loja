@@ -18,7 +18,7 @@ import loja.Pedido;
 public class PedidoDaoImpl implements PedidoDao {
 
 	private Connection con;
-//	CREATE TABLE PEDIDO(ID INT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN);
+//	CREATE TABLE PEDIDO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN);
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -37,21 +37,20 @@ public class PedidoDaoImpl implements PedidoDao {
 	public void create(Pedido p) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID, ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
-		ps.setInt(1, p.getId());
-		ps.setInt(2, p.getId_cliente());		
-		ps.setString(3, p.getNome());
-		ps.setString(4, p.getTelefone());
-		ps.setString(5, p.getEndereco());
-		ps.setString(6, p.getCidade());
-		ps.setString(7, p.getEstado());
-		ps.setString(8, p.getEmail());
-		ps.setString(9, p.getGenero());
-		ps.setBigDecimal(10, p.getTotal());
-		ps.setBigDecimal(11, p.getValor_pago());
-		ps.setBigDecimal(12, p.getTroco());
-		ps.setBoolean(13, p.getStatus());
+		ps.setInt(1, p.getId_cliente());		
+		ps.setString(2, p.getNome());
+		ps.setString(3, p.getTelefone());
+		ps.setString(4, p.getEndereco());
+		ps.setString(5, p.getCidade());
+		ps.setString(6, p.getEstado());
+		ps.setString(7, p.getEmail());
+		ps.setString(8, p.getGenero());
+		ps.setBigDecimal(9, p.getTotal());
+		ps.setBigDecimal(10, p.getValor_pago());
+		ps.setBigDecimal(11, p.getTroco());
+		ps.setBoolean(12, p.getStatus());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -133,26 +132,26 @@ public class PedidoDaoImpl implements PedidoDao {
 		Statement st = con.createStatement();
 		ResultSet result = st.executeQuery("SELECT * FROM PEDIDO WHERE ID = "+ id + " LIMIT 1");
 		
-		Pedido p = new Pedido();
+		Pedido pedido = new Pedido();
 		
 		while (result.next()) {
-			p.setId(result.getInt(1));
-			p.setId(result.getInt(2));
-			p.setNome(result.getString(3));
-			p.setTelefone(result.getString(4));
-			p.setEndereco(result.getString(5));
-			p.setCidade(result.getString(6));
-			p.setEstado(result.getString(7));
-			p.setEmail(result.getString(8));
-			p.setGenero(result.getString(9));
-			p.setTotal(result.getBigDecimal(10));
-			p.setValor_pago(result.getBigDecimal(11));
-			p.setTroco(result.getBigDecimal(12));
-			p.setStatus(result.getBoolean(13));
+			pedido.setId(result.getInt(1));
+			pedido.setId_cliente(result.getInt(2));
+			pedido.setNome(result.getString(3));
+			pedido.setTelefone(result.getString(4));
+			pedido.setEndereco(result.getString(5));
+			pedido.setCidade(result.getString(6));
+			pedido.setEstado(result.getString(7));
+			pedido.setEmail(result.getString(8));
+			pedido.setGenero(result.getString(9));
+			pedido.setTotal(result.getBigDecimal(10));
+			pedido.setValor_pago(result.getBigDecimal(11));
+			pedido.setTroco(result.getBigDecimal(12));
+			pedido.setStatus(result.getBoolean(13));
 		}
 
 		fecharConexao();
 		// retorna a lista completa
-		return p;
+		return pedido;
 	}
 }

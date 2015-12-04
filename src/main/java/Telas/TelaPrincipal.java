@@ -85,6 +85,14 @@ public class TelaPrincipal extends JFrame {
 		});
 		Menu.add(mntmCadastroDePedido);
 		
+		JMenuItem mntmTrocarDeUsurio = new JMenuItem("Trocar de Usu\u00E1rio");
+		mntmTrocarDeUsurio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaLogin();
+			}
+		});
+		Menu.add(mntmTrocarDeUsurio);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -161,5 +169,8 @@ public class TelaPrincipal extends JFrame {
 		tabbedPane.addTab("Cadastro de Pedido", telaCadastroPedido);
 	}
 	
+	private void abrirTelaLogin() {
+		blockParaLogin();
+	}
 	
 }

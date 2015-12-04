@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import loja.Cliente;
 import loja.Item;
 import loja.Pedido;
 
-public class ModeloPedidoItem extends AbstractTableModel {
+public class ModeloItem extends AbstractTableModel {
 	private ArrayList<Item> lista = new ArrayList<Item>();
 	
 	@Override
@@ -58,6 +59,11 @@ public class ModeloPedidoItem extends AbstractTableModel {
 		super.fireTableDataChanged();
 	}
 
+	public void setarLista (ArrayList<Item> lista){
+		this.lista = lista;
+		super.fireTableDataChanged();
+	}
+	
 	@Override
 	public String getColumnName (int col) {
 

@@ -37,7 +37,7 @@ import loja.Item;
 import loja.Pedido;
 import loja.Produto;
 
-public class JanelaEditarPedidoItem extends JDialog {
+public class JanelaEditarItem extends JDialog {
 	
 	private static Pedido pedido = null;
 	private final JPanel contentPanel = new JPanel();
@@ -56,7 +56,7 @@ public class JanelaEditarPedidoItem extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			JanelaEditarPedidoItem dialog = new JanelaEditarPedidoItem(pedido);
+			JanelaEditarItem dialog = new JanelaEditarItem(pedido);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class JanelaEditarPedidoItem extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public JanelaEditarPedidoItem(Pedido pedido) {
+	public JanelaEditarItem(Pedido pedido) {
 		// pedido global recebe pedido enviado
 		this.pedido = pedido;
 		setModal(true);

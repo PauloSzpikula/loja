@@ -45,9 +45,9 @@ import java.awt.event.MouseEvent;
 
 public class MioloCadastroUsuario extends JPanel {
 	private JTextField txt_senha;
-	private JTextField txt_id_usuario;
-	private ModeloUsuario modelo;
+	private ModeloUsuario modelo = new ModeloUsuario();
 	private JTable table;
+	private int id_selecionado;
 
 	// implementação do usuário no banco
 	UsuarioDaoImpl usdao = new UsuarioDaoImpl();
@@ -61,29 +61,10 @@ public class MioloCadastroUsuario extends JPanel {
 	public MioloCadastroUsuario() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		
-		JLabel label = new JLabel("ID USU\u00C1RIO");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.gridwidth = 2;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.anchor = GridBagConstraints.EAST;
-		gbc_label.gridx = 0;
-		gbc_label.gridy = 0;
-		add(label, gbc_label);
-		
-		txt_id_usuario = new JTextField();
-		txt_id_usuario.setColumns(10);
-		GridBagConstraints gbc_txt_id_usuario = new GridBagConstraints();
-		gbc_txt_id_usuario.insets = new Insets(0, 0, 5, 0);
-		gbc_txt_id_usuario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt_id_usuario.gridx = 2;
-		gbc_txt_id_usuario.gridy = 0;
-		add(txt_id_usuario, gbc_txt_id_usuario);
 		
 		JComboBox cb_id_cliente = new JComboBox();
 		cb_id_cliente.removeAllItems();
@@ -102,13 +83,13 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
+		gbc_lblNewLabel.gridy = 0;
 		add(lblNewLabel, gbc_lblNewLabel);
 		GridBagConstraints gbc_cb_id_cliente = new GridBagConstraints();
 		gbc_cb_id_cliente.insets = new Insets(0, 0, 5, 0);
 		gbc_cb_id_cliente.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cb_id_cliente.gridx = 2;
-		gbc_cb_id_cliente.gridy = 1;
+		gbc_cb_id_cliente.gridy = 0;
 		add(cb_id_cliente, gbc_cb_id_cliente);
 		
 		JLabel lblNewLabel_2 = new JLabel("SENHA");
@@ -117,7 +98,7 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 2;
+		gbc_lblNewLabel_2.gridy = 1;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		txt_senha = new JTextField();
@@ -125,7 +106,7 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_txt_senha.insets = new Insets(0, 0, 5, 0);
 		gbc_txt_senha.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_senha.gridx = 2;
-		gbc_txt_senha.gridy = 2;
+		gbc_txt_senha.gridy = 1;
 		add(txt_senha, gbc_txt_senha);
 		txt_senha.setColumns(10);
 		
@@ -135,7 +116,7 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridy = 2;
 		add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
@@ -143,7 +124,7 @@ public class MioloCadastroUsuario extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {			
 				int linhaSelecionada = table.getSelectedRow();
-				txt_id_usuario.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
+				id_selecionado = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaSelecionada,0)).trim());
 				cb_id_cliente.setEditable(true);
 				cb_id_cliente.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,1)).trim());
 				cb_id_cliente.setEditable(false);
@@ -158,7 +139,7 @@ public class MioloCadastroUsuario extends JPanel {
 		gbc_panel.gridwidth = 3;
 		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 4;
+		gbc_panel.gridy = 3;
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -168,54 +149,17 @@ public class MioloCadastroUsuario extends JPanel {
 				
 				try {
 					
-					String id_u = txt_id_usuario.getText().trim();
 					String senha_u = txt_senha.getText().trim();
 					
-					// cria uma lista
-					ArrayList<Usuario> lista = new ArrayList<Usuario>();
-					// busca pelo usdao.read() todos os registros do banco
-					lista = usdao.read();
-					
-					// valida se o numero é numero e se é duplicado
-					int id = 0;
-					if (id_u.matches("[0-9]+")) {
-						id = Integer.parseInt(id_u);
-					} else {
-						mensagemDeErro();
-						return;
-					}
-					
-					// uma variável booleana para testar se tem ids duplicados
-					boolean testaIdDuplicado = false;
-					
 					String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
-					
 					String id_cli = id_nome.substring(0,id_nome.indexOf("-"));			
 					
-					int id_c = Integer.parseInt(id_cli);
-
-					// varre a lista de cadastros do banco
-					for (Usuario uu : lista) {
-						// verifica se o id da lista é igual ao informado no textFild
-						if (uu.getId() == id || uu.getIdDoCliente() == id_c ) {
-							// seta verdadeiro para ids duplicados
-							testaIdDuplicado = true;
-						}
-					}
-					// aqui é lançado um erro caso o id seja dulicado
-					if (testaIdDuplicado) {
-						mensagemIdDuplicado();
-						return;
-					}
-					
 					// testa se tudo está de acordo para a inserção
-					if (!id_u.isEmpty() & !senha_u.isEmpty()) {
+					if (!senha_u.isEmpty()) {
 						
-						String senha = txt_senha.getText().trim();
-
 						// instancia um noco cadastro
-						Usuario u = new Usuario(id, id_c, senha);
-						ac_criar(u);
+						Usuario usuario = new Usuario(0, Integer.parseInt(id_cli), senha_u);
+						ac_criar(usuario);
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -243,48 +187,15 @@ public class MioloCadastroUsuario extends JPanel {
 				// ação de atualizar
 				try {				
 
-					String id_u = txt_id_usuario.getText().trim();
-					
-					// cria uma lista
-					ArrayList<Usuario> lista = new ArrayList<Usuario>();
-					// busca pelo usdao.read() todos os registros do banco
-					lista = usdao.read();
-					
-					// valida se o numero é numero
-					int id = -1;
-					if (id_u.matches("[0-9]+")) {
-						id = Integer.parseInt(id_u);
-					} else {
-						mensagemDeErro();
-						return;
-					}
-					
-					// uma variável booleana para testar se tem ids duplicados
-					boolean testaIdDuplicado = false;
-					
-					int id_c = Integer.parseInt(cb_id_cliente.getSelectedItem().toString());
-					
-					// varre a lista de cadastros do banco
-					for (Usuario uu : lista) {
-						// verifica se o id da lista é igual ao informado no textFild
-						if (uu.getIdDoCliente() == id_c ) {
-							// seta verdadeiro para ids duplicados
-							testaIdDuplicado = true;
-						}
-					}
-					// aqui é lançado um erro caso o id seja dulicado
-					if (testaIdDuplicado) {
-						mensagemIdDuplicado();
-						return;
-					}
-					
-					if (!id_u.isEmpty()) {
+					String senha_u = txt_senha.getText().trim();
 
-						int id_cliente = Integer.parseInt(cb_id_cliente.getSelectedItem().toString());
-						String senha = txt_senha.getText().trim();
+					if (!senha_u.isEmpty()) {
+
+						String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
+						String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
 
 						// instancia um noco cadastro
-						Usuario u = new Usuario(id, id_cliente, senha);
+						Usuario u = new Usuario(id_selecionado, Integer.parseInt(id_cli), senha_u);
 						ac_atualizar(u);
 						
 					} else {
@@ -302,21 +213,14 @@ public class MioloCadastroUsuario extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {
-					String id_u = txt_id_usuario.getText();
-					if (!id_u.isEmpty()) {
-						ac_deletar();
-					} else {
-						mensagemDeErro();	
-					}	
+					ac_deletar();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 		panel.add(btn_delete);
-
-		// instancia o ModeloCadastro
-		modelo = new ModeloUsuario();
+		
 		// seta o modelo da tabela 
 		table.setModel(modelo);
 
@@ -333,39 +237,29 @@ public class MioloCadastroUsuario extends JPanel {
 		int resposta = JOptionPane.showConfirmDialog(null, "Você está certo disso?","Deletar",JOptionPane.YES_OPTION);
 		
 		if (resposta == 0) {
-			int id = Integer.parseInt(txt_id_usuario.getText().trim());
-			
 			// deleta o usuário craiando uma nova instância de Cadastro passando só o id
-			usdao.delete(id);
+			usdao.delete(id_selecionado);
 			
 			// atualiza tudo
 			ac_ler();
 		}
 	}
 
-	protected void ac_atualizar(Usuario u) throws SQLException {
+	protected void ac_atualizar(Usuario usuario) throws SQLException {
 		/// atualiza no banco
-		usdao.update(u);
+		usdao.update(usuario);
 		
 		// atualizar a tabela
 		ac_ler();
 	}
-
-	protected void mensagemIdDuplicado() {
-		JOptionPane.showMessageDialog(this, "Id Duplicado, tente outro meu amiguinho!");
-	}
 	
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
-		
 	}
 	
-	protected void ac_criar(Usuario u) throws SQLException{
-		// passa pro modelo os valores do novo cadastro para ser adicionado numa lista
-		modelo.incluir(u);
+	protected void ac_criar(Usuario usuario) throws SQLException{
 		// cria no banco um novo cadastro
-		usdao.create(u);
-
+		usdao.create(usuario);
 		JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		ac_ler();
 	}
@@ -375,25 +269,17 @@ public class MioloCadastroUsuario extends JPanel {
 	}
 	
 	protected void ac_ler() throws SQLException {
-		// limpa a tabela para não duplicar tudo
-		modelo.clear();
-		// cria uma lista que vai conter a outra lista -- isso é muito loko
-		ArrayList<Usuario> lista = new ArrayList<Usuario>();
-
-		// lista recebe o retorno do read()
-		lista = usdao.read();
-
-		// varre a lista inserindo em outra lista
-		for (Usuario u : lista) { 
-			// inclui a bagaça
-			modelo.incluir(u);
-		}
 		// limpa os campos de texto da tela
 		limparCampos();
+		// atualiza a tabela
+		atualizarLista();
+	}
+	
+	protected void atualizarLista() throws SQLException {
+		modelo.setarLista(usdao.read());
 	}
 	
 	private void limparCampos() {
-		txt_id_usuario.setText("");
 		txt_senha.setText("");
 	}
 }
