@@ -172,16 +172,12 @@ public class PedidoDaoImpl implements PedidoDao {
 		fecharConexao();		
 	}
 
-	public void valorPago(BigDecimal valor, int id, Timestamp data) throws SQLException {
+	public void valorPago(BigDecimal val_pago, BigDecimal troco, int id) throws SQLException {
 		abrirConexao();
-		PreparedStatement ps = con.prepareStatement("UPDATE PEDIDO SET VALOR_PAGO = ? WHERE ID = ?;" + "UPDATE PEDIDO SET DATA_PEDIDO_FINALIZADO = ? WHERE ID = ?;" + "UPDATE PEDIDO SET TROCO = (VALOR_PAGO - TOTAL);" + "UPDATE PEDIDO SET STATUS = (TROCO >= 0);");
-		ps.setBigDecimal(1, valor);
-		ps.setInt(2, id);
-		ps.executeUpdate();
-//		ps.close();
-		
-		ps.setTimestamp(3, data);
-		ps.setInt(4, id);
+		PreparedStatement ps = con.prepareStatement("UPDATE PEDIDO SET VALOR_PAGO = ?, DATA_PEDIDO_FINALIZADO = TIME.NOW(), TROCO = ?, STATUS = (TROCO >= 0) WHERE ID = ?;");
+		ps.setBigDecimal(1, val_pago);
+		ps.setBigDecimal(2, troco);
+		ps.setInt(3, id);
 		ps.executeUpdate();
 		ps.close();
 		fecharConexao();		

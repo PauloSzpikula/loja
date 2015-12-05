@@ -105,26 +105,34 @@ public class MioloCadastroPedido extends JPanel {
 		JButton btnNewButton = new JButton("Criar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// pega os registro do modelo antes de abrir a tela
+				int qtd_registros_antes = modelo.getRowCount();
+		        
 				JanelaCadastroPedido janela = new JanelaCadastroPedido();
 		        janela.setLocationRelativeTo(null);
 		        janela.setVisible(true);
+
 		        try {
-			        atualizarLista();
-
-			        int id_sel = (int) modelo.getValueAt(modelo.getRowCount() - 1,0);
-		        
-					JanelaEditarPedido janela2 = new JanelaEditarPedido(pdao.pegaPedido(id_sel));
-			        janela2.setLocationRelativeTo(null);
-			        janela2.setVisible(true);
-
-					pdao.totalPedido(id_sel);
-					
-			        atualizarLista();
+		        	// atualiza a tabela
+		        	atualizarLista();
+		        	// pega os registro do modelo depois de abrir a tela
+			        int qtd_registros_depois = modelo.getRowCount();
+			        // compara pra ver se houve inserção
+			        if (qtd_registros_depois > qtd_registros_antes) {
+				        int id_sel = (int) modelo.getValueAt(modelo.getRowCount() - 1,0);
 			        
+						JanelaEditarPedido janela2 = new JanelaEditarPedido(pdao.pegaPedido(id_sel));
+				        janela2.setLocationRelativeTo(null);
+				        janela2.setVisible(true);
+	
+						pdao.totalPedido(id_sel);
+				        atualizarLista();
+			        }
 		        } catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+		        
 			}
 		});
 		panel.add(btnNewButton);
@@ -160,6 +168,7 @@ public class MioloCadastroPedido extends JPanel {
 				try {
 					if (id_selecionado != 0) {
 						ac_deletar();
+						id_selecionado = 0;
 					} else {
 						mensagemDeErro();
 					}	
@@ -174,13 +183,15 @@ public class MioloCadastroPedido extends JPanel {
 		btnFecharCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if (id_selecionado != 0) {	
+					if (id_selecionado > 0) {	
 						if (status_pedido.equals("Fechado")) {
 							mensagemDeErro();
 						} else {
 							JanelaFecharPedido janela = new JanelaFecharPedido(pdao.pegaPedido(id_selecionado));
 					        janela.setLocationRelativeTo(null);
 					        janela.setVisible(true);
+					        pdao.totalPedido(id_selecionado);
+					        atualizarLista();
 						}
 					} else {
 						mensagemDeErro();

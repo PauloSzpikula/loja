@@ -35,7 +35,8 @@ public class JanelaFecharPedido extends JDialog {
 	private static Pedido pedido = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_valor_pago;
-
+	BigDecimal troco = null;
+	JLabel lbl_troco;
 	// implementação do cliente no banco
 	PedidoDaoImpl pdao = new PedidoDaoImpl();
 	
@@ -60,20 +61,19 @@ public class JanelaFecharPedido extends JDialog {
 		// pedido global recebe pedido enviado
 		this.pedido = pedido;
 		setModal(true);
-		setBounds(100, 100, 450, 155);
+		setBounds(100, 100, 224, 155);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(contentPanel, BorderLayout.WEST);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{40, 74, 302, 0};
+		gbl_contentPanel.columnWidths = new int[]{74, 124, 0};
 		gbl_contentPanel.rowHeights = new int[]{14, 14, 20, 14, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblNewLabel = new JLabel("Id do Pedido");
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-			gbc_lblNewLabel.gridwidth = 2;
 			gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel.gridx = 0;
@@ -85,14 +85,13 @@ public class JanelaFecharPedido extends JDialog {
 			GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 			gbc_lblNewLabel_4.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 0);
-			gbc_lblNewLabel_4.gridx = 2;
+			gbc_lblNewLabel_4.gridx = 1;
 			gbc_lblNewLabel_4.gridy = 0;
 			contentPanel.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Valor do Pedido");
 			GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-			gbc_lblNewLabel_1.gridwidth = 2;
 			gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 			gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel_1.gridx = 0;
@@ -104,14 +103,13 @@ public class JanelaFecharPedido extends JDialog {
 			GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 			gbc_lblNewLabel_5.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 0);
-			gbc_lblNewLabel_5.gridx = 2;
+			gbc_lblNewLabel_5.gridx = 1;
 			gbc_lblNewLabel_5.gridy = 1;
 			contentPanel.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Valor Pago");
 			GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-			gbc_lblNewLabel_2.gridwidth = 2;
 			gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 			gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel_2.gridx = 0;
@@ -123,7 +121,7 @@ public class JanelaFecharPedido extends JDialog {
 			GridBagConstraints gbc_txt_valor_pago = new GridBagConstraints();
 			gbc_txt_valor_pago.fill = GridBagConstraints.HORIZONTAL;
 			gbc_txt_valor_pago.insets = new Insets(0, 0, 5, 0);
-			gbc_txt_valor_pago.gridx = 2;
+			gbc_txt_valor_pago.gridx = 1;
 			gbc_txt_valor_pago.gridy = 2;
 			contentPanel.add(txt_valor_pago, gbc_txt_valor_pago);
 			txt_valor_pago.setColumns(10);
@@ -131,7 +129,6 @@ public class JanelaFecharPedido extends JDialog {
 		{
 			JLabel lblNewLabel_3 = new JLabel("Troco");
 			GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-			gbc_lblNewLabel_3.gridwidth = 2;
 			gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 			gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
 			gbc_lblNewLabel_3.gridx = 0;
@@ -139,10 +136,10 @@ public class JanelaFecharPedido extends JDialog {
 			contentPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		}
 		{
-			JLabel lbl_troco = new JLabel(String.valueOf(pedido.getTroco()));
+			lbl_troco = new JLabel(String.valueOf(troco));
 			GridBagConstraints gbc_lbl_troco = new GridBagConstraints();
 			gbc_lbl_troco.anchor = GridBagConstraints.WEST;
-			gbc_lbl_troco.gridx = 2;
+			gbc_lbl_troco.gridx = 1;
 			gbc_lbl_troco.gridy = 3;
 			contentPanel.add(lbl_troco, gbc_lbl_troco);
 		}
@@ -159,17 +156,13 @@ public class JanelaFecharPedido extends JDialog {
 							
 							if (!valor_pago.isEmpty()) {
 
-								Calendar calendar = Calendar.getInstance();
-							    java.sql.Timestamp data = new java.sql.Timestamp(calendar.getTime().getTime());
+								BigDecimal val_pago = new BigDecimal(valor_pago.replaceAll(",", "."));
+								troco = pedido.getTotal().subtract(val_pago);								
 
-								BigDecimal valor = new BigDecimal(valor_pago.replaceAll(",", ""));
-								ac_incluir(valor, pedido.getId(), data);
-								// fecha a janela
-								dispose();
-								// reabre a janela com o intuito de atualizar as informações
-								JanelaFecharPedido janela = new JanelaFecharPedido(pdao.pegaPedido(pedido.getId()));
-						        janela.setLocationRelativeTo(null);
-						        janela.setVisible(true);
+								lbl_troco.setText(String.valueOf(troco));
+															
+								pdao.valorPago(val_pago, troco, pedido.getId());
+							
 							} else {
 								mensagemDeErro();
 							}
@@ -184,7 +177,7 @@ public class JanelaFecharPedido extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				JButton cancelButton = new JButton("Fechar Janela");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -196,11 +189,6 @@ public class JanelaFecharPedido extends JDialog {
 		}
 		this.pedido = pdao.pegaPedido(pedido.getId());
 		
-	}
-
-	protected void ac_incluir(BigDecimal valor, int id, Timestamp data) throws SQLException {
-		// enviar o valor pago para o banco e retornar o troco caso o valor pago seja maior do que o total do pedido se isso ocorrer então mudar o status do pedido para fechado
-		pdao.valorPago(valor, id, data);
 	}
 
 	protected void mensagemDeErro() {
