@@ -298,7 +298,11 @@ public class MioloCadastroProduto extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {
-					ac_deletar();
+					if (id_selecionado != 0) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

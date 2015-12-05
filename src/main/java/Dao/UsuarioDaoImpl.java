@@ -99,22 +99,23 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		fecharConexao();
 	}
 	
-	public boolean procurar_login(int id, String senha) throws SQLException {
+	public boolean procurar_login(String nome, String senha) throws SQLException {
 		
-		int id_usuario = -1;
+		String nome_usuario = "";
 		boolean resultado = false;
 		
 		abrirConexao();
 
 		Statement st = con.createStatement();
 
-		ResultSet result = st.executeQuery("SELECT ID FROM USUARIO WHERE ID = "+id+" AND SENHA = '"+senha+"' LIMIT 1;");
+		ResultSet result = st.executeQuery("SELECT NOME FROM USUARIO WHERE NOME = '"+ nome +"' AND SENHA = '"+ senha +"' LIMIT 1;");
+		
 		// comparar resultado transformando num boolean
 		while (result.next()) {
-			id_usuario = result.getInt(1);
+			nome_usuario = result.getString(1);
 		}
 		
-		if (id == id_usuario) {
+		if (nome.equals(nome_usuario)) {
 			resultado = true;
 		}
 		

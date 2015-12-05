@@ -150,7 +150,7 @@ public class MioloCadastroUsuario extends JPanel {
 					
 					String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
 					String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
-					String nome = id_nome.substring(id_nome.indexOf("-")+1);
+					String nome = cb_id_cliente.getSelectedItem().toString().trim().substring(cb_id_cliente.getSelectedItem().toString().indexOf("-")+2);
 					
 					// testa se tudo está de acordo para a inserção
 					if (!senha_u.isEmpty()) {
@@ -212,7 +212,11 @@ public class MioloCadastroUsuario extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {
-					ac_deletar();
+					if (id_selecionado != 0) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

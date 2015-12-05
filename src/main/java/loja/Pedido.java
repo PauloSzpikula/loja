@@ -1,6 +1,8 @@
 package loja;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 //Autor: Paulo Szpikula, 21/11/2015 08:33
 //Descrição: Classe Pedido
@@ -19,8 +21,9 @@ public class Pedido {
 	private BigDecimal valor_pago;
 	private BigDecimal troco;
 	private boolean status;
+	private Timestamp data;
 	
-	public Pedido(int id, int id_cliente, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero, BigDecimal total, BigDecimal valor_pago, BigDecimal troco, boolean status) {
+	public Pedido(int id, int id_cliente, String nome, String telefone, String endereco, String cidade, String estado, String email, String genero, BigDecimal total, BigDecimal valor_pago, BigDecimal troco, boolean status, Timestamp data) {
 		super();
 		this.id = id;
 		this.id_cliente = id_cliente;		
@@ -35,11 +38,22 @@ public class Pedido {
 		this.valor_pago = valor_pago;
 		this.troco = troco;
 		this.status = status;
+		this.data = data;
 	}
 
 	public Pedido() {
 		// TODO Auto-generated constructor stub
 	}
+
+	
+	public Timestamp getData() {
+		return data;
+	}
+
+	public void setData(Timestamp data) {
+		this.data = data;
+	}
+
 
 	public BigDecimal getTotal() {
 		return total;
@@ -145,10 +159,3 @@ public class Pedido {
 		this.id_cliente = id_cliente;
 	}
 }
-
-
-
-
-
-
-

@@ -107,11 +107,12 @@ public class MioloCadastroPedido extends JPanel {
 				JanelaCadastroPedido janela = new JanelaCadastroPedido();
 		        janela.setLocationRelativeTo(null);
 		        janela.setVisible(true);
+		        
 			}
 		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Ler");
+		JButton btnNewButton_1 = new JButton("Atualizar Tabela");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de ler os registros
@@ -148,7 +149,11 @@ public class MioloCadastroPedido extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
 				try {
-					ac_deletar();	
+					if (id_selecionado != 0) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();
+					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -158,10 +163,18 @@ public class MioloCadastroPedido extends JPanel {
 		
 		JButton btnFecharCompra = new JButton("Fechar Pedido");
 		btnFecharCompra.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JanelaFecharPedido janela = new JanelaFecharPedido();
-		        janela.setLocationRelativeTo(null);
-		        janela.setVisible(true);	
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (id_selecionado != 0) {	
+						JanelaFecharPedido janela = new JanelaFecharPedido(pdao.pegaPedido(id_selecionado));
+				        janela.setLocationRelativeTo(null);
+				        janela.setVisible(true);
+					} else {
+						mensagemDeErro();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}       
 			}
 		});
 		panel.add(btnFecharCompra);
@@ -175,11 +188,11 @@ public class MioloCadastroPedido extends JPanel {
 		
 	}
 	
-	protected void ac_criar(Pedido pedido) throws SQLException {
-		pdao.create(pedido);
-		pdao.totalPedido(pedido.getId());
-		atualizarLista();
-	}
+//	protected void ac_criar(Pedido pedido) throws SQLException {
+//		pdao.create(pedido);
+//		pdao.totalPedido(pedido.getId());
+//		atualizarLista();
+//	}
 
 	protected void ac_deletar() throws SQLException{
 		// resposta do usuário, é emitida por um JOptionPane

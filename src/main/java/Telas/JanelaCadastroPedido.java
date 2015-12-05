@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -122,7 +123,10 @@ public class JanelaCadastroPedido extends JDialog {
 								// cliente recebe o respectivo cliente buscado do banco
 								cliente = cdao.pegaCliente(Integer.parseInt(id_cli));
 								
-								Pedido p = new Pedido(0, cliente.getId(), cliente.getNome(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCidade(), cliente.getEstado(), cliente.getEmail(), cliente.getGenero(), null, null, null, false);
+								Calendar calendar = Calendar.getInstance();
+							    java.sql.Timestamp data = new java.sql.Timestamp(calendar.getTime().getTime());
+								
+								Pedido p = new Pedido(0, cliente.getId(), cliente.getNome(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCidade(), cliente.getEstado(), cliente.getEmail(), cliente.getGenero(), null, null, null, false, data);
 								
 								ac_criar(p);
 							}

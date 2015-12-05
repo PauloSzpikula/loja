@@ -318,8 +318,12 @@ public class MioloCadastroCliente extends JPanel {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// ação de deletar
-				try {					
-					ac_deletar();
+				try {
+					if (id_selecionado != 0) {
+						ac_deletar();
+					} else {
+						mensagemDeErro();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

@@ -92,7 +92,7 @@ public class TelaLogin extends JPanel {
 			
 			boolean usuario_existe = false;
 			try {
-				usuario_existe = usdao.procurar_login(Integer.parseInt(textField.getText()), passwordField.getText());
+				usuario_existe = usdao.procurar_login(textField.getText().trim(), passwordField.getText());
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 			} 

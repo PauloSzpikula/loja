@@ -188,7 +188,7 @@ public class JanelaEditarPedido extends JDialog {
 					}
 				});
 				{
-					JButton btnLer = new JButton("Ler");
+					JButton btnLer = new JButton("Atualizar Tabela");
 					btnLer.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 							try {
