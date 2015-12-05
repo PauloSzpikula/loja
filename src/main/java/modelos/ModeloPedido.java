@@ -41,7 +41,11 @@ public class ModeloPedido extends AbstractTableModel {
 		case 2:
 			return p.getTotal();	
 		case 3:
-			return p.getStatus();
+			if (p.getStatus() == true) {
+				return "Fechado";
+			} else {
+				return "Em aberto";	
+			}
 		default:
 			return "Erro";
 		}

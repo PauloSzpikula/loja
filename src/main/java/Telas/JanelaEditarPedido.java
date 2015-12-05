@@ -33,6 +33,8 @@ import loja.Item;
 import loja.Pedido;
 import modelos.ModeloItem;
 import modelos.ModeloPedido;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class JanelaEditarPedido extends JDialog {
 
@@ -168,6 +170,12 @@ public class JanelaEditarPedido extends JDialog {
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						janela.setVisible(true);
 						
+						try {
+							atualizarLista();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -187,35 +195,12 @@ public class JanelaEditarPedido extends JDialog {
 						}
 					}
 				});
-				{
-					JButton btnLer = new JButton("Atualizar Tabela");
-					btnLer.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
-							try {
-								atualizarLista();
-								pdao.totalPedido(pedido.getId());
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					});
-					buttonPane.add(btnLer);
-				}
 				buttonPane.add(btnExcluir);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				JButton cancelButton = new JButton("Fechar Janela");
 				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						try {
-							pdao.totalPedido(pedido.getId());
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
+					public void actionPerformed(ActionEvent e) {						
 						dispose();
 					}
 				});

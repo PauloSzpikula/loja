@@ -123,10 +123,10 @@ public class JanelaCadastroPedido extends JDialog {
 								// cliente recebe o respectivo cliente buscado do banco
 								cliente = cdao.pegaCliente(Integer.parseInt(id_cli));
 								
-								Calendar calendar = Calendar.getInstance();
-							    java.sql.Timestamp data = new java.sql.Timestamp(calendar.getTime().getTime());
+//								Calendar calendar = Calendar.getInstance();
+//							    java.sql.Timestamp data = new java.sql.Timestamp(calendar.getTime().getTime());
 								
-								Pedido p = new Pedido(0, cliente.getId(), cliente.getNome(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCidade(), cliente.getEstado(), cliente.getEmail(), cliente.getGenero(), null, null, null, false, data);
+								Pedido p = new Pedido(0, cliente.getId(), cliente.getNome(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCidade(), cliente.getEstado(), cliente.getEmail(), cliente.getGenero(), null, null, null, false, null);
 								
 								ac_criar(p);
 							}
@@ -158,14 +158,17 @@ public class JanelaCadastroPedido extends JDialog {
 		pdao.create(pedido);
 		
 		dispose();
+//		ArrayList<Pedido> lista = new ArrayList<Pedido>();
+//		lista = pdao.read();
+//		int ultimo_id = 0;
+//		
+//		for (Pedido p: lista) {
+//			ultimo_id++;
+//		}
 
-		String id_nome = cb_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
-		String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
-		
-		JanelaEditarPedido janela = new JanelaEditarPedido(pdao.pegaPedido(Integer.parseInt(id_cli)));
-        janela.setLocationRelativeTo(null);
-        janela.setVisible(true);
-		
+//		JanelaEditarPedido janela = new JanelaEditarPedido(pdao.pegaPedido(ultimo_id));
+//        janela.setLocationRelativeTo(null);
+//        janela.setVisible(true);
 	}
 	
 	private ArrayList<String> populaComboBox() throws SQLException {

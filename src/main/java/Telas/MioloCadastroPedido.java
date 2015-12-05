@@ -45,7 +45,7 @@ import java.awt.event.MouseEvent;
 public class MioloCadastroPedido extends JPanel {
 	private ModeloPedido modelo = new ModeloPedido();
 	private int id_selecionado;
-	
+	private String status_pedido;
 	// implementação do cliente no banco
 	PedidoDaoImpl pdao = new PedidoDaoImpl();
 	
@@ -85,6 +85,7 @@ public class MioloCadastroPedido extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				int linhaSelecionada = table.getSelectedRow();
 				id_selecionado = (int) modelo.getValueAt(linhaSelecionada,0);
+				status_pedido = String.valueOf(modelo.getValueAt(linhaSelecionada,3));
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -107,23 +108,26 @@ public class MioloCadastroPedido extends JPanel {
 				JanelaCadastroPedido janela = new JanelaCadastroPedido();
 		        janela.setLocationRelativeTo(null);
 		        janela.setVisible(true);
+		        try {
+			        atualizarLista();
+
+			        int id_sel = (int) modelo.getValueAt(modelo.getRowCount() - 1,0);
 		        
-			}
-		});
-		panel.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Atualizar Tabela");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// ação de ler os registros
-				try {					
-					atualizarLista();
-				} catch (SQLException e) {
+					JanelaEditarPedido janela2 = new JanelaEditarPedido(pdao.pegaPedido(id_sel));
+			        janela2.setLocationRelativeTo(null);
+			        janela2.setVisible(true);
+
+					pdao.totalPedido(id_sel);
+					
+			        atualizarLista();
+			        
+		        } catch (SQLException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		panel.add(btnNewButton_1);
+		panel.add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("Atualizar");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -131,9 +135,14 @@ public class MioloCadastroPedido extends JPanel {
 				// ação de atualizar
 				try {
 					if (id_selecionado != 0) {						
+								
 						JanelaEditarPedido janela = new JanelaEditarPedido(pdao.pegaPedido(id_selecionado));
 				        janela.setLocationRelativeTo(null);
 				        janela.setVisible(true);
+						pdao.totalPedido(id_selecionado);
+						
+				        atualizarLista();
+				        
 					} else {
 						mensagemDeErro();
 					}
@@ -166,9 +175,13 @@ public class MioloCadastroPedido extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (id_selecionado != 0) {	
-						JanelaFecharPedido janela = new JanelaFecharPedido(pdao.pegaPedido(id_selecionado));
-				        janela.setLocationRelativeTo(null);
-				        janela.setVisible(true);
+						if (status_pedido.equals("Fechado")) {
+							mensagemDeErro();
+						} else {
+							JanelaFecharPedido janela = new JanelaFecharPedido(pdao.pegaPedido(id_selecionado));
+					        janela.setLocationRelativeTo(null);
+					        janela.setVisible(true);
+						}
 					} else {
 						mensagemDeErro();
 					}
@@ -187,12 +200,6 @@ public class MioloCadastroPedido extends JPanel {
 		}
 		
 	}
-	
-//	protected void ac_criar(Pedido pedido) throws SQLException {
-//		pdao.create(pedido);
-//		pdao.totalPedido(pedido.getId());
-//		atualizarLista();
-//	}
 
 	protected void ac_deletar() throws SQLException{
 		// resposta do usuário, é emitida por um JOptionPane
@@ -213,6 +220,10 @@ public class MioloCadastroPedido extends JPanel {
 	
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, selecione alguma linha!");
+	}
+	
+	protected void mensagemPedidoFechado() {
+		JOptionPane.showMessageDialog(this, "Esse pedido já foi finalizado!");
 	}
 }
 

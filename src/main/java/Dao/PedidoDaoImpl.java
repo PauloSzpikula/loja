@@ -21,7 +21,7 @@ import loja.Pedido;
 public class PedidoDaoImpl implements PedidoDao {
 
 	private Connection con;
-//	CREATE TABLE PEDIDO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN, DATA TIMESTAMP);
+//	CREATE TABLE PEDIDO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), TELEFONE VARCHAR(12), ENDERECO VARCHAR(50), CIDADE VARCHAR(50), ESTADO VARCHAR(50), EMAIL VARCHAR(50), GENERO CHAR, TOTAL DECIMAL, VALOR_PAGO DECIMAL, TROCO DECIMAL, STATUS BOOLEAN, DATA_PEDIDO_FINALIZADO TIMESTAMP);
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -40,7 +40,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	public void create(Pedido p) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS, DATA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO PEDIDO (ID_CLIENTE, NOME, TELEFONE, ENDERECO, CIDADE, ESTADO, EMAIL, GENERO, TOTAL, VALOR_PAGO, TROCO, STATUS, DATA_PEDIDO_FINALIZADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
 		ps.setInt(1, p.getId_cliente());		
 		ps.setString(2, p.getNome());
@@ -99,7 +99,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	@Override
 	public void update(Pedido p) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, ID_PEDIDO = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, TOTAL = ?, VALOR_PAGO = ?, TROCO = ?, STATUS = ?, DATA = ? WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("UPDATE PEDIDO SET ID = ?, ID_PEDIDO = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, CIDADE = ?, ESTADO = ?, EMAIL = ?, GENERO = ?, TOTAL = ?, VALOR_PAGO = ?, TROCO = ?, STATUS = ?, DATA_PEDIDO_FINALIZADO = ? WHERE ID = ?");
 		sql.setInt(1, p.getId());
 		sql.setInt(2, p.getId_cliente());
 		sql.setString(3, p.getNome());
@@ -161,7 +161,7 @@ public class PedidoDaoImpl implements PedidoDao {
 		// retorna a lista completa
 		return pedido;
 	}
-	
+
 	public void totalPedido(int id) throws SQLException {
 		abrirConexao();
 		PreparedStatement ps = con.prepareStatement("UPDATE PEDIDO SET TOTAL = (SELECT SUM(VALORTOTAL) FROM ITEM WHERE ID_PEDIDO = ?) WHERE ID = ?");
@@ -172,5 +172,18 @@ public class PedidoDaoImpl implements PedidoDao {
 		fecharConexao();		
 	}
 
-	
+	public void valorPago(BigDecimal valor, int id, Timestamp data) throws SQLException {
+		abrirConexao();
+		PreparedStatement ps = con.prepareStatement("UPDATE PEDIDO SET VALOR_PAGO = ? WHERE ID = ?;" + "UPDATE PEDIDO SET DATA_PEDIDO_FINALIZADO = ? WHERE ID = ?;" + "UPDATE PEDIDO SET TROCO = (VALOR_PAGO - TOTAL);" + "UPDATE PEDIDO SET STATUS = (TROCO >= 0);");
+		ps.setBigDecimal(1, valor);
+		ps.setInt(2, id);
+		ps.executeUpdate();
+//		ps.close();
+		
+		ps.setTimestamp(3, data);
+		ps.setInt(4, id);
+		ps.executeUpdate();
+		ps.close();
+		fecharConexao();		
+	}	
 }
