@@ -99,7 +99,7 @@ public class JanelaFecharPedido extends JDialog {
 			contentPanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		}
 		{
-			JLabel lblNewLabel_5 = new JLabel(String.valueOf(pedido.getTotal()));
+			JLabel lblNewLabel_5 = new JLabel(String.valueOf("R$ " + pedido.getTotal()));
 			GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 			gbc_lblNewLabel_5.anchor = GridBagConstraints.WEST;
 			gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 0);
@@ -136,7 +136,7 @@ public class JanelaFecharPedido extends JDialog {
 			contentPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		}
 		{
-			lbl_troco = new JLabel(String.valueOf(troco));
+			lbl_troco = new JLabel(String.valueOf("R$ " + troco));
 			GridBagConstraints gbc_lbl_troco = new GridBagConstraints();
 			gbc_lbl_troco.anchor = GridBagConstraints.WEST;
 			gbc_lbl_troco.gridx = 1;
@@ -159,7 +159,7 @@ public class JanelaFecharPedido extends JDialog {
 								BigDecimal val_pago = new BigDecimal(valor_pago.replaceAll(",", "."));
 								troco = pedido.getTotal().subtract(val_pago);								
 
-								lbl_troco.setText(String.valueOf(troco));
+								lbl_troco.setText(String.valueOf("R$ " + troco));
 															
 								pdao.valorPago(val_pago, troco, pedido.getId());
 							

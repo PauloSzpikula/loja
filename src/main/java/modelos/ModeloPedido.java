@@ -3,6 +3,8 @@ package modelos;
 //Autor: Paulo Szpikula, 12/11/2015 20:46
 //Descrição: Modelo da tabela do Cliente
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
@@ -39,7 +41,7 @@ public class ModeloPedido extends AbstractTableModel {
 		case 1:
 			return p.getNome();
 		case 2:
-			return p.getTotal();	
+			return getValorFormatado(p.getTotal());	
 		case 3:
 			if (p.getStatus() == true) {
 				return "Fechado";
@@ -51,6 +53,11 @@ public class ModeloPedido extends AbstractTableModel {
 		}
 	}
 
+	 public String getValorFormatado(BigDecimal valor){
+		 return NumberFormat.getCurrencyInstance().format(valor);
+	 }
+
+	
 	public void incluir (Pedido p){
 		lista.add(p);
 		super.fireTableDataChanged();
