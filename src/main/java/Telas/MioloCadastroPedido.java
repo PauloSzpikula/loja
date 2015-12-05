@@ -177,6 +177,7 @@ public class MioloCadastroPedido extends JPanel {
 	
 	protected void ac_criar(Pedido pedido) throws SQLException {
 		pdao.create(pedido);
+		pdao.totalPedido(pedido.getId());
 		atualizarLista();
 	}
 

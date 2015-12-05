@@ -154,4 +154,16 @@ public class PedidoDaoImpl implements PedidoDao {
 		// retorna a lista completa
 		return pedido;
 	}
+	
+	public void totalPedido(int id) throws SQLException {
+		abrirConexao();
+		PreparedStatement ps = con.prepareStatement("UPDATE PEDIDO SET TOTAL = (SELECT SUM(VALORTOTAL) FROM ITEM WHERE ID_PEDIDO = ?) WHERE ID = ?");
+		ps.setInt(1, id);
+		ps.setInt(2, id);
+		ps.executeUpdate();
+		ps.close();
+		fecharConexao();		
+	}
+
+	
 }

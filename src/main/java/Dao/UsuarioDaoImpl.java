@@ -18,7 +18,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	private Connection con;
 
-//	CREATE TABLE USUARIO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, SENHA VARCHAR(30));
+//	CREATE TABLE USUARIO(ID INT AUTO_INCREMENT PRIMARY KEY, ID_CLIENTE INT, NOME VARCHAR(30), SENHA VARCHAR(30));
 	
 	@Override
 	public void abrirConexao() throws SQLException {
@@ -37,10 +37,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	public void create(Usuario u) throws SQLException {
 		abrirConexao();
 		//preparando o comando SQL
-		PreparedStatement ps = con.prepareStatement("INSERT INTO USUARIO (ID_CLIENTE, SENHA) VALUES (?, ?)");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO USUARIO (ID_CLIENTE, NOME, SENHA) VALUES (?, ?, ?)");
 		//Atribuindo valor para as variáveis ?
 		ps.setInt(1, u.getIdDoCliente());
-		ps.setString(2, u.getSenha());
+		ps.setString(2, u.getNome());
+		ps.setString(3, u.getSenha());
 		//executando o comando SQL
 		ps.executeUpdate();
 		//fechando a conexão
@@ -62,8 +63,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		while (result.next()) {
 			int id_usuario = result.getInt(1);
 			int id_cliente = result.getInt(2);
-			String senha = result.getString(3);
-			Usuario u = new Usuario(id_usuario, id_cliente, senha);
+			String nome = result.getString(3);
+			String senha = result.getString(4);
+			Usuario u = new Usuario(id_usuario, id_cliente, nome, senha);
 			lista.add(u);
 		}
 		fecharConexao();
@@ -74,11 +76,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public void update(Usuario u) throws SQLException {
 		abrirConexao();
-		PreparedStatement sql = con.prepareStatement("UPDATE USUARIO SET ID = ?, ID_CLIENTE = ?, SENHA = ? WHERE ID = ?");
+		PreparedStatement sql = con.prepareStatement("UPDATE USUARIO SET ID = ?, ID_CLIENTE = ?, NOME = ?, SENHA = ? WHERE ID = ?");
 		sql.setInt(1, u.getId());
 		sql.setInt(2, u.getIdDoCliente());
-		sql.setString(3, u.getSenha());
-		sql.setInt(4, u.getId());
+		sql.setString(3, u.getNome());
+		sql.setString(4, u.getSenha());
+		sql.setInt(5, u.getId());
 		//executando o comando SQL
 		sql.executeUpdate();
 		sql.close();

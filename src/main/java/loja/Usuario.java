@@ -7,14 +7,16 @@ public class Usuario {
 
 	private int id;
 	private int idDoCliente;
+	private String nome;
 	private String senha;
 	
 	
 	
-	public Usuario(int id, int idDoCliente, String senha) {
+	public Usuario(int id, int idDoCliente, String nome, String senha) {
 		super();
 		this.id = id;
 		this.idDoCliente = idDoCliente;
+		this.nome = nome;
 		this.senha = senha;
 	}
 
@@ -33,6 +35,15 @@ public class Usuario {
 	public void setIdDoCliente(int idDoCliente) {
 		this.idDoCliente = idDoCliente;
 	}
+
+	public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	
 	public String getSenha() {
 		return senha;

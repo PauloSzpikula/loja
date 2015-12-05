@@ -167,18 +167,17 @@ public class ItemDaoImpl implements ItemDao {
 		return lista;
 	}
 
-	public ArrayList<Item> ListaItensDoId(int id) throws SQLException {
+	public ArrayList<Item> ListaItensDoId(int id_pedido) throws SQLException {
 		// uma variável lista, que vai armazenar todos os registros do banco
 		ArrayList<Item> lista = new ArrayList<Item>();
 		
 		abrirConexao();
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM ITEM WHERE ID_PEDIDO = "+ id);
+		ResultSet result = st.executeQuery("SELECT * FROM ITEM WHERE ID_PEDIDO = "+ id_pedido);
 		
 		// percorremos os registros um a um adicionando na lista
 		while (result.next()) {
-			//int id = result.getInt(1);
-			int id_pedido = result.getInt(2);		
+			int id = result.getInt(1);
 			int id_produto = result.getInt(3);
 			float codigoDeBarras = result.getFloat(4);
 			String categoria = result.getString(5);
@@ -198,30 +197,12 @@ public class ItemDaoImpl implements ItemDao {
 	}
 	
 	
-	public void somaTotal(int id) throws SQLException {
-		 
+	public void valorTotal(int id) throws SQLException {
 		abrirConexao();
-		PreparedStatement ps = con.prepareStatement("UPDATE ITEM SET VALORTOTAL = (SELECT SUM(VALOR) FROM ITEM WHERE pedido_id = ?) where id = ?");
+		PreparedStatement ps = con.prepareStatement("UPDATE ITEM SET VALORTOTAL = (QUANTIDADE * VALOR) WHERE ID_PEDIDO = ?");
 		ps.setInt(1, id);
-		ps.setInt(2, id);
 		ps.executeUpdate();
 		ps.close();
-		fecharConexao();
-		
+		fecharConexao();		
 	}
-
-	
-	
-//	public void somaTotal(int id) throws SQLException {
-//		 
-//		abrirConexao();
-//		PreparedStatement ps = con.prepareStatement("UPDATE PRODUTO SET VALORTOTAL = (SELECT SUM(VALOR) FROM ITEM WHERE pedido_id = ?) where id = ?");
-//		ps.setInt(1, id);
-//		ps.setInt(2, id);
-//		ps.executeUpdate();
-//		ps.close();
-//		fecharConexao();
-//		
-//	}
-
 }

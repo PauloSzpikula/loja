@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import Dao.ItemDaoImpl;
+import Dao.PedidoDaoImpl;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import loja.Item;
 import loja.Pedido;
 import modelos.ModeloItem;
+import modelos.ModeloPedido;
 
 public class JanelaEditarPedido extends JDialog {
 
@@ -43,6 +45,8 @@ public class JanelaEditarPedido extends JDialog {
 	// implementação do item no banco
 	ItemDaoImpl idao = new ItemDaoImpl();
 	
+	// implementação do cliente no banco
+	PedidoDaoImpl pdao = new PedidoDaoImpl();
 	
 	/**
 	 * Launch the application.
@@ -133,6 +137,7 @@ public class JanelaEditarPedido extends JDialog {
 				table = new JTable();
 				// seta o modelo da tabela 
 				table.setModel(modelo);
+				
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -151,6 +156,13 @@ public class JanelaEditarPedido extends JDialog {
 				JButton okButton = new JButton("Criar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+					
+						try {
+							pdao.totalPedido(pedido.getId());
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 						JanelaEditarItem janela = new JanelaEditarItem(pedido);
 						janela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -163,41 +175,47 @@ public class JanelaEditarPedido extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton btnLer = new JButton("Ler");
-				btnLer.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						try {
-							atualizarLista();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-				buttonPane.add(btnLer);
-			}
-			{
-				JButton btnEditar = new JButton("Atualizar");
-				buttonPane.add(btnEditar);
-			}
-			{
 				JButton btnExcluir = new JButton("Deletar");
 				btnExcluir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						// ação de deletar
 						try {
 							ac_deletar();
+							pdao.totalPedido(pedido.getId());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
 					}
 				});
+				{
+					JButton btnLer = new JButton("Ler");
+					btnLer.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							try {
+								atualizarLista();
+								pdao.totalPedido(pedido.getId());
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					});
+					buttonPane.add(btnLer);
+				}
 				buttonPane.add(btnExcluir);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						try {
+							pdao.totalPedido(pedido.getId());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 						dispose();
 					}
 				});

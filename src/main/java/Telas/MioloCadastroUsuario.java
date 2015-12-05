@@ -149,13 +149,14 @@ public class MioloCadastroUsuario extends JPanel {
 					String senha_u = txt_senha.getText().trim();
 					
 					String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
-					String id_cli = id_nome.substring(0,id_nome.indexOf("-"));			
+					String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
+					String nome = id_nome.substring(id_nome.indexOf("-")+1);
 					
 					// testa se tudo está de acordo para a inserção
 					if (!senha_u.isEmpty()) {
 						
 						// instancia um noco cadastro
-						Usuario usuario = new Usuario(0, Integer.parseInt(id_cli), senha_u);
+						Usuario usuario = new Usuario(0, Integer.parseInt(id_cli), nome, senha_u);
 						ac_criar(usuario);
 					}
 				} catch (SQLException e) {
@@ -190,9 +191,10 @@ public class MioloCadastroUsuario extends JPanel {
 
 						String id_nome = cb_id_cliente.getSelectedItem().toString().trim().replaceAll("\\s+", "");
 						String id_cli = id_nome.substring(0,id_nome.indexOf("-"));
+						String nome = id_nome.substring(id_nome.indexOf("-")+1);
 
 						// instancia um noco cadastro
-						Usuario u = new Usuario(id_selecionado, Integer.parseInt(id_cli), senha_u);
+						Usuario u = new Usuario(id_selecionado, Integer.parseInt(id_cli), nome, senha_u);
 						ac_atualizar(u);
 						
 					} else {

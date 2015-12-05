@@ -213,25 +213,40 @@ public class MioloCadastroCliente extends JPanel {
 					
 					String email_c = txt_email.getText().trim();
 					
-					// testa se os campos estão preenchidos para a inserção
-					if (!email_c.isEmpty()) {
-						
-						String nome = txt_nome.getText().trim();
-						String telefone = txt_telefone.getText().trim();
-						String endereco = txt_endereco.getText().trim();
-						String cidade = txt_cidade.getText().trim();
-						String estado = cb_estado.getSelectedItem().toString();
-						String email = txt_email.getText().trim();
-						String genero = cb_genero.getSelectedItem().toString();
-						
-						// instancia um noco cadastro
-						Cliente c = new Cliente(0, nome, telefone, endereco, cidade, estado, email, genero);
-						
-						ac_criar(c);
-					} else {
-						mensagemDeErro();
+					ArrayList<Cliente> lista = new ArrayList<Cliente>();
+					lista = cdao.read();
+					
+					boolean nomeDuplicado = false;
+					
+					for (Cliente c: lista) {
+						if (c.getNome().equals(txt_nome.getText().trim())) {
+							nomeDuplicado = true;
+						}
 					}
-
+					
+					if (!nomeDuplicado) {
+						// testa se os campos estão preenchidos para a inserção
+						if (!email_c.isEmpty()) {
+							
+							String nome = txt_nome.getText().trim();
+							String telefone = txt_telefone.getText().trim();
+							String endereco = txt_endereco.getText().trim();
+							String cidade = txt_cidade.getText().trim();
+							String estado = cb_estado.getSelectedItem().toString();
+							String email = txt_email.getText().trim();
+							String genero = cb_genero.getSelectedItem().toString();
+							
+							// instancia um noco cadastro
+							Cliente c = new Cliente(0, nome, telefone, endereco, cidade, estado, email, genero);
+							
+							ac_criar(c);
+						} else {
+							mensagemDeErro();
+						}
+					} else {
+						msgNomeDuplicado();
+					}
+					
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -260,22 +275,37 @@ public class MioloCadastroCliente extends JPanel {
 					
 					String email_c = txt_email.getText().trim();
 
-					if (!email_c.isEmpty()) {
+					ArrayList<Cliente> lista = new ArrayList<Cliente>();
+					lista = cdao.read();
 					
-						String nome = txt_nome.getText().trim();
-						String telefone = txt_telefone.getText().trim();
-						String endereco = txt_endereco.getText().trim();
-						String cidade = txt_cidade.getText().trim();
-						String estado = cb_estado.getSelectedItem().toString();
-						String email = txt_email.getText().trim();
-						String genero = cb_genero.getSelectedItem().toString();
-	
-						// instancia um noco cadastro
-						Cliente c = new Cliente(id_selecionado, nome, telefone, endereco, cidade, estado, email, genero);
+					boolean nomeDuplicado = false;
+					
+					for (Cliente c: lista) {
+						if (c.getNome().equals(txt_nome.getText().trim())) {
+							nomeDuplicado = true;
+						}
+					}
+					
+					if (!nomeDuplicado) {
+						if (!email_c.isEmpty()) {
 						
-						ac_atualizar(c);
+							String nome = txt_nome.getText().trim();
+							String telefone = txt_telefone.getText().trim();
+							String endereco = txt_endereco.getText().trim();
+							String cidade = txt_cidade.getText().trim();
+							String estado = cb_estado.getSelectedItem().toString();
+							String email = txt_email.getText().trim();
+							String genero = cb_genero.getSelectedItem().toString();
+		
+							// instancia um noco cadastro
+							Cliente c = new Cliente(id_selecionado, nome, telefone, endereco, cidade, estado, email, genero);
+							
+							ac_atualizar(c);
+						} else {
+							mensagemDeErro();
+						}
 					} else {
-						mensagemDeErro();
+						msgNomeDuplicado();
 					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -331,6 +361,10 @@ public class MioloCadastroCliente extends JPanel {
 
 	protected void mensagemDeErro() {
 		JOptionPane.showMessageDialog(this, "Operação não pode ser realizada, preencha todos os campos corretamente!");
+	}
+	
+	protected void msgNomeDuplicado() {
+		JOptionPane.showMessageDialog(this, "Esse nome já existe, tente outro!");
 	}
 	
 	protected void ac_criar(Cliente cliente) throws SQLException {

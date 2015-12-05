@@ -176,6 +176,7 @@ public class JanelaEditarItem extends JDialog {
 	protected void ac_criar(Item item) throws SQLException{
 		// cria no banco um novo cadastro
 		idao.create(item);
+		idao.valorTotal(item.getId_pedido());
 		dispose();
 	}
 

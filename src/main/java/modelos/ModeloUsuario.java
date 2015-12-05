@@ -37,7 +37,7 @@ public class ModeloUsuario extends AbstractTableModel {
 		case 0:
 			return u.getId();
 		case 1:
-			return u.getIdDoCliente();
+			return u.getNome();
 		case 2:
 			return u.getSenha();
 		default:
@@ -62,7 +62,7 @@ public class ModeloUsuario extends AbstractTableModel {
 		case 0:
 			return "Id";
 		case 1:
-			return "Id do Cliente";
+			return "Nome do Cliente";
 		case 2:
 			return "Senha";
 		default:
