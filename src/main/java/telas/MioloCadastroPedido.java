@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 //Autor: Paulo Szpikula, 19/11/2015 20:33
 //Descrição: Tela do cadastrar Pedido

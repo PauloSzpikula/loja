@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 import java.awt.BorderLayout;
 
@@ -6,15 +6,15 @@ import javax.swing.JPanel;
 
 import modelos.ModeloAbstrato;
 
-public class TelaCadastroUsuario extends ModeloAbstrato {
+public class TelaCadastroPedido extends ModeloAbstrato {
 
-	public TelaCadastroUsuario() {
+	public TelaCadastroPedido() {
 		super();
 	}
 
 	@Override
 	protected void configuraMiolo() {
-		super.add(new MioloCadastroUsuario(), BorderLayout.CENTER);
+		super.add(new MioloCadastroPedido(), BorderLayout.CENTER);
 	}
 
 }

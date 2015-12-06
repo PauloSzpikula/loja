@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -8,9 +8,9 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JButton;
 
-import net.sf.jasperreports.engine.JRException;
-import dao.ClienteDaoImpl;
 import relatorios.Relatorio;
+import dao.ClienteDaoImpl;
+import net.sf.jasperreports.engine.JRException;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -46,7 +46,7 @@ public class MioloRelatorio extends JPanel  {
 				
 				try {
 					relatorio.gerarRelatorio(cdao.read());
-				} catch (JRException | SQLException e) {
+				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

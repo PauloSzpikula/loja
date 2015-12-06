@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 //Autor: Paulo Szpikula, 12/11/2015 20:46
 //Descrição: Tela do cadastrar usuário

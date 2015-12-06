@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

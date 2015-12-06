@@ -1,4 +1,4 @@
-package Telas;
+package telas;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -10,8 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
-
 
 public class BlockPanel extends JPanel {
 	
