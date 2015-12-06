@@ -1,7 +1,6 @@
 package loja;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 //Autor: Paulo Szpikula, 21/11/2015 08:33

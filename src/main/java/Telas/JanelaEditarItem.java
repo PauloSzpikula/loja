@@ -20,9 +20,9 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import Dao.ItemDaoImpl;
-import Dao.PedidoDaoImpl;
-import Dao.ProdutoDaoImpl;
+import dao.ItemDaoImpl;
+import dao.PedidoDaoImpl;
+import dao.ProdutoDaoImpl;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

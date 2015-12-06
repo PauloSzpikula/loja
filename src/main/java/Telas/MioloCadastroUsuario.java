@@ -25,9 +25,6 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
-import Dao.ClienteDaoImpl;
-import Dao.UsuarioDaoImpl;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -38,6 +35,9 @@ import modelos.ModeloUsuario;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import dao.ClienteDaoImpl;
+import dao.UsuarioDaoImpl;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

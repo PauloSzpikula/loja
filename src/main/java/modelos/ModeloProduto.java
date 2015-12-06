@@ -49,7 +49,7 @@ public class ModeloProduto extends AbstractTableModel {
 		case 5:
 			return getValorFormatado(p.getValor());
 		case 6:
-			return getValorFormatado(p.getMargemDeLucro());
+			return getValorFormatadoPorcentagem(p.getMargemDeLucro());
 		default:
 			return "Erro";
 		}
@@ -57,6 +57,11 @@ public class ModeloProduto extends AbstractTableModel {
 	 
 	 public String getValorFormatado(BigDecimal valor){
 		 return NumberFormat.getCurrencyInstance().format(valor);
+	 }
+	 
+
+	 public String getValorFormatadoPorcentagem(BigDecimal valor){
+		 return NumberFormat.getPercentInstance().format(valor);
 	 }
 
 	public void incluir (Produto p){

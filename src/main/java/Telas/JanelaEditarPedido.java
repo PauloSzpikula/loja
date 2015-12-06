@@ -19,8 +19,8 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import Dao.ItemDaoImpl;
-import Dao.PedidoDaoImpl;
+import dao.ItemDaoImpl;
+import dao.PedidoDaoImpl;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,6 +33,7 @@ import loja.Item;
 import loja.Pedido;
 import modelos.ModeloItem;
 import modelos.ModeloPedido;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

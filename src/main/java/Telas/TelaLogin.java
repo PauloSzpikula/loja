@@ -13,7 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import Dao.UsuarioDaoImpl;
+import dao.UsuarioDaoImpl;
 
 import java.awt.FlowLayout;
 

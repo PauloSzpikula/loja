@@ -22,7 +22,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 
-import Dao.ProdutoDaoImpl;
+import dao.ProdutoDaoImpl;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -193,8 +193,10 @@ public class MioloCadastroProduto extends JPanel {
 				cb_unidade.setEditable(true);
 				cb_unidade.setSelectedItem(String.valueOf(modelo.getValueAt(linhaSelecionada,4)).trim());
 				cb_unidade.setEditable(false);
-				txt_valor.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,5)).trim());
-				txt_margem_lucro.setText(String.valueOf(modelo.getValueAt(linhaSelecionada,6)).trim());
+				String str_valor = String.valueOf(modelo.getValueAt(linhaSelecionada,5)).trim().replaceAll("\\s+", "");
+				txt_valor.setText(str_valor.substring(str_valor.indexOf("$") + 1).replaceAll(",", "."));
+				String str_porc = String.valueOf(modelo.getValueAt(linhaSelecionada,6)).trim().replaceAll("\\s+", "");
+				txt_margem_lucro.setText("0." + str_porc.substring(0, str_porc.indexOf("0")));
 			}
 		});
 		scrollPane.setViewportView(table);

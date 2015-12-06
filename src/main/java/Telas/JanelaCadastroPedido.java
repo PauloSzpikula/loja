@@ -19,8 +19,8 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import Dao.ClienteDaoImpl;
-import Dao.PedidoDaoImpl;
+import dao.ClienteDaoImpl;
+import dao.PedidoDaoImpl;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -122,10 +122,7 @@ public class JanelaCadastroPedido extends JDialog {
 								Cliente cliente = new Cliente();
 								// cliente recebe o respectivo cliente buscado do banco
 								cliente = cdao.pegaCliente(Integer.parseInt(id_cli));
-								
-//								Calendar calendar = Calendar.getInstance();
-//							    java.sql.Timestamp data = new java.sql.Timestamp(calendar.getTime().getTime());
-								
+																
 								Pedido p = new Pedido(0, cliente.getId(), cliente.getNome(), cliente.getTelefone(), cliente.getEndereco(), cliente.getCidade(), cliente.getEstado(), cliente.getEmail(), cliente.getGenero(), null, null, null, false, null);
 								
 								ac_criar(p);

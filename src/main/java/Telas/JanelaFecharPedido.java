@@ -19,7 +19,7 @@ import java.awt.Insets;
 
 import javax.swing.JTextField;
 
-import Dao.PedidoDaoImpl;
+import dao.PedidoDaoImpl;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

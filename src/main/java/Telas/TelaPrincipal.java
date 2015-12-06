@@ -85,6 +85,15 @@ public class TelaPrincipal extends JFrame {
 		});
 		Menu.add(mntmCadastroDePedido);
 		
+		
+		JMenuItem mntmGerarRelatrios = new JMenuItem("Gerar Relat\u00F3rios");
+		mntmGerarRelatrios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirTelaRelatorios();
+			}
+		});
+		Menu.add(mntmGerarRelatrios);
+
 		JMenuItem mntmTrocarDeUsurio = new JMenuItem("Trocar de Usu\u00E1rio");
 		mntmTrocarDeUsurio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -92,6 +101,7 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		Menu.add(mntmTrocarDeUsurio);
+
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,6 +113,19 @@ public class TelaPrincipal extends JFrame {
 	}
 	
 	
+	protected void abrirTelaRelatorios() {
+		TelaRelatorios telaRelatorios = new TelaRelatorios();
+		ActionListener action = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaRelatorios);
+			}
+		};
+		telaRelatorios.setCloseAction(action);
+
+		tabbedPane.addTab("Relatórios", telaRelatorios);
+	}
+
 	private void blockParaLogin() {
 		Runnable acaoOk = () -> {
 			glass.setVisible(false);
