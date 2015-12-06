@@ -27,4 +27,5 @@ public class Relatorio {
 //		JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(lista));
 //		JasperViewer.viewReport(print, false);
 	}
+	
 }
